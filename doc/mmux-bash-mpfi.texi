@@ -672,11 +672,10 @@ shell variable @code{ERRNO} (when documented to do so), it returns false.
 If an argument to builtin is invalid: the builtin returns false and sets the shell variable
 @code{ERRNO} to @samp{EINVAL}.
 
-Many @mpfi{} C language functions return a value, called the ``ternary value'', @mpfiref{ternary
-value, Rounding}.  Other @mpfi{} C language functions return an integer value that is to be
-interpreted as a boolean value.  The corresponding builtin reserves the return value to signal if an
-error occurred.  Ternary values and boolean values are stored in a shell variable named
-@code{MPFI_RV}.
+Many @mpfi{} C language functions return a value, called the ``ternary value'' in @mpfr{} jargon.
+Other @mpfi{} C language functions return an integer value that is to be interpreted as a boolean
+value.  The corresponding builtin reserves the return value to signal if an error occurred.  Ternary
+values and boolean values are stored in a shell variable named @code{MPFI_RV}.
 
 @example
 declare -a OPS
@@ -740,14 +739,14 @@ underlying C language platform.
 
 
 @defvar MPFI_VERSION
-A string representing @mpfi{} version number.
+A string representing @mpfi{} package version number.
 @end defvar
 
 
 @defvar MPFI_VERSION_MAJOR
 @defvarx MPFI_VERSION_MINOR
 @defvarx MPFI_VERSION_PATCHLEVEL
-Exact integers representing @mpfi{} version numbers.
+Exact integers representing @mpfi{} package version numbers.
 @end defvar
 
 @c page
@@ -773,9 +772,6 @@ Global variable holding the size, measured in bytes, of the C language type @cod
 @end macro
 
 @MmuxDefineGlobalVarSizeof{mpfi, __mpfi_struct}
-@MmuxDefineGlobalVarSizeof{mpfi_exp, mpfi_exp_t}
-@MmuxDefineGlobalVarSizeof{mpfi_rnd, mpfi_rnd_t}
-@MmuxDefineGlobalVarSizeof{mpfi_prec, mpfi_prec_t}
 
 @c page
 @node variables constants
@@ -784,10 +780,10 @@ Global variable holding the size, measured in bytes, of the C language type @cod
 
 If a C language constant referenced by one of the following variables is undefined: the
 corresponding Bash variable is undefined; we can test this condition with @code{test -v}; to test if
-the underlying platform implements the constant @code{MPFI_RNDN}, we can do:
+the underlying platform implements the constant @env{MPFI_FLAGS_BOTH_ENDPOINTS_EXACT}, we can do:
 
 @example
-if test -v MPFI_RNDN
+if test -v MPFI_FLAGS_BOTH_ENDPOINTS_EXACT
 then # implemented
 else # not implemented
 fi
@@ -800,37 +796,10 @@ Global variable holding the value of the C language constant @code{\NAME\}.
 
 @end macro
 
-@MmuxDefineGlobalVarConstant{MPFI_RNDN}
-@MmuxDefineGlobalVarConstant{MPFI_RNDZ}
-@MmuxDefineGlobalVarConstant{MPFI_RNDU}
-@MmuxDefineGlobalVarConstant{MPFI_RNDD}
-@MmuxDefineGlobalVarConstant{MPFI_RNDA}
-@MmuxDefineGlobalVarConstant{MPFI_RNDF}
-@MmuxDefineGlobalVarConstant{MPFI_RNDNA}
-
-
-@defvar MPFI_PREC_MAX
-@defvarx MPFI_PREC_MIN
-The minimum and maximum vales for values of type @objtype{mpfi_prec_t}.  These values are the C
-language constants @code{MPFI_PREC_MAX} and @code{MPFI_PREC_MIN}.
-@end defvar
-
-
-@defvar MPFI_FLAGS_UNDERFLOW
-@defvarx MPFI_FLAGS_OVERFLOW
-@defvarx MPFI_FLAGS_NAN
-@defvarx MPFI_FLAGS_INEXACT
-@defvarx MPFI_FLAGS_ERANGE
-@defvarx MPFI_FLAGS_DIVBY0
-@defvarx MPFI_FLAGS_ALL
-Exact integers representing exception flags.
-@end defvar
-
-
-@defvar MPFI_FREE_LOCAL_CACHE
-@defvarx MPFI_FREE_GLOBAL_CACHE
-Exact integers representing free--cache directives.
-@end defvar
+@MmuxDefineGlobalVarConstant{MPFI_FLAGS_BOTH_ENDPOINTS_EXACT}
+@MmuxDefineGlobalVarConstant{MPFI_FLAGS_LEFT_ENDPOINT_INEXACT}
+@MmuxDefineGlobalVarConstant{MPFI_FLAGS_RIGHT_ENDPOINT_INEXACT}
+@MmuxDefineGlobalVarConstant{MPFI_FLAGS_BOTH_ENDPOINTS_INEXACT}
 
 @c page
 @node init
