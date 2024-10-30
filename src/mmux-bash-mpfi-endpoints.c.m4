@@ -107,4 +107,31 @@ MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
     [[["MMUX_BASH_BUILTIN_IDENTIFIER MPFR_PTRVAR MPFI_OP"]]],
     [[["Compute MMUX_BASH_BUILTIN_IDENTIFIER(MPFR_PTRVAR, MPFI_OP)."]]])
 
+
+/** --------------------------------------------------------------------
+ ** Endpoint exactness.
+ ** ----------------------------------------------------------------- */
+
+m4_define([[[DEFINE_ENDPOINT_EXACTNESS_BUILTIN]]],[[[MMUX_BASH_BUILTIN_MAIN([[[$1]]])
+{
+  mmux_sint_t	flag;
+
+  MMUX_BASH_PARSE_BUILTIN_ARG_SINT([[[flag]]],	[[[argv[1]]]]);
+  {
+    int		rv = $1(flag);
+    return mmux_bash_mpfi_set_MPFI_RV(rv, MMUX_BUILTIN_NAME_STR);
+  }
+  MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
+}
+MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
+    [[[(2 == argc)]]],
+    [[["MMUX_BASH_BUILTIN_IDENTIFIER SINT_FLAG"]]],
+    [[["Compute MMUX_BASH_BUILTIN_IDENTIFIER(SINT_FLAG)."]]])
+]]])
+
+DEFINE_ENDPOINT_EXACTNESS_BUILTIN([[[MPFI_BOTH_ARE_EXACT]]])
+DEFINE_ENDPOINT_EXACTNESS_BUILTIN([[[MPFI_LEFT_IS_INEXACT]]])
+DEFINE_ENDPOINT_EXACTNESS_BUILTIN([[[MPFI_RIGHT_IS_INEXACT]]])
+DEFINE_ENDPOINT_EXACTNESS_BUILTIN([[[MPFI_BOTH_ARE_INEXACT]]])
+
 /* end of file */

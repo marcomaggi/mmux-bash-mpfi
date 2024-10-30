@@ -56,6 +56,10 @@ declare -ga BUILTINS=(mmux_bash_mpfi_library_init
 		      mpfi_set_zero
 		      mpfi_swap
 
+		      MPFI_BOTH_ARE_EXACT
+		      MPFI_LEFT_IS_INEXACT
+		      MPFI_RIGHT_IS_INEXACT
+		      MPFI_BOTH_ARE_INEXACT
 		      mpfi_left
 		      mpfi_right
 		      mpfi_get_left
