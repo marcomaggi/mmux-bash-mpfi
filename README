@@ -27,25 +27,23 @@ which is meant to be sourced in a Bash session or script.
 
     declare X
 
-    mmux_libc_malloc X $mpfi_SIZEOF
-    mpfi_init $X
+    mpfi_alloc_and_init X
     {
-      ...
+        mpfi_set_d $X 1.23
     }
-    mpfi_clear $X
-    mmux_libc_free $X
+    mpfi_clear_and_free X
 
   The  package  targets POSIX  systems.   This  package depends  on  the
-external package:
+external packages:
 
 * MPFI version 1.5.4;
 
 * MMUX Bash Pointers, at least version v0.1.0-devel.1;
 
-* MMUX Bash MPFR, at least version v0.1.0-devel.1;
+* MMUX Bash MPFR, at least version v0.1.0-devel.0;
 
 * MBFL, at least version v3.0.0-devel.10; only for testing: if it is not
-  installed nothing happens.
+  installed nothing bad happens.
 
   The  package uses  the GNU  Autotools and  it is  tested on  GNU+Linux
 systems;  only to  build from  a  repository checkout:  it requires  the
