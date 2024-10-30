@@ -185,6 +185,7 @@ src/%.$(OBJEXT): \
 EXTRA_DIST		+= \
 	tests/init.test.m4			\
 	tests/packages.test.m4			\
+	tests/printing.test.m4			\
 	tests/version.test.m4
 
 # For some reason GNU Automake does not want "TEST_EXTENSIONS" to be
@@ -196,6 +197,7 @@ if WANT_MBFL_TESTING_ENABLED
 MMUX_CHECK_BUILT_TESTS	= \
 	tests/init.test				\
 	tests/packages.test			\
+	tests/printing.test			\
 	tests/version.test
 
 TESTS			=  $(MMUX_CHECK_BUILT_TESTS)
