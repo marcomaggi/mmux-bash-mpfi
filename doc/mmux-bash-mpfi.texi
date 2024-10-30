@@ -1,0 +1,3213 @@
+\input texinfo.tex
+@c %**start of header
+@setfilename mmux-bash-mpfi.info
+@settitle MMUX Bash MPFI
+@c %**end of header
+
+@include version.texi
+@include mmux-version.texi
+@include macros.texi
+
+@c page
+@c ------------------------------------------------------------
+@c Local macros.
+@c ------------------------------------------------------------
+
+@macro mpfrref{NODE, TITLE}
+@ref{\NODE\,\TITLE\,\TITLE\,mpfr}
+@end macro
+
+@macro mpfiref{NODE, TITLE}
+@ref{\NODE\,\TITLE\,\TITLE\,mpfi}
+@end macro
+
+@ifinfo
+@macro mbfl{}
+@acronym{MBFL}
+@end macro
+@end ifinfo
+@ifnotinfo
+@macro mbfl{}
+@acronym{mbfl}
+@end macro
+@end ifnotinfo
+
+@ifinfo
+@macro mmux{}
+@acronym{MMUX}
+@end macro
+@end ifinfo
+@ifnotinfo
+@macro mmux{}
+@acronym{mmux}
+@end macro
+@end ifnotinfo
+
+@ifinfo
+@macro mpfi{}
+@acronym{MPFI}
+@end macro
+@end ifinfo
+@ifnotinfo
+@macro mpfi{}
+@acronym{mpfi}
+@end macro
+@end ifnotinfo
+
+@ifinfo
+@macro mpfr{}
+@acronym{MPFR}
+@end macro
+@end ifinfo
+@ifnotinfo
+@macro mpfr{}
+@acronym{mpfr}
+@end macro
+@end ifnotinfo
+
+@macro RR{VARNAME}
+$@{\VARNAME\:?@}
+@end macro
+
+@macro WW{VARNAME}
+"$@{\VARNAME\:?@}"
+@end macro
+
+@macro MpfiBuiltin{NAME}
+@code{\NAME\}
+@end macro
+
+@macro MmuxBuiltin{NAME}
+@code{\NAME\}
+@end macro
+
+@macro MmuxBashPointersRef{NODE, TITLE}
+@ref{\NODE\,\TITLE\,\TITLE\,mmux-bash-pointers}
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefineNullaryBuiltin{FUNC}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @var{MPFI_RND}
+Interface to the C language function @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefineUnaryBuiltin{FUNC}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @var{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefineUnaryNorndBuiltin{FUNC}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @var{MPFI_OP}
+Interface to the C language function @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefineUnarySiBuiltin{FUNC}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @var{SLONG_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefineUnaryUiBuiltin{FUNC}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @var{ULONG_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefineUnarySjBuiltin{FUNC}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @var{SINTMAX_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefineUnaryUjBuiltin{FUNC}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @var{UINTMAX_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefineUnaryZBuiltin{FUNC}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @var{MPZ_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefineBinaryBuiltin{FUNC}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @vari{MPFI_OP} @varii{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefineBinarySiBuiltin{FUNC}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @vari{MPFI_OP} @varii{SLONG_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefineBinaryUiBuiltin{FUNC}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @vari{MPFI_OP} @varii{ULONG_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefineBinarySjBuiltin{FUNC}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @vari{MPFI_OP} @varii{SINTMAX_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefineBinaryUjBuiltin{FUNC}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @vari{MPFI_OP} @varii{UINTMAX_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefineBinaryZBuiltin{FUNC}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @vari{MPFI_OP} @varii{MPZ_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefineUiBinaryUiBuiltin{FUNC}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @vari{ULONG_OP} @varii{ULONG_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefineSiBinaryBuiltin{FUNC}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @vari{SLONG_OP} @varii{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefineUiBinaryBuiltin{FUNC}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @vari{ULONG_OP} @varii{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefineTernaryUiBuiltin{FUNC}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @vari{MPFI_OP} @varii{MPFI_OP} @varii{ULONG_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefinePredicateBuiltinNoEnd{FUNC}
+@deffn Builtin \FUNC\ @var{MPFI_OP}
+Interface to the C language function @cfunc{\FUNC\}.  When successful return true; otherwise return
+false.  To check the result we have to use the shell variable @env{MPFI_RV}.
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxDefinePredicateBuiltin{FUNC}
+@MmuxDefinePredicateBuiltinNoEndNoEnd{FUNC}
+@end deffn
+
+@end macro
+
+@c page
+@c ------------------------------------------------------------
+@c Values.
+@c ------------------------------------------------------------
+
+@set TITLE                      @mmux{} Bash @mpfi{}
+
+@c To be used as @value{PACKAGE} whenever we need to include the full
+@c name of this package.
+@set PACKAGE                    @mmux{} Bash @mpfi{}
+
+@c To be used as @value{PACKAGE} whenever we need to include the
+@c nickname of the project: the name that is used to compose the
+@c distribution tarball or the web address.
+@set PACKAGE_NICKNAME           mmux-bash-mpfi
+
+@c To be used as @value{AUTHOR} whenever we need to include the list of
+@c authors of this document.
+@set AUTHOR                     Marco Maggi
+
+@c To be used as @value{AUTHOR_EMAIL} whenever we need to include the
+@c email of the *single* author of this document.
+@set AUTHOR_EMAIL               @email{mrc.mgg@@gmail.com}
+
+@c To be used as @value{COPYRIGHT_YEARS} whenever we need to include the
+@c list of copyright years.
+@set COPYRIGHT_YEARS            2024
+
+@c ------------------------------------------------------------
+
+@set PackageAutoconfPrefix              MMUX_BASH_MPFI
+@set PackagePkgconfigModule             mmux-bash-mpfi
+@set PackageLibsVar                     @env{MMUX_BASH_MPFI_LIBS}
+@set PackageCflagsVar                   @env{MMUX_BASH_MPFI_CFLAGS}
+@c This is the stem of the library in "libmmux-bash-mpfi.so".
+@set PackageLibstem                     mmux-bash-mpfi
+@set PackageApiPrefixLower              mmux_bash_mpfi_
+@set PackageApiPrefixUpper              MMUX_BASH_MPFI_
+
+@set PackageHeader                      mmux-bash-mpfi.h
+@set PackageHeaderFile                  @file{@value{PackageHeader}}
+
+@set GithubUrl                 @url{https://github.com/marcomaggi/@value{PACKAGE_NICKNAME}}
+@set DocumentationUrl          @url{https://marcomaggi.github.io/docs/@value{PACKAGE_NICKNAME}.html}
+
+@c page
+@c ------------------------------------------------------------
+@c Copyright notice.
+@c ------------------------------------------------------------
+
+@copying
+This document describes version @value{MmuxPkgSemanticVersion} of @value{PACKAGE}, a package
+implementing loadable builtin commands for the @gnu{} Bash shell; to do so it installs a C11
+language library and a shell script which is meant to be sourced in a Bash session or script.
+
+This package provides an interface to the @emph{Multiple Precision Floating--Point Reliable
+Library}, @mpfi{}.
+
+This package is distributed under the terms of the @gnu{} General Public License (@gpl{}).
+
+Development of this package takes place at:
+
+@center @value{GithubUrl}
+
+@noindent
+Copyright @copyright{} @value{COPYRIGHT_YEARS} by @value{AUTHOR} @value{AUTHOR_EMAIL}
+
+@quotation
+Permission is granted to copy, distribute and/or modify this document under the terms of the @gnu{}
+Free Documentation License, Version 1.3 or any later version published by the Free Software
+Foundation; with Invariant Sections being ``@gnu{} Free Documentation License'' and ``@gnu{} Lesser
+General Public License'', no Front--Cover Texts, and no Back--Cover Texts.  A copy of the license is
+included in the section entitled ``@gnu{} Free Documentation License''.
+@end quotation
+@end copying
+
+@c page
+@c ------------------------------------------------------------
+@c Headers.
+@c ------------------------------------------------------------
+
+@titlepage
+@title @value{TITLE}
+@subtitle Revision @value{VERSION}
+@author @value{AUTHOR} @value{AUTHOR_EMAIL}
+@page
+@vskip 0pt plus 1filll
+@insertcopying
+@end titlepage
+
+@c ------------------------------------------------------------
+
+@ifinfo
+@dircategory Development
+@direntry
+* mmux-bash-mpfi: (mmux-bash-mpfi).     Additional GNU Bash builtins.
+@end direntry
+@end ifinfo
+
+@c ------------------------------------------------------------
+
+@ignore
+@syncodeindex tp cp
+@syncodeindex vr cp
+@syncodeindex fn cp
+@end ignore
+
+@c page
+@ifnottex
+@node Top
+@top @value{TITLE}
+
+@insertcopying
+
+@menu
+* overview::                    Overview of the package.
+* descriptors::                 @mmux{} package descriptors.
+* variables::                   Global variables.
+* init::                        Initialisation and finalisation.
+* assignment::                  Assignment builtins.
+* conversion::                  Converting numbers to other representations.
+* arithmetic::                  Arithmetic builtins.
+* comparison::                  Comparison builtins.
+* transcendental::              Transcendental builtins.
+* io::                          Input, output, printing.
+* integers::                    Integers builtins.
+* rounding::                    Rounding-related builtins.
+* stepping::                    Stepping builtins.
+* sign::                        Sign of numbers builtins.
+* exponents::                   Exponents-related builtins.
+* exceptions::                  Exception-related bulitins.
+* memory::                      Memory-related bulitins.
+* miscellaneous::               Miscellaneous builtins.
+* build options::               Build options builtins.
+
+Appendices
+
+* Package License::             GNU General Public License.
+* Documentation License::       GNU Free Documentation License.
+* shared library::              Using the shared library.
+* references::                  Bibliography and references.
+
+Indexes
+
+* concept index::               An entry for each concept.
+* function index::              An entry for each function.
+* variable index::              An entry for each variable.
+* type index::                  An entry for each type.
+@end menu
+@end ifnottex
+
+@c page
+@node overview
+@chapter Overview of the package
+
+
+This document describes version @value{MmuxPkgSemanticVersion} of @value{PACKAGE}, a package
+implementing loadable builtin commands for the @gnu{} Bash shell; to do so it installs a C11
+language library and a shell script which is meant to be sourced in a Bash session or script.
+
+This package provides an interface to the @emph{Multiple Precision Floating--Point Reliable
+Library}, @mpfi{}.
+
+@example
+source mmux-bash-packages
+source mmux-bash-pointers
+source mmux-bash-mpfi
+
+declare OP
+
+mpfi_alloc_and_init OP
+@{
+    mpfi_set_d @RR{OP} '1.23' @RR{MPFI_RNDN}
+    mpfi_just_printit_dammit @RR{OP}
+@}
+mpfi_clear_and_free @RR{OP}
+@end example
+
+This package depends upon the facilities of the external package @mmux{} Bash Pointers, @xref{Top,
+@mmux{} Bash Pointers, @mmux{} Bash Pointers, mmux-bash-pointers}.
+
+@menu
+* overview install::            Installed files.
+* overview usage::              Using the shell library.
+* overview linking::            Linking code with the library.
+* overview conventions::        Conventions used in this documentation.
+* overview retvals::            Return values of @mpfi{} functions.
+@end menu
+
+@c page
+@node overview install
+@section Installed files
+
+
+@value{PACKAGE} installs a shell script, a ``shell library'', under @code{$datavar/bash}; for
+example:
+
+@example
+/usr/local/share/bash/libmmux-bash-mpfi.bash
+@end example
+
+@noindent
+to use the builtins, we have to load the shell library using Bash's builtin @code{source}.  A shared
+library, actually implementing the builtins, is installed under @code{$libdir}; for example:
+
+@example
+/usr/local/lib64/libmmux-bash-mpfi.so
+@end example
+
+@noindent
+the shared library is automatically loaded by the shell library using Bash's @MmuxBuiltin{enable}
+builtin.
+
+C11 language header files are also installed under @code{$includedir}, for example the main one
+could be:
+
+@example
+/usr/local/include/mmux-bash-mpfi.h
+@end example
+
+@noindent
+we can write code that links to the shared library to reuse some of its facilities.
+
+@c page
+@node overview usage
+@section Using the shell library
+
+
+To use the shell library we have to first source its dependencies; so the preamble of a shell script
+should be:
+
+@example
+source mmux-bash-packages
+source mmux-bash-pointers
+source mmux-bash-mpfi
+@end example
+
+@noindent
+shell libraries must be loaded in the correct order.
+
+@c page
+@c external documents
+
+@include overview-linking.texi
+
+@c page
+@node overview conventions
+@section Conventions used in this documentation
+
+
+@macro MmuxBashMpfiArgConventionPlain{STEM,LOSTEM}
+@item \STEM\
+@cindex \STEM\, builtin argument
+@cindex builtin argument \STEM\
+@cindex argument \STEM\, for builtins
+A string representation of a value of type @objtype{mmux_\LOSTEM\_t}.
+
+@end macro
+
+The following naming conventions for builtin and function parameters are used in this documentation:
+
+@table @var
+@item MPFI_PTR
+@itemx MPFI_OP
+@itemx MPFI_ROP
+@cindex MPFI_PTR, builtin argument
+@cindex builtin argument MPFI_PTR
+@cindex argument MPFI_PTR, for builtins
+@cindex MPFI_OP, builtin argument
+@cindex builtin argument MPFI_OP
+@cindex argument MPFI_OP, for builtins
+A string representation of a pointer referencing an instance of @objtype{__mpfi_struct}.
+
+@item MPFI_PTRVAR
+@cindex MPFI_PTRVAR, builtin argument
+@cindex builtin argument MPFI_PTRVAR
+@cindex argument MPFI_PTRVAR, for builtins
+The string representation of a shell variable name: the builtin taking it as parameter, when
+successful, will store in the variable a string representation of a pointer referencing an instance
+of @objtype{__mpfi_struct}.  If the builtin fails: the shell variable is left untouched.
+
+@item MPFI_RND
+@cindex MPFI_RND, builtin argument
+@cindex builtin argument MPFI_RND
+@cindex argument MPFI_RND, for builtins
+A string representation of one of the @mpfi{} constants @samp{MPFI_RND*}.
+
+@item MPFI_RNDVAR
+@cindex MPFI_RNDVAR, builtin argument
+@cindex builtin argument MPFI_RNDVAR
+@cindex argument MPFI_RND, for builtins
+The string representation of a shell variable name: the builtin taking it as parameter, when
+successful, will store in the variable the string representation of a value of type
+@objtype{mpfi_rnd_t}.  If the builtin fails: the shell variable is left untouched.
+
+@item MPFI_EXP
+@cindex MPFI_EXP, builtin argument
+@cindex builtin argument MPFI_EXP
+@cindex argument MPFI_EXP, for builtins
+A string representation of a value of type @objtype{mpfi_exp_t}.
+
+@item MPFI_EXPVAR
+@cindex MPFI_EXPVAR, builtin argument
+@cindex builtin argument MPFI_EXPVAR
+@cindex argument MPFI_EXP, for builtins
+The string representation of a shell variable name: the builtin taking it as parameter, when
+successful, will store in the variable the string representation of a value of type
+@objtype{mpfi_exp_t}.  If the builtin fails: the shell variable is left untouched.
+
+@item MPFI_PREC
+@cindex MPFI_PREC, builtin argument
+@cindex builtin argument MPFI_PREC
+@cindex argument MPFI_PREC, for builtins
+A string representation of a value of type @objtype{mpfi_prec_t}.
+
+@item MPFI_PRECVAR
+@cindex MPFI_PRECVAR, builtin argument
+@cindex builtin argument MPFI_PRECVAR
+@cindex argument MPFI_PREC, for builtins
+The string representation of a shell variable name: the builtin taking it as parameter, when
+successful, will store in the variable the string representation of a value of type
+@objtype{mpfi_prec_t}.  If the builtin fails: the shell variable is left untouched.
+
+@item MPFI_FLAGS
+@itemx MPFI_FLAGS_MASK
+@cindex MPFI_FLAGS, builtin argument
+@cindex builtin argument MPFI_FLAGS
+@cindex argument MPFI_FLAGS, for builtins
+@cindex MPFI_FLAGS_MASK, builtin argument
+@cindex builtin argument MPFI_FLAGS_MASK
+@cindex argument MPFI_FLAGS_MASK, for builtins
+A string representation of a value of type @objtype{mpfi_flags_t}.
+
+@item MPFI_FLAGSVAR
+@cindex MPFI_FLAGSVAR, builtin argument
+@cindex builtin argument MPFI_FLAGSVAR
+@cindex argument MPFI_FLAGS, for builtins
+The string representation of a shell variable name: the builtin taking it as parameter, when
+successful, will store in the variable the string representation of a value of type
+@objtype{mpfi_flags_t}.  If the builtin fails: the shell variable is left untouched.
+
+@item MPFI_FREE_CACHE
+@cindex MPFI_FREE_CACHE, builtin argument
+@cindex builtin argument MPFI_FREE_CACHE
+@cindex argument MPFI_FREE_CACHE, for builtins
+A string representation of a value of type @objtype{mpfi_free_cache_t}.
+
+@item STRVAR
+@cindex MPFI_STRVAR, builtin argument
+@cindex builtin argument MPFI_STRVAR
+@cindex argument MPFI_STRVAR, for builtins
+The string representation of a shell variable name: the builtin taking it as parameter, when
+successful, will store in the variable a generated string.  If the builtin fails: the shell variable
+is left untouched.
+
+@item MPF_PTR
+@itemx MPF_OP
+@itemx MPF_ROP
+@cindex MPF_PTR, builtin argument
+@cindex builtin argument MPF_PTR
+@cindex argument MPF_PTR, for builtins
+@cindex MPF_OP, builtin argument
+@cindex builtin argument MPF_OP
+@cindex argument MPF_OP, for builtins
+@cindex MPF_ROP, builtin argument
+@cindex builtin argument MPF_ROP
+@cindex argument MPF_ROP, for builtins
+A string representation of a pointer of type @objtype{mpf_ptr}.
+
+@item MPQ_PTR
+@itemx MPQ_OP
+@itemx MPQ_ROP
+@cindex MPQ_PTR, builtin argument
+@cindex builtin argument MPQ_PTR
+@cindex argument MPQ_PTR, for builtins
+@cindex MPQ_OP, builtin argument
+@cindex builtin argument MPQ_OP
+@cindex argument MPQ_OP, for builtins
+A string representation of a pointer of type @objtype{mpq_ptr}.
+
+@item MPZ_PTR
+@itemx MPZ_OP
+@itemx MPZ_ROP
+@cindex MPZ_PTR, builtin argument
+@cindex builtin argument MPZ_PTR
+@cindex argument MPZ_PTR, for builtins
+@cindex MPZ_OP, builtin argument
+@cindex builtin argument MPZ_OP
+@cindex argument MPZ_OP, for builtins
+@cindex MPZ_ROP, builtin argument
+@cindex builtin argument MPZ_ROP
+@cindex argument MPZ_ROP, for builtins
+A string representation of a pointer of type @objtype{mpz_ptr}.
+
+@MmuxBashMpfiArgConventionPlain{SLONG,slong}
+@MmuxBashMpfiArgConventionPlain{ULONG,ulong}
+@MmuxBashMpfiArgConventionPlain{SINTMAX,sintmax}
+@MmuxBashMpfiArgConventionPlain{UINTMAX,uintmax}
+@MmuxBashMpfiArgConventionPlain{FLOAT,float}
+@MmuxBashMpfiArgConventionPlain{DOUBLE,double}
+@MmuxBashMpfiArgConventionPlain{LDOUBLE,ldouble}
+@MmuxBashMpfiArgConventionPlain{FLOAT128,float128}
+@MmuxBashMpfiArgConventionPlain{DECIMAL64,decimal64}
+@MmuxBashMpfiArgConventionPlain{DECIMAL128,decimal128}
+@end table
+
+@c page
+@node overview retvals
+@section Return values of @mpfi{} functions
+
+
+Every function and builtin defined by the shell library returns a meaningful value: true when
+successful, false otherwise.  Among the reasons for returning false: wrong number of arguments;
+invalid argument type.
+
+@cindex @code{ERRNO}, shell variable
+@cindex variable @code{ERRNO}, shell variable
+@cindex shell variable @code{ERRNO}
+If a builtin performs a call to a system function: that function might set the standard C language
+@code{errno} variable; the builtin consumes the value, it clears @code{errno}, it might set the
+shell variable @code{ERRNO} (when documented to do so), it returns false.
+
+@cindex @code{ERRNO}, shell variable
+@cindex shell variable @code{ERRNO}
+If an argument to builtin is invalid: the builtin returns false and sets the shell variable
+@code{ERRNO} to @samp{EINVAL}.
+
+Many @mpfi{} C language functions return a value, called the ``ternary value'', @mpfiref{ternary
+value, Rounding}.  Other @mpfi{} C language functions return an integer value that is to be
+interpreted as a boolean value.  The corresponding builtin reserves the return value to signal if an
+error occurred.  Ternary values and boolean values are stored in a shell variable named
+@code{MPFI_RV}.
+
+@example
+declare -a OPS
+
+mpfi_alloc_and_init_shell_array OPS 3
+@{
+    declare -n ROP='OPS[0]' OP1='OPS[1]' OP2='OPS[2]'
+    declare MPFI_RV
+
+    mpfi_set_si @RR{OP1} 123 @RR{MPFI_RNDN}
+    mpfi_set_si @RR{OP2} 456 @RR{MPFI_RNDN}
+
+    mpfi_add @RR{ROP} @RR{OP1} @RR{OP2} @RR{MPFI_RNDN}
+    printf '%d\n' "@RR{MPFI_RV}"  @print{} [whatever is returned by the C function mpfi_add()]
+@}
+mpfi_clear_and_free_shell_array OPS
+@end example
+
+
+@c page
+@node descriptors
+@chapter @mmux{} package descriptors
+
+
+@cindex Package descriptor for @value{PACKAGE}
+
+
+@value{PACKAGE} adheres to the requirements of the @mmux{} Bash Packages Infrastructure,
+@MmuxBashPointersRef{packages, @mmux{} Bash Packages Infrastructure}.  As such the library
+@file{libmmux-bash-mpfi.bash} defines a package descriptor holding basic informations about the
+exported @api{}.
+
+The @api{} follows version numbering as established by the @gnu{} Autotools.  For an explanation of
+interface numbers as managed by @gnu{} Libtool @xref{Libtool versioning, interface, Libtool's
+versioning system, libtool, Shared library support for @gnu{}}.
+
+
+@defvr {Associative Shell Array} MMUX_BASH_MPFI_PACKAGE
+A descriptor representing informations about the package.
+
+For details on the defined keys @MmuxBashPointersRef{packages descriptor, Package descriptor}.
+@end defvr
+
+@c page
+@node variables
+@chapter Global variables
+
+
+The shell library installed by @value{PACKAGE} defines global variables to allow inspection of the
+underlying C language platform.
+
+@menu
+* variables version::           @mpfi{} version numbers.
+* variables sizeof::            C language type sizes.
+* variables constants::         C language constants.
+@end menu
+
+@c page
+@node variables version
+@section @mpfi{} version numbers
+
+
+@defvar MPFI_VERSION
+A string representing @mpfi{} version number.
+@end defvar
+
+
+@defvar MPFI_VERSION_MAJOR
+@defvarx MPFI_VERSION_MINOR
+@defvarx MPFI_VERSION_PATCHLEVEL
+Exact integers representing @mpfi{} version numbers.
+@end defvar
+
+@c page
+@node variables sizeof
+@section C language type sizes
+
+
+If a C language type referenced by one of the following variables is undefined: the corresponding
+Bash variable is undefined; we can test this condition with @code{test -v}:
+
+@example
+if test -v mpfi_SIZEOF
+then # implemented
+else # not implemented
+fi
+@end example
+
+@macro MmuxDefineGlobalVarSizeof{NAME,TYPE}
+@defvar \NAME\_SIZEOF
+Global variable holding the size, measured in bytes, of the C language type @code{\TYPE\}.
+@end defvar
+
+@end macro
+
+@MmuxDefineGlobalVarSizeof{mpfi, __mpfi_struct}
+@MmuxDefineGlobalVarSizeof{mpfi_exp, mpfi_exp_t}
+@MmuxDefineGlobalVarSizeof{mpfi_rnd, mpfi_rnd_t}
+@MmuxDefineGlobalVarSizeof{mpfi_prec, mpfi_prec_t}
+
+@c page
+@node variables constants
+@section C language constants
+
+
+If a C language constant referenced by one of the following variables is undefined: the
+corresponding Bash variable is undefined; we can test this condition with @code{test -v}; to test if
+the underlying platform implements the constant @code{MPFI_RNDN}, we can do:
+
+@example
+if test -v MPFI_RNDN
+then # implemented
+else # not implemented
+fi
+@end example
+
+@macro MmuxDefineGlobalVarConstant{NAME}
+@defvar \NAME\
+Global variable holding the value of the C language constant @code{\NAME\}.
+@end defvar
+
+@end macro
+
+@MmuxDefineGlobalVarConstant{MPFI_RNDN}
+@MmuxDefineGlobalVarConstant{MPFI_RNDZ}
+@MmuxDefineGlobalVarConstant{MPFI_RNDU}
+@MmuxDefineGlobalVarConstant{MPFI_RNDD}
+@MmuxDefineGlobalVarConstant{MPFI_RNDA}
+@MmuxDefineGlobalVarConstant{MPFI_RNDF}
+@MmuxDefineGlobalVarConstant{MPFI_RNDNA}
+
+
+@defvar MPFI_PREC_MAX
+@defvarx MPFI_PREC_MIN
+The minimum and maximum vales for values of type @objtype{mpfi_prec_t}.  These values are the C
+language constants @code{MPFI_PREC_MAX} and @code{MPFI_PREC_MIN}.
+@end defvar
+
+
+@defvar MPFI_FLAGS_UNDERFLOW
+@defvarx MPFI_FLAGS_OVERFLOW
+@defvarx MPFI_FLAGS_NAN
+@defvarx MPFI_FLAGS_INEXACT
+@defvarx MPFI_FLAGS_ERANGE
+@defvarx MPFI_FLAGS_DIVBY0
+@defvarx MPFI_FLAGS_ALL
+Exact integers representing exception flags.
+@end defvar
+
+
+@defvar MPFI_FREE_LOCAL_CACHE
+@defvarx MPFI_FREE_GLOBAL_CACHE
+Exact integers representing free--cache directives.
+@end defvar
+
+@c page
+@node init
+@chapter Initialisation and finalisation
+
+
+@menu
+* init basic::                  Basic initialisation and finalisation.
+* init shell array::            Shell index array initialisation and finalisation.
+* init pointers array::         Raw memory pointers array initialisation and finalisation.
+* init precision::              Handling @mpfi{} numbers precision.
+@end menu
+
+@c page
+@node init basic
+@section Basic initialisation and finalisation
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_init @var{MPFI_PTR}
+@deffnx Builtin mpfi_init2 @var{MPFI_PTR} @var{MPFI_PREC}
+@deffnx Builtin mpfi_clear @var{MPFI_PTR}
+Interfaces to the C language functions @cfunc{mpfi_init}, @cfunc{mpfi_init2}, @cfunc{mpfi_init}.
+
+@example
+declare OP1 OP2
+
+mmux_libc_calloc OP 1 @RR{mpfi_SIZEOF}
+@{
+    mpfi_init @RR{OP}
+    @{
+        mpfi_set_si @RR{OP} 123 @RR{MPFI_RNDN}
+        mpfi_just_printit_dammit @RR{OP}
+    @}
+    mpfi_clear @RR{OP}
+@}
+mmux_libc_free @RR{OP}
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_inits @varo{MPFI_PTR} @var{MPFI_PTR} @dots{}
+@deffnx Builtin mpfi_inits2 @var{MFPR_PREC} @varo{MPFI_PTR} @var{MPFI_PTR} @dots{}
+@deffnx Builtin mpfi_clears @varo{MPFI_PTR} @var{MPFI_PTR} @dots{}
+Interfaces to the C language functions @cfunc{mpfi_inits}, @cfunc{mpfi_inits2}, @cfunc{mpfi_clears}.
+
+@example
+declare OP1 OP2
+
+mmux_libc_calloc 2 OP1 @RR{mpfi_SIZEOF}
+@{
+    mmux_pointer_add OP2 @RR{OP1} @RR{mpfi_SIZEOF}
+
+    mpfi_inits @RR{OP1} @RR{OP2}
+    @{
+        mpfi_set_si @RR{OP1} -12 @RR{MPFI_RNDN}
+        mpfi_set_ui @RR{OP2} +34 @RR{MPFI_RNDN}
+        mpfi_just_printit_dammit @RR{OP1}
+        mpfi_just_printit_dammit @RR{OP2}
+    @}
+    mpfi_clears @RR{OP1} @RR{OP2}
+@}
+mmux_libc_free @RR{OP1}
+@end example
+@end deffn
+
+
+It is possible to allocate and initialise a @mpfi{} number with a single function call:
+
+@example
+declare OP
+
+mpfi_alloc_and_init OP
+@{
+    mpfi_set_si @RR{OP} 123 @RR{MPFI_RNDN}
+    mpfi_just_printit_dammit @RR{OP}
+@}
+mpfi_clear_and_free @RR{OP}
+@end example
+
+
+@defun mpfi_alloc_and_init @var{MPFI_PTRVAR}
+@defunx mpfi_alloc_and_init @var{MPFI_PTRVAR} @var{MPFI_PREC}
+Allocate a new block of memory to hold the data structure of a @mpfi{} number; initialise the
+number; store a pointer to the structure in @var{MPFI_PTRVAR}.
+
+When the optional parameter @var{MPFI_PREC} is present: it is used as precision value to initialise
+the number.
+@end defun
+
+
+@defun mpfi_clear_and_free @var{MPFI_PTR}
+Clear the number referenced by the pointer then release the associated memory; it is meant to be
+applied to the pointer generated by @func{mpfi_alloc_and_init}.
+@end defun
+
+@c page
+@node init shell array
+@section Shell index array initialisation and finalisation
+
+
+It is possible to allocate a single block of memory for the data structures of multiple @mpfi{}
+numbers; then we can initialise and finalise all the numbers with a single function call.  Such
+blocks of memory are handled through a shell index array.
+
+To allocate with a single function call and initialise with another single function call:
+
+@example
+declare -a OPS
+declare -i DIM=5
+
+mpfi_alloc_shell_array OPS @RR{DIM}
+@{
+    mpfi_init_shell_array OPS
+    @{
+        declare -i IDX
+
+        for ((IDX=0; IDX < $@{#OPS[@@]@}; ++IDX))
+        do mpfi_set_si $@{OPS[@RR{IDX}]:?@} @RR{IDX} @RR{MPFI_RNDN}
+        done
+
+        # We can access the individual numbers.
+        declare -n ROP=OPS[0] OP1=OPS[1] OP2=OPS[2]
+
+        mpfi_just_printit_dammit @RR{ROP}
+        mpfi_just_printit_dammit @RR{OP1}
+        mpfi_just_printit_dammit @RR{OP2}
+    @}
+    mpfi_clear_shell_array OPS
+@}
+mpfi_free_shell_array OPS
+@end example
+
+To allocate and initialise with a single function call:
+
+@example
+declare -a OPS
+declare -i DIM=5 IDX
+
+mpfi_alloc_and_init_shell_array OPS @RR{DIM}
+@{
+    for ((IDX=0; IDX < $@{#OPS[@@]@}; ++IDX))
+    do mpfi_set_si $@{OPS[@RR{IDX}]:?@} @RR{IDX} @RR{MPFI_RNDN}
+    done
+
+    # We can access the individual numbers.
+    declare -n ROP=OPS[0] OP1=OPS[1] OP2=OPS[2]
+
+    mpfi_just_printit_dammit @RR{ROP}
+    mpfi_just_printit_dammit @RR{OP1}
+    mpfi_just_printit_dammit @RR{OP2}
+@}
+mpfi_clear_and_free_shell_array OPS
+@end example
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@defun mpfi_alloc_shell_array @var{ARRYNAME} @var{DIM}
+Allocate a single block of memory capable of holding @var{DIM} data structures each representing an
+@mpfi{} number; store the pointers to the structures in the shell index array whose name is
+@var{ARRYNAME}; the element at index @samp{0} holds the pointer to the memory block itself.
+@end defun
+
+
+@defun mpfi_free_shell_array @var{ARRYNAME}
+Release the memory allocated by @func{mpfi_alloc_shell_array}; @var{ARRYNAME} must be the name of
+the shell index array used to reference the memory block.
+@end defun
+
+
+@defun mpfi_init_shell_array @var{ARRYNAME}
+@defunx mpfi_init_shell_array @var{ARRYNAME} @var{MPFI_PREC}
+Initialise each @mpfi{} number whose pointer is stored in the shell index array named
+@var{ARRYNAME}; the shell array itself must have been initialised by @func{mpfi_alloc_shell_array}.
+
+When the optional parameter @var{MPFI_PREC} is present: is it used as precision to initialise all
+the numbers.
+@end defun
+
+
+@defun mpfi_clear_shell_array @var{ARRYNAME}
+Clear each @mpfi{} number whose pointer is stored in the shell index array named @var{ARRYNAME}; the
+shell array itself must have been initialised by @func{mpfi_init_shell_array}.
+
+This function only clears the numbers: to release the allocated memory we must use
+@func{mpfi_free_shell_array}.
+@end defun
+
+
+@defun mpfi_alloc_and_init_shell_array @var{ARRYNAME} @var{DIM}
+@defunx mpfi_alloc_and_init_shell_array @var{ARRYNAME} @var{DIM} @var{MPFI_PREC}
+Perform the calls:
+
+@example
+mpfi_alloc_shell_array @var{ARRYNAME} @var{DIM}
+mpfi_init_shell_array  @var{ARRYNAME} @var{MPFI_PREC}
+@end example
+
+@noindent
+checking for errors.
+@end defun
+
+
+@defun mpfi_clear_and_free_shell_array @var{ARRYNAME}
+Perform the calls:
+
+@example
+mpfi_clear_shell_array @var{ARRYNAME}
+mpfi_free_shell_array  @var{ARRYNAME}
+@end example
+
+@noindent
+checking for errors.
+@end defun
+
+@c page
+@node init pointers array
+@section Raw memory pointers array initialisation and finalisation
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@defun mpfi_alloc_and_init_pointers_array @var{POINTERS_VAR} @var{ARRYNAME}
+Allocate a new raw memory block and store a pointer to it in the shell variable @var{POINTERS_VAR};
+we can release the memory block with a call to @MpfiBuiltin{mmux_libc_free}.
+
+The argument @var{ARRYNAME} must be the name of a shell index array previously allocated and
+initialised as explained in @ref{init shell array, Shell index array initialisation and
+finalisation}.
+
+The new memory block is an array of pointers with the same dimension of @var{ARRYNAME} and the same
+values of @var{ARRYNAME}.  We can use a pointer to such raw memory array as argument to the builtins
+@MpfiBuiltin{mpfi_sum} and @MpfiBuiltin{mpfi_dot}.
+
+@example
+declare -a OPS
+declare -i DIM=5
+declare POINTERS
+
+mpfi_alloc_and_init_shell_array OPS @RR{DIM}
+@{
+    mpfi_alloc_and_init_pointers_array POINTERS OPS
+    @{
+        # do something with the pointers
+        declare ROP OP
+
+        mmux_pointer_array_ref ROP @RR{POINTERS} 0
+        mmux_pointer_array_ref  OP @RR{POINTERS} 1
+        # ...
+    @}
+    mmux_libc_free @RR{POINTERS}
+@}
+mpfi_clear_and_free_shell_array OPS
+@end example
+@end defun
+
+@c page
+@node init precision
+@section Handling @mpfi{} numbers precision
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@defun mpfi_set_default_prec @var{MPFI_PREC}
+@defunx mpfi_get_default_prec @var{MPFI_PREC_VAR}
+Interfaces to the C language functions @cfunc{mpfi_set_default_prec}, @cfunc{mpfi_get_default_prec}.
+
+@example
+declare -r NEW_PREC=17
+declare PREC
+
+mpfi_set_default_prec @RR{NEW_PREC}
+mpfi_get_default_prec PREC
+@RR{PREC}   @result{} 17
+@end example
+@end defun
+
+
+@defun mpfi_set_prec @var{MPFI_OP} @var{MPFI_PREC}
+@defunx mpfi_get_prec @var{MPFI_PREC_VAR} @var{MPFI_OP}
+Interfaces to the C language functions @cfunc{mpfi_set_prec}, @cfunc{mpfi_get_prec}.
+@end defun
+
+@c page
+@node assignment
+@chapter Assignment builtins
+
+
+To assign a value to a number we do:
+
+@example
+declare OP
+
+mpfi_alloc_and_init OP
+@{
+    mpfi_set_d @RR{OP} '1.23' @RR{MPFI_RNDN}
+    mpfi_just_printit_dammit @RR{OP}
+@}
+mpfi_clear_and_free @RR{OP}
+@end example
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxMpfiAssignmentBuiltin{FUNC,ARGSTEM}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @var{\ARGSTEM\} @var{MPFI_RND}
+Interface to the C language functions @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@macro MmuxMpfiAssignmentTwoExpBuiltin{FUNC,ARGSTEM}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @var{\ARGSTEM\} @var{MPFI_EXP} @var{MPFI_RND}
+Interface to the C language functions @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@c ------------------------------------------------------------------------
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+@MmuxMpfiAssignmentBuiltin{mpfi_set_si, SLONG}
+@MmuxMpfiAssignmentBuiltin{mpfi_set_ui, ULONG}
+@MmuxMpfiAssignmentBuiltin{mpfi_set_sj, SINTMAX}
+@MmuxMpfiAssignmentBuiltin{mpfi_set_uj, UINTMAX}
+@MmuxMpfiAssignmentBuiltin{mpfi_set_flt, FLOAT}
+@MmuxMpfiAssignmentBuiltin{mpfi_set_d, DOUBLE}
+@MmuxMpfiAssignmentBuiltin{mpfi_set_ld, LDOUBLE}
+@MmuxMpfiAssignmentBuiltin{mpfi_set_float128, FLOAT128}
+@MmuxMpfiAssignmentBuiltin{mpfi_set_decimal64, decimal64}
+@MmuxMpfiAssignmentBuiltin{mpfi_set_decimal128, decimal128}
+@MmuxMpfiAssignmentBuiltin{mpfi_set_z, MPZ_OP}
+@MmuxMpfiAssignmentBuiltin{mpfi_set_q, MPQ_OP}
+@MmuxMpfiAssignmentBuiltin{mpfi_set_f, MPF_OP}
+@MmuxMpfiAssignmentBuiltin{mpfi_set, MPFI_OP}
+
+@MmuxMpfiAssignmentTwoExpBuiltin{mpfi_set_si_2exp, SLONG}
+@MmuxMpfiAssignmentTwoExpBuiltin{mpfi_set_ui_2exp, ULONG}
+@MmuxMpfiAssignmentTwoExpBuiltin{mpfi_set_sj_2exp, SINTMAX}
+@MmuxMpfiAssignmentTwoExpBuiltin{mpfi_set_uj_2exp, UINTMAX}
+@MmuxMpfiAssignmentTwoExpBuiltin{mpfi_set_z_2exp, MPZ_PTR}
+
+
+@deffn Builtin mpfi_set_str @var{MPFI_ROP} @var{STRING} @var{BASE} @var{MPFI_RND}
+Interface to the C language functions @cfunc{mpfi_set_str}.
+
+@example
+declare -r STR='1234567890' BASE='10'
+declare OP
+
+mpfi_alloc_and_init OP
+@{
+    mpfi_set_str @RR{OP} @RR{STR} @RR{BASE} @RR{MPFI_RNDN}
+    mpfi_just_printit_dammit @RR{OP}
+@}
+mpfi_clear_and_free @RR{OP}
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_set_nan @var{MPFI_OP}
+Interface to the C language functions @cfunc{mpfi_set_nan}.
+@end deffn
+
+
+@deffn Builtin mpfi_set_inf @var{MPFI_OP} @var{SIGN}
+Interface to the C language functions @cfunc{mpfi_set_inf}.  The argument sign must be one among
+@samp{+1}, @samp{0}, @samp{-1}.
+
+@example
+declare OP
+
+mpfi_alloc_and_init OP
+@{
+    mpfi_set_inf @RR{OP} +1
+    mpfi_just_printit_dammit @RR{OP}
+@}
+mpfi_clear_and_free @RR{OP}
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_set_zero @var{MPFI_OP} @var{SIGN}
+Interface to the C language functions @cfunc{mpfi_set_zero}.  The argument sign must be one among
+@samp{+1}, @samp{0}, @samp{-1}.
+
+@example
+declare OP
+
+mpfi_alloc_and_init OP
+@{
+    mpfi_set_zero @RR{OP} +1
+    mpfi_just_printit_dammit @RR{OP}
+@}
+mpfi_clear_and_free @RR{OP}
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_swap @vari{MPFI_OP} @varii{MPFI_OP}
+Interface to the C language functions @cfunc{mpfi_swap}.
+@end deffn
+
+
+@macro MmuxInitAndSetBuiltin{FUNC,ARGSTEM}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @var{\ARGSTEM\} @var{MPFI_RND}
+Interface to the C language functions @cfunc{\FUNC\}.
+@end deffn
+
+@end macro
+
+@MmuxInitAndSetBuiltin{mpfi_init_set_si,SLONG}
+@MmuxInitAndSetBuiltin{mpfi_init_set_ui,ULONG}
+@MmuxInitAndSetBuiltin{mpfi_init_set_d,DOUBLE}
+@MmuxInitAndSetBuiltin{mpfi_init_set_ld,LDOUBLE}
+@MmuxInitAndSetBuiltin{mpfi_init_set_z,MPZ_PTR}
+@MmuxInitAndSetBuiltin{mpfi_init_set_q,MPQ_PTR}
+@MmuxInitAndSetBuiltin{mpfi_init_set_f,MPF_PTR}
+@MmuxInitAndSetBuiltin{mpfi_init_set,MPFI_PTR}
+
+@c page
+@node conversion
+@chapter Converting numbers to other representations
+
+
+To extract a value from a @mpfi{} number, we do:
+
+@example
+declare VAL OP MPFI_RV
+
+mpfi_alloc_and_init OP
+@{
+    mpfi_set_si @RR{OP} '123' @RR{MPFI_RNDN}
+
+    mpfi_fits_slong_p @RR{OP}
+    if (( 1 == @RR{MPFI_RV} ))
+    then
+        mpfi_get_si VAL @RR{OP} @RR{MPFI_RNDN}
+        printf '%s\n' @RR{VAL}
+    fi
+@}
+mpfi_clear_and_free @RR{OP}
+@end example
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxMpfiDefineGetter{BUILTIN,ARGS}
+@deffn Builtin \BUILTIN\ \ARGS\
+Interface to the C language function @cfunc{\BUILTIN\}.
+@end deffn
+
+@end macro
+
+@MmuxMpfiDefineGetter{mpfi_get_si, @var{SLONG_VAR} @var{MPFI_OP} @var{MPFI_RND}}
+@MmuxMpfiDefineGetter{mpfi_get_ui, @var{ULONG_VAR} @var{MPFI_OP} @var{MPFI_RND}}
+@MmuxMpfiDefineGetter{mpfi_get_sj, @var{SINTMAX_VAR} @var{MPFI_OP} @var{MPFI_RND}}
+@MmuxMpfiDefineGetter{mpfi_get_uj, @var{UINTMAX_VAR} @var{MPFI_OP} @var{MPFI_RND}}
+@MmuxMpfiDefineGetter{mpfi_get_flt, @var{FLOAT_VAR} @var{MPFI_OP} @var{MPFI_RND}}
+@MmuxMpfiDefineGetter{mpfi_get_d, @var{DOUBLE_VAR} @var{MPFI_OP} @var{MPFI_RND}}
+@MmuxMpfiDefineGetter{mpfi_get_ld, @var{LDOUBLE_VAR} @var{MPFI_OP} @var{MPFI_RND}}
+@MmuxMpfiDefineGetter{mpfi_get_float128, @var{FLOAT128_VAR} @var{MPFI_OP} @var{MPFI_RND}}
+@MmuxMpfiDefineGetter{mpfi_get_decimal64, @var{DECIMAL64_VAR} @var{MPFI_OP} @var{MPFI_RND}}
+@MmuxMpfiDefineGetter{mpfi_get_decimal128, @var{DECIMAL128_VAR} @var{MPFI_OP} @var{MPFI_RND}}
+
+@deffn Builtin mpfi_get_z @var{MPZ_ROP} @var{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_get_z}.
+@end deffn
+
+
+@deffn Builtin mpfi_get_q @var{MPQ_ROP} @var{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_get_q}.
+@end deffn
+
+
+@deffn Builtin mpfi_get_f @var{MPF_ROP} @var{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_get_f}.
+@end deffn
+
+@c ------------------------------------------------------------------------
+
+@deffn Builtin mpfi_get_d_2exp @var{MANTISSA_VAR} @var{EXPONENT_VAR} @var{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_get_d_2exp}.
+
+@example
+declare MAN EXP OP
+
+mpfi_alloc_and_init OP
+@{
+    mpfi_set_d @RR{OP} '1.23' @RR{MPFI_RNDN}
+    mpfi_get_si VAL @RR{OP} @RR{MPFI_RNDN}
+
+    mmux_double_set_format "%f"
+    mpfi_get_d_2exp MAN EXP @RR{OP} @RR{MPFI_RNDN}
+@}
+mpfi_clear_and_free @RR{OP}
+
+@RR{MAN}        @result{} 0.615000
+@RR{EXP}        @result{} 1
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_get_ld_2exp @var{MANTISSA_VAR} @var{EXPONENT_VAR} @var{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_get_ld_2exp}.
+@end deffn
+
+
+@deffn Builtin mpfi_get_z_2exp @var{EXPONENT_VAR} @var{MPZ_ROP} @var{MPFI_OP}
+Interface to the C language function @cfunc{mpfi_get_z_2exp}.
+@end deffn
+
+@c ------------------------------------------------------------------------
+
+@deffn Builtin mpfi_frexp @var{EXPONENT_VAR} @vari{MPFI_OP} @varii{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_frexp}.
+
+@example
+declare -a OPS
+
+mpfi_alloc_and_init_shell_array OPS
+@{
+    declare -n X='OPS[0]' Y='OPS[1]'
+    declare EXP
+
+    mpfi_set_d @RR{OP} '1.23' @RR{MPFI_RNDN}
+
+    mpfi_frexp EXP @RR{Y} @RR{X} @RR{MPFI_RNDN}
+
+    printf '%s\n' @RR{EXP}              @print{} 1
+    mpfi_just_printit_dammit @RR{Y}     @print{} 0.615000e0
+@}
+mpfi_clear_and_free_shell_array OPS
+@end example
+@end deffn
+
+
+@c ------------------------------------------------------------------------
+
+@deffn Builtin mpfi_get_str @var{MANTISSA_VAR} @var{EXPONENT_VAR} @var{BASE} @var{NDIGITS} @var{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_get_str}.
+
+The argument @var{MANTISSA_VAR} must be a string representing a shell variable name; when
+successful, this function stores a string representation of the mantissa in this variable; if an
+error occurs, the variable is left untouched, unless there is an error setting the result variables
+themselves.
+
+The argument @var{EXPONENT_VAR} must be a string representing a shell variable name; when
+successful, this function stores a string representation of the exponent in this variable; if an
+error occurs, the variable is left untouched, unless there is an error setting the result variables
+themselves.
+
+@example
+declare -ri BASE=10 NDIGITS=0
+declare OP MAN EXP
+
+mpfi_alloc_and_init OP
+@{
+    mpfi_set_d @RR{OP} '1.23' @RR{MPFI_RNDN}
+    mpfi_get_str MAN EXP @RR{BASE} @RR{NDIGITS} @RR{OP} @RR{MPFI_RNDN}
+@}
+mpfi_clear_and_free @RR{OP}
+
+@RR{MAN}            @result{} 12300000000000000
+@RR{EXP}            @result{} 1
+@end example
+@end deffn
+
+@c ------------------------------------------------------------------------
+
+@macro MmuxMpfiDefineFitser{STEM}
+@deffn Builtin mpfi_fits_\STEM\_p @var{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_fits_\STEM\_p}.  This function also returns true
+when the call is successful and false if an error occurs.  To check if @var{MPFI_OP} fits the
+specified type: we have to examine the shell variable @env{MPFI_RV}, which is set to: @samp{1} if
+the number fits; @samp{0} if the number does not fit.
+@end deffn
+
+@end macro
+
+@MmuxMpfiDefineFitser{sshort}
+@MmuxMpfiDefineFitser{ushort}
+@MmuxMpfiDefineFitser{sint}
+@MmuxMpfiDefineFitser{uint}
+@MmuxMpfiDefineFitser{slong}
+@MmuxMpfiDefineFitser{ulong}
+@MmuxMpfiDefineFitser{intmax}
+@MmuxMpfiDefineFitser{uintmax}
+
+@c ------------------------------------------------------------------------
+
+@deffn Builtin mpfi_get_str_ndigits @var{SIZE_VAR} @var{BASE} @var{PREC}
+Interface to the C language function @cfunc{mpfi_get_str_ndigits}.
+
+@example
+declare -ri BASE=10 PREC=7
+declare SIZE
+
+mpfi_get_str_ndigits SIZE @RR{BASE} @RR{PREC}
+@RR{SIZE}       @result{} 4
+@end example
+@end deffn
+
+@c page
+@node arithmetic
+@chapter Arithmetic builtins
+
+
+To compute the sum between @mpfi{} numbers, we do:
+
+@example
+declare -a OPS
+
+mpfi_alloc_and_init_shell_array OPS 3
+@{
+    declare -n ROP='OPS[0]' OP1='OPS[1]' OP2='OPS[02]'
+
+    mpfi_set_si @RR{OP1} '123' @RR{MPFI_RNDN}
+    mpfi_set_si @RR{OP2} '456' @RR{MPFI_RNDN}
+
+    mpfi_add @RR{ROP} @RR{OP1} @RR{OP2} @RR{MPFI_RNDN}
+
+    mpfi_just_printit_dammit @RR{ROP}   @print{} 0.579000e3
+@}
+mpfi_clear_and_free_shell_array OPS
+@end example
+
+@menu
+* arithmetic addition::         Addition builtins.
+* arithmetic multiplication::   Multiplication builtins.
+* arithmetic subtraction::      Subtraction builtins.
+* arithmetic division::         Division builtins.
+* arithmetic powers::           Powers and roots builtins.
+* arithmetic misc::             Miscellaneous builtins.
+@end menu
+
+@c page
+@node arithmetic addition
+@section Addition builtins
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_add @var{MPFI_ROP} @vari{MPFI_OP} @varii{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_add}.
+@end deffn
+
+
+@deffn Builtin mpfi_add_si @var{MPFI_ROP} @var{MPFI_OP} @var{SLONG} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_add_si}.
+@end deffn
+
+
+@deffn Builtin mpfi_add_ui @var{MPFI_ROP} @var{MPFI_OP} @var{ULONG} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_add_ui}.
+@end deffn
+
+
+@deffn Builtin mpfi_add_d @var{MPFI_ROP} @var{MPFI_OP} @var{DOUBLE} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_add_d}.
+@end deffn
+
+
+@deffn Builtin mpfi_add_z @var{MPFI_ROP} @var{MPFI_OP} @var{MPZ_PTR} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_add_z}.
+@end deffn
+
+
+@deffn Builtin mpfi_add_q @var{MPFI_ROP} @var{MPFI_OP} @var{MPQ_PTR} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_add_q}.
+@end deffn
+
+@c page
+@node arithmetic multiplication
+@section Multiplication builtins
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_mul @var{MPFI_ROP} @vari{MPFI_OP} @varii{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_mul}.
+@end deffn
+
+
+@deffn Builtin mpfi_mul_si @var{MPFI_ROP} @var{MPFI_OP} @var{SLONG} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_mul_si}.
+@end deffn
+
+
+@deffn Builtin mpfi_mul_ui @var{MPFI_ROP} @var{MPFI_OP} @var{ULONG} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_mul_ui}.
+@end deffn
+
+
+@deffn Builtin mpfi_mul_d @var{MPFI_ROP} @var{MPFI_OP} @var{DOUBLE} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_mul_d}.
+@end deffn
+
+
+@deffn Builtin mpfi_mul_z @var{MPFI_ROP} @var{MPFI_OP} @var{MPZ_PTR} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_mul_z}.
+@end deffn
+
+
+@deffn Builtin mpfi_mul_q @var{MPFI_ROP} @var{MPFI_OP} @var{MPQ_PTR} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_mul_q}.
+@end deffn
+
+
+@deffn Builtin mpfi_mul_2si @var{MPFI_ROP} @var{MPFI_OP} @var{SLONG} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_mul_2si}.
+
+@example
+declare -a OPS
+
+mpfi_alloc_and_init_shell_array OPS 3
+@{
+    declare -n ROP='OPS[0]' OP1='OPS[1]'
+    declare OP2=3
+
+    mpfi_set_si @RR{OP1} '5' @RR{MPFI_RNDN}
+
+    mpfi_mul_2si @RR{ROP} @RR{OP1} @RR{OP2} @RR{MPFI_RNDN}
+
+    # 5 * 2^3 = 5 * 8 = 40
+    mpfi_just_printit_dammit @RR{ROP}   @print{} 0.400000e2
+@}
+mpfi_clear_and_free_shell_array OPS
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_mul_2ui @var{MPFI_ROP} @var{MPFI_OP} @var{ULONG} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_mul_2ui}.
+@end deffn
+
+@c page
+@node arithmetic subtraction
+@section Subtraction builtins
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_sub @var{MPFI_ROP} @vari{MPFI_OP} @varii{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_sub}.
+@end deffn
+
+
+@deffn Builtin mpfi_sub_si @var{MPFI_ROP} @var{MPFI_OP} @var{SLONG} @var{MPFI_RND}
+@deffnx Builtin mpfi_si_sub @var{MPFI_ROP} @var{SLONG} @var{MPFI_OP} @var{MPFI_RND}
+Interfaces to the C language functions @cfunc{mpfi_sub_si}, @cfunc{mpfi_si_sub}.
+@end deffn
+
+
+@deffn Builtin mpfi_sub_ui @var{MPFI_ROP} @var{MPFI_OP} @var{ULONG} @var{MPFI_RND}
+@deffnx Builtin mpfi_ui_sub @var{MPFI_ROP} @var{ULONG} @var{MPFI_OP} @var{MPFI_RND}
+Interfaces to the C language functions @cfunc{mpfi_sub_ui}, @cfunc{mpfi_ui_sub}.
+@end deffn
+
+
+@deffn Builtin mpfi_sub_d @var{MPFI_ROP} @var{MPFI_OP} @var{DOUBLE} @var{MPFI_RND}
+@deffnx Builtin mpfi_d_sub @var{MPFI_ROP} @var{DOUBLE} @var{MPFI_OP} @var{MPFI_RND}
+Interfaces to the C language functions @cfunc{mpfi_sub_d}, @cfunc{mpfi_d_sub}.
+@end deffn
+
+
+@deffn Builtin mpfi_sub_z @var{MPFI_ROP} @var{MPFI_OP} @var{MPZ_PTR} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_sub_z}.
+@end deffn
+
+
+@deffn Builtin mpfi_sub_q @var{MPFI_ROP} @var{MPFI_OP} @var{MPQ_PTR} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_sub_q}.
+@end deffn
+
+@c page
+@node arithmetic division
+@section Division builtins
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_div @var{MPFI_ROP} @vari{MPFI_OP} @varii{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_div}.
+@end deffn
+
+
+@deffn Builtin mpfi_div_si @var{MPFI_ROP} @var{MPFI_OP} @var{SLONG} @var{MPFI_RND}
+@deffnx Builtin mpfi_si_div @var{MPFI_ROP} @var{SLONG} @var{MPFI_OP} @var{MPFI_RND}
+Interfaces to the C language functions @cfunc{mpfi_div_si}, @cfunc{mpfi_si_div}.
+@end deffn
+
+
+@deffn Builtin mpfi_div_ui @var{MPFI_ROP} @var{MPFI_OP} @var{ULONG} @var{MPFI_RND}
+@deffnx Builtin mpfi_ui_div @var{MPFI_ROP} @var{ULONG} @var{MPFI_OP} @var{MPFI_RND}
+Interfaces to the C language functions @cfunc{mpfi_div_ui}, @cfunc{mpfi_ui_div}.
+@end deffn
+
+
+@deffn Builtin mpfi_div_d @var{MPFI_ROP} @var{MPFI_OP} @var{DOUBLE} @var{MPFI_RND}
+@deffnx Builtin mpfi_d_div @var{MPFI_ROP} @var{DOUBLE} @var{MPFI_OP} @var{MPFI_RND}
+Interfaces to the C language functions @cfunc{mpfi_div_d}, @cfunc{mpfi_d_div}.
+@end deffn
+
+
+@deffn Builtin mpfi_div_z @var{MPFI_ROP} @var{MPFI_OP} @var{MPZ_PTR} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_div_z}.
+@end deffn
+
+
+@deffn Builtin mpfi_div_q @var{MPFI_ROP} @var{MPFI_OP} @var{MPQ_PTR} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_div_q}.
+@end deffn
+
+
+@deffn Builtin mpfi_div_2si @var{MPFI_ROP} @var{MPFI_OP} @var{SLONG} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_div_2si}.
+
+@example
+declare -a OPS
+
+mpfi_alloc_and_init_shell_array OPS 3
+@{
+    declare -n ROP='OPS[0]' OP1='OPS[1]'
+    declare OP2=3
+
+    mpfi_set_si @RR{OP1} '40' @RR{MPFI_RNDN}
+
+    mpfi_div_2si @RR{ROP} @RR{OP1} @RR{OP2} @RR{MPFI_RNDN}
+
+    # 40 / 2^3 = 40 / 8 = 5
+    mpfi_just_printit_dammit @RR{ROP}   @print{} 0.500000e1
+@}
+mpfi_clear_and_free_shell_array OPS
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_div_2ui @var{MPFI_ROP} @var{MPFI_OP} @var{ULONG} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_div_2ui}.
+@end deffn
+
+@c page
+@node arithmetic powers
+@section Powers and roots builtins
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_sqr @var{MPFI_ROP} @var{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_sqr}.
+@end deffn
+
+
+@deffn Builtin mpfi_sqrt @var{MPFI_ROP} @var{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_sqrt}.
+@end deffn
+
+
+@deffn Builtin mpfi_sqrt_ui @var{MPFI_ROP} @var{ULONG} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_sqrt_ui}.
+@end deffn
+
+
+@deffn Builtin mpfi_rec_sqrt @var{MPFI_ROP} @var{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_rec_sqrt}.
+
+@example
+declare OPS
+
+mpfi_alloc_and_init_shell_array OPS 2
+@{
+    declare -n ROP='OPS[0]' OP='OPS[1]'
+
+    mpfi_set_si @RR{OP} 100 @RR{MPFI_RNDN}
+    mpfi_rec_sqrt @RR{ROP} @RR{OP} @RR{MPFI_RNDN}
+
+    # 1 / sqrt(100) = 1 / 10 = 0.1
+    mpfi_just_printit_dammit @RR{ROP}   @print{} 0.100000e0
+@}
+mpfi_clear_and_free_shell_array OPS
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_cbrt @var{MPFI_ROP} @var{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_cbrt}.
+@end deffn
+
+
+@deffn Builtin mpfi_rootn_si @var{MPFI_ROP} @var{MPFI_OP} @var{SLONG_N} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_rootn_si}.
+@end deffn
+
+
+@deffn Builtin mpfi_rootn_ui @var{MPFI_ROP} @var{MPFI_OP} @var{ULONG_N} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_rootn_ui}.
+@end deffn
+
+@c page
+@node arithmetic misc
+@section Miscellaneous builtins
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_neg @var{MPFI_ROP} @var{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_neg}.
+@end deffn
+
+
+@deffn Builtin mpfi_abs @var{MPFI_ROP} @var{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_abs}.
+@end deffn
+
+
+@deffn Builtin mpfi_dim @var{MPFI_ROP} @vari{MPFI_OP} @varii{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_dim}.
+@end deffn
+
+
+@deffn Builtin mpfi_fac_ui @var{MPFI_ROP} @var{ULONG} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_fac_ui}.
+@end deffn
+
+
+@deffn Builtin mpfi_fma @var{MPFI_ROP} @vari{MPFI_OP} @varii{MPFI_OP} @variii{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_fma}.
+
+@example
+declare -a OPS
+
+mpfi_alloc_and_init_shell_array OPS 4
+@{
+    declare -n ROP='OPS[0]' OP1='OPS[1]' OP2='OPS[2]' OP3='OPS[3]'
+
+    mpfi_set_si @RR{OP1} 11 @RR{MPFI_RNDN}
+    mpfi_set_si @RR{OP2} 22 @RR{MPFI_RNDN}
+    mpfi_set_si @RR{OP3} 33 @RR{MPFI_RNDN}
+
+    # (11 * 22) + 33
+    mpfi_fma @RR{ROP} @RR{OP1} @RR{OP2} @RR{OP3} @RR{MPFI_RNDN}
+
+    mpfi_just_printit_dammit @RR{ROP}   @print{} 0.275000e3
+@}
+mpfi_clear_and_free_shell_array OPS
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_fms @var{MPFI_ROP} @vari{MPFI_OP} @varii{MPFI_OP} @variii{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_fms}.
+@end deffn
+
+
+@deffn Builtin mpfi_fmma @var{MPFI_ROP} @vari{MPFI_OP} @varii{MPFI_OP} @variii{MPFI_OP} @variv{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_fmma}.
+@end deffn
+
+
+@deffn Builtin mpfi_fmms @var{MPFI_ROP} @vari{MPFI_OP} @varii{MPFI_OP} @variii{MPFI_OP} @variv{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_fmms}.
+@end deffn
+
+
+@deffn Builtin mpfi_hypot @var{MPFI_ROP} @vari{MPFI_OP} @varii{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_hypot}.
+@end deffn
+
+
+@deffn Builtin mpfi_sum @var{MPFI_ROP} @var{MPFI_PTR_ARRAY} @var{ULONG_DIM} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_sum}.
+
+The argument @var{MPFI_PTR_ARRAY} must be a pointer to an array of pointers, each of which
+references a @mpfi{} number.
+
+The argument @var{ULONG_DIM} must be the number of slots in the array of pointers.
+
+@example
+declare -a OPS
+declare -i DIM=5
+declare POINTERS
+
+mpfi_alloc_and_init_shell_array OPS @RR{DIM}
+@{
+    mpfi_alloc_and_init_pointers_array POINTERS OPS
+    @{
+        mpfi_alloc_and_init ROP
+        @{
+            mpfi_set_si $@{OPS[0]:?@} 11 @RR{MPFI_RNDN}
+            mpfi_set_si $@{OPS[1]:?@} 22 @RR{MPFI_RNDN}
+            mpfi_set_si $@{OPS[2]:?@} 33 @RR{MPFI_RNDN}
+            mpfi_set_si $@{OPS[3]:?@} 44 @RR{MPFI_RNDN}
+            mpfi_set_si $@{OPS[4]:?@} 55 @RR{MPFI_RNDN}
+
+            mpfi_sum @RR{ROP} @RR{POINTERS} @RR{DIM} @RR{MPFI_RNDN}
+
+            mpfi_just_printit_dammit @RR{ROP}
+        @}
+        mpfi_clear_and_free @RR{ROP}
+    @}
+    mmux_libc_free @RR{POINTERS}
+@}
+mpfi_clear_and_free_shell_array OPS
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_dot @var{MPFI_ROP} @vari{MPFI_PTR_ARRAY} @varii{MPFI_PTR_ARRAY} @var{ULONG_DIM} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_dot}.
+
+The arguments @vari{MPFI_PTR_ARRAY} and @varii{MPFI_PTR_ARRAY} must be a pointers to an arrays of
+pointers, each of which references a @mpfi{} number.
+
+The argument @var{ULONG_DIM} must be the number of slots in the arrays of pointers.
+
+@example
+declare -a OPS1 OPS2
+declare -i DIM=5
+declare POINTERS1 POINTERS2
+
+mpfi_alloc_and_init_shell_array OPS1 @RR{DIM}
+mpfi_alloc_and_init_shell_array OPS2 @RR{DIM}
+@{
+    mpfi_alloc_and_init_pointers_array POINTERS1 OPS1
+    mpfi_alloc_and_init_pointers_array POINTERS2 OPS2
+    @{
+        mpfi_alloc_and_init ROP
+        @{
+            mpfi_set_si $@{OPS1[0]:?@} 11 @RR{MPFI_RNDN}
+            mpfi_set_si $@{OPS1[1]:?@} 22 @RR{MPFI_RNDN}
+            mpfi_set_si $@{OPS1[2]:?@} 33 @RR{MPFI_RNDN}
+            mpfi_set_si $@{OPS1[3]:?@} 44 @RR{MPFI_RNDN}
+            mpfi_set_si $@{OPS1[4]:?@} 55 @RR{MPFI_RNDN}
+
+            mpfi_set_si $@{OPS2[0]:?@} 66 @RR{MPFI_RNDN}
+            mpfi_set_si $@{OPS2[1]:?@} 77 @RR{MPFI_RNDN}
+            mpfi_set_si $@{OPS2[2]:?@} 88 @RR{MPFI_RNDN}
+            mpfi_set_si $@{OPS2[3]:?@} 99 @RR{MPFI_RNDN}
+            mpfi_set_si $@{OPS2[4]:?@} 10 @RR{MPFI_RNDN}
+
+            mpfi_dot @RR{ROP} @RR{POINTERS1} @RR{POINTERS2} @RR{DIM} @RR{MPFI_RNDN}
+
+            mpfi_just_printit_dammit @RR{ROP}
+        @}
+        mpfi_clear_and_free @RR{ROP}
+    @}
+    mmux_libc_free @RR{POINTERS2}
+    mmux_libc_free @RR{POINTERS1}
+@}
+mpfi_clear_and_free_shell_array OPS2
+mpfi_clear_and_free_shell_array OPS1
+@end example
+@end deffn
+
+@c page
+@node comparison
+@chapter Comparison builtins
+
+
+@menu
+* comparison ternary::          Comparison builtins.
+* comparison predicates::       Comparison predicates.
+* comparison order::            Comparison to order.
+* comparison approximate::      Approximate comparison.
+@end menu
+
+@c page
+@node comparison ternary
+@section Comparison builtins
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_cmp @vari{MPFI_OP} @varii{MPFI_OP}
+@deffnx Builtin mpfi_cmp_si @vari{MPFI_OP} @varii{SLONG}
+@deffnx Builtin mpfi_cmp_ui @vari{MPFI_OP} @varii{ULONG}
+@deffnx Builtin mpfi_cmp_d @vari{MPFI_OP} @varii{DOUBLE}
+@deffnx Builtin mpfi_cmp_ld @vari{MPFI_OP} @varii{LDOUBLE}
+@deffnx Builtin mpfi_cmp_z @vari{MPFI_OP} @varii{MPZ_OP}
+@deffnx Builtin mpfi_cmp_q @vari{MPFI_OP} @varii{MPQ_OP}
+@deffnx Builtin mpfi_cmp_f @vari{MPFI_OP} @varii{MPF_OP}
+Interfaces to the C language functions @cfunc{mpfi_cmp}, @cfunc{mpfi_cmp_si}, @cfunc{mpfi_cmp_ui},
+@cfunc{mpfi_cmp_d}, @cfunc{mpfi_cmp_ld}, @cfunc{mpfi_cmp_z}, @cfunc{mpfi_cmp_q}, @cfunc{mpfi_cmp_f}.
+When successful return true; otherwise return false.  To inspect the comparison result we have to
+use the shell variable @env{MPFI_RV}.
+
+@example
+declare OPS
+
+mpfi_alloc_and_init_shell_array OPS 2
+@{
+    declare -n OP1='OPS[0]' OP2='OPS[1]'
+
+    mpfi_set_si @RR{OP1} 123 @RR{MPFI_RNDN}
+    mpfi_set_si @RR{OP2} 456 @RR{MPFI_RNDN}
+
+    mpfi_cmp @RR{OP1} @RR{OP2}
+
+    if (( MPFI_RV < 0 ))
+    then # OP1 <  OP2
+    else # OP1 >= OP2
+    fi
+@}
+mpfi_clear_and_free_shell_array @RR{OPS}
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_cmp_si_2exp @vari{MPFI_OP} @varii{SLONG} @var{MPFI_EXP}
+@deffnx Builtin mpfi_cmp_ui_2exp @vari{MPFI_OP} @varii{ULONG} @var{MPFI_EXP}
+Interfaces to the C language functions @cfunc{mpfi_cmp_si_2exp}, @cfunc{mpfi_cmp_ui_2exp}.
+
+@example
+declare OP1 OP2=100 EXPON=3
+
+mpfi_alloc_and_init OP1
+@{
+    mpfi_set_si @RR{OP} 800 @RR{MPFI_RNDN}
+
+    mpfi_cmp_si_2exp @RR{OP1} @RR{OP2} @RR{EXPON}
+
+    if (( 0 == MPFI_RV ))
+    then # OP1 == OP2 * 2^EXPON
+    else # otherwise
+    fi
+@}
+mpfi_clear_and_free @RR{OP1}
+@end example
+@end deffn
+
+@c page
+@node comparison predicates
+@section Comparison predicates
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_nan_p @var{MPFI_OP}
+Interface to the C language function @cfunc{mpfi_nan_p}.  When successful return true; otherwise
+return false.  To inspect the predicate result we have to use the shell variable @env{MPFI_RV}.
+
+@example
+declare OP
+declare -i MPFI_RV
+
+mpfi_alloc_and_init OP
+@{
+    mpfi_set_si @RR{OP} '123' @RR{MPFI_RNDN}
+
+    mpfi_nan_p @RR{OP}
+
+    if (( 1 == MPFI_RV ))
+    then # it is nan
+    else # it is not nan
+    fi
+@}
+mpfi_clear_and_free @RR{OP}
+@end example
+@end deffn
+
+
+@macro MmuxBashMpfiDefineComparisonPredicate{NAME}
+@deffn Builtin \NAME\ @var{MPFI_OP}
+Interface to the C language function @cfunc{\NAME\}.  When successful return true; otherwise return
+false.  To inspect the predicate result we have to use the shell variable @env{MPFI_RV}.
+@end deffn
+
+@end macro
+
+@MmuxBashMpfiDefineComparisonPredicate{mpfi_inf_p}
+@MmuxBashMpfiDefineComparisonPredicate{mpfi_number_p}
+@MmuxBashMpfiDefineComparisonPredicate{mpfi_zero_p}
+@MmuxBashMpfiDefineComparisonPredicate{mpfi_regular_p}
+
+@c page
+@node comparison order
+@section Comparison to order
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_greater_p @vari{MPFI_OP} @varii{MPFI_OP}
+@deffnx Builtin mpfi_greaterequal_p @vari{MPFI_OP} @varii{MPFI_OP}
+@deffnx Builtin mpfi_less_p @vari{MPFI_OP} @varii{MPFI_OP}
+@deffnx Builtin mpfi_lessequal_p @vari{MPFI_OP} @varii{MPFI_OP}
+@deffnx Builtin mpfi_equal_p @vari{MPFI_OP} @varii{MPFI_OP}
+@deffnx Builtin mpfi_lessgreater_p @vari{MPFI_OP} @varii{MPFI_OP}
+@deffnx Builtin mpfi_unordered_p @vari{MPFI_OP} @varii{MPFI_OP}
+@deffnx Builtin mpfi_total_order_p @vari{MPFI_OP} @varii{MPFI_OP}
+Interfaces to the C language functions @cfunc{mpfi_greater_p}, @cfunc{mpfi_greaterequal_p},
+@cfunc{mpfi_less_p}, @cfunc{mpfi_lessequal_p}, @cfunc{mpfi_equal_p}, @cfunc{mpfi_lessgreater_p},
+@cfunc{mpfi_unordered_p}, @cfunc{mpfi_total_order_p}.  When successful return true; otherwise return
+false.  To inspect the predicate result we have to use the shell variable @env{MPFI_RV}.
+
+@example
+declare OPS
+
+mpfi_alloc_and_init_shell_array OPS 2
+@{
+    declare -n OP1='OPS[0]' OP2='OPS[1]'
+
+    mpfi_set_si @RR{OP1} 123 @RR{MPFI_RNDN}
+    mpfi_set_si @RR{OP2} 456 @RR{MPFI_RNDN}
+
+    mpfi_equal_p @RR{OP1} @RR{OP2}
+
+    if (( 1 == MPFI_RV ))
+    then # OP1 == OP2
+    else # OP1 != OP2
+    fi
+@}
+mpfi_clear_and_free_shell_array @RR{OPS}
+@end example
+@end deffn
+
+
+@MmuxDefineBinaryBuiltin{mpfi_min}
+@MmuxDefineBinaryBuiltin{mpfi_max}
+
+@c page
+@node comparison approximate
+@section Approximate comparison
+
+
+@menu
+* comparison approximate absmargin::     Absolute margin criterion.
+* comparison approximate relepsilon::    Relative epsilon criterion.
+@end menu
+
+@c page
+@node comparison approximate absmargin
+@subsection Absolute margin criterion
+
+
+To compare two @mpfi{} numbers with the criterion of the absolute margin, we do:
+
+@example
+declare OPS
+
+mpfi_alloc_and_init_shell_array OPS 2
+@{
+    declare -n OP1='OPS[0]' OP2='OPS[1]'
+    declare -r ABSOLUTE_MARGIN_MPFI='0.1'
+    declare -i MPFI_RV
+
+    mpfi_set_d @RR{OP1} '1.0'  @RR{MPFI_RNDN}
+    mpfi_set_d @RR{OP2} '1.02' @RR{MPFI_RNDN}
+
+    mpfi_equal_absmargin @RR{OP1} @RR{OP2}
+
+    if (( 1 == MPFI_RV ))
+    then # approximately equal
+    else # different
+    fi
+@}
+mpfi_clear_and_free_shell_array OPS
+@end example
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_equal_absmargin @vari{OP} @varii{OP}
+Compare the operands with the absolute margin criterion.  When successful return true; otherwise
+return false.  To inspect the predicate result we have to use the shell variable
+@env{MPFI_RV}.
+
+The comparison predicate is:
+
+@example
+abs(@vari{OP} - @varii{OP}) <= abs(@var{MARGIN})
+@end example
+
+@noindent
+where @var{MARGIN} is an @mpfi{} number initialised with the value in the shell variable
+@env{ABSOLUTE_MARGIN_MPFI}.
+@end deffn
+
+
+@defvar ABSOLUTE_MARGIN_MPFI
+Shell variable used to select the margin for the equality with the absolute margin criterion.  The
+variable must hold the string representation of a real number parsable with @cfunc{mpfi_set_str}
+called with base argument set to @samp{0}.
+
+When the shell variable is not set: the default value is @samp{1e-6}.
+@end defvar
+
+@c page
+@node comparison approximate relepsilon
+@subsection Relative epsilon criterion
+
+
+To compare two @mpfi{} numbers with the criterion of the relative epsilon, we do:
+
+@example
+declare OPS
+
+mpfi_alloc_and_init_shell_array OPS 2
+@{
+    declare -r RELATIVE_EPSILON_MPFI='0.1'
+    declare -i MPFI_RV
+    declare -n OP1='OPS[0]' OP2='OPS[1]'
+
+    mpfi_set_d @RR{OP1} '1.0'  @RR{MPFI_RNDN}
+    mpfi_set_d @RR{OP2} '1.02' @RR{MPFI_RNDN}
+
+    mpfi_equal_relepsilon @RR{OP1} @RR{OP2}
+
+    if (( 1 == MPFI_RV ))
+    then # approximately equal
+    else # different
+    fi
+@}
+mpfi_clear_and_free_shell_array OPS
+@end example
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_equal_relepsilon @vari{OP} @varii{OP}
+Compare the operands with the relative epsilon criterion.  When successful return true; otherwise
+return false.  To inspect the predicate result we have to use the shell variable @env{MPFI_RV}.
+
+The comparison predicate is:
+
+@example
+abs(@vari{OP} - @varii{OP}) <= (@var{EPSILON} * max(abs(@vari{OP}), abs(@varii{OP})))
+@end example
+
+@noindent
+where @var{EPSILON} is an @mpfi{} number initialised with the value in the shell variable
+@env{RELATIVE_EPSILON_MPFI}.
+@end deffn
+
+
+@defvar RELATIVE_EPSILON_MPFI
+Shell variable used to select the epsilon for the equality with the relative epsilon criterion.  The
+variable must hold the string representation of a real number parsable with @cfunc{mpfi_set_str}
+called with base argument set to @samp{0}.
+
+When the shell variable is not set: the default value is @samp{1e-6}.
+@end defvar
+
+@c page
+@node transcendental
+@chapter Transcendental builtins
+
+
+@menu
+* transcendental logarithms::           Builtins for logarithms.
+* transcendental exponentiation::       Builtins for exponentiation.
+* transcendental trigonometric::        Builtins for trigonometric operations.
+* transcendental hyperbolic::           Builtins for hyperbolic operations.
+* transcendental special::              Builtins special operations.
+* transcendental constants::            Builtins for constant values.
+@end menu
+
+@c page
+@node transcendental logarithms
+@section Builtins for logarithms
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@MmuxDefineUnaryBuiltin{mpfi_log}
+@MmuxDefineUnaryUiBuiltin{mpfi_log_ui}
+@MmuxDefineUnaryBuiltin{mpfi_log2}
+@MmuxDefineUnaryBuiltin{mpfi_log10}
+@MmuxDefineUnaryBuiltin{mpfi_log1p}
+@MmuxDefineUnaryBuiltin{mpfi_log2p1}
+@MmuxDefineUnaryBuiltin{mpfi_log10p1}
+
+@c page
+@node transcendental exponentiation
+@section Builtins for exponentiation
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@MmuxDefineUnaryBuiltin{mpfi_exp}
+@MmuxDefineUnaryBuiltin{mpfi_exp2}
+@MmuxDefineUnaryBuiltin{mpfi_exp10}
+@MmuxDefineUnaryBuiltin{mpfi_expm1}
+@MmuxDefineUnaryBuiltin{mpfi_exp2m1}
+@MmuxDefineUnaryBuiltin{mpfi_exp10m1}
+
+@MmuxDefineBinaryBuiltin{mpfi_pow}
+@MmuxDefineBinaryBuiltin{mpfi_powr}
+@MmuxDefineBinarySiBuiltin{mpfi_pow_si}
+@MmuxDefineBinaryUiBuiltin{mpfi_pow_ui}
+@MmuxDefineBinarySjBuiltin{mpfi_pow_sj}
+@MmuxDefineBinaryUjBuiltin{mpfi_pow_uj}
+@MmuxDefineBinaryZBuiltin{mpfi_pow_z}
+@MmuxDefineUiBinaryUiBuiltin{mpfi_ui_pow_ui}
+@MmuxDefineUiBinaryBuiltin{mpfi_ui_pow}
+
+@MmuxDefineBinarySiBuiltin{mpfi_compound_si}
+
+@c page
+@node transcendental trigonometric
+@section Builtins for trigonometric operations
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@MmuxDefineUnaryBuiltin{mpfi_sin}
+@MmuxDefineUnaryBuiltin{mpfi_cos}
+@MmuxDefineUnaryBuiltin{mpfi_tan}
+
+@MmuxDefineUnaryBuiltin{mpfi_sinpi}
+@MmuxDefineUnaryBuiltin{mpfi_cospi}
+@MmuxDefineUnaryBuiltin{mpfi_tanpi}
+@MmuxDefineBinaryBuiltin{mpfi_sin_cos}
+
+@MmuxDefineUnaryBuiltin{mpfi_sec}
+@MmuxDefineUnaryBuiltin{mpfi_csc}
+@MmuxDefineUnaryBuiltin{mpfi_cot}
+
+@MmuxDefineUnaryBuiltin{mpfi_asin}
+@MmuxDefineUnaryBuiltin{mpfi_acos}
+@MmuxDefineUnaryBuiltin{mpfi_atan}
+
+@MmuxDefineBinaryUiBuiltin{mpfi_acosu}
+@MmuxDefineBinaryUiBuiltin{mpfi_asinu}
+@MmuxDefineBinaryUiBuiltin{mpfi_atanu}
+
+@MmuxDefineUnaryBuiltin{mpfi_asinpi}
+@MmuxDefineUnaryBuiltin{mpfi_acospi}
+@MmuxDefineUnaryBuiltin{mpfi_atanpi}
+
+@MmuxDefineBinaryBuiltin{mpfi_atan2}
+@MmuxDefineTernaryUiBuiltin{mpfi_atan2u}
+@MmuxDefineBinaryBuiltin{mpfi_atan2pi}
+
+@c page
+@node transcendental hyperbolic
+@section Builtins for hyperbolic operations
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@MmuxDefineUnaryBuiltin{mpfi_sinh}
+@MmuxDefineUnaryBuiltin{mpfi_cosh}
+@MmuxDefineUnaryBuiltin{mpfi_tanh}
+@MmuxDefineBinaryBuiltin{mpfi_sinh_cosh}
+
+@MmuxDefineUnaryBuiltin{mpfi_sech}
+@MmuxDefineUnaryBuiltin{mpfi_csch}
+@MmuxDefineUnaryBuiltin{mpfi_coth}
+
+@MmuxDefineUnaryBuiltin{mpfi_asinh}
+@MmuxDefineUnaryBuiltin{mpfi_acosh}
+@MmuxDefineUnaryBuiltin{mpfi_atanh}
+
+@c page
+@node transcendental special
+@section Builtins special operations
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@MmuxDefineUnaryBuiltin{mpfi_eint}
+@MmuxDefineUnaryBuiltin{mpfi_li2}
+@MmuxDefineUnaryBuiltin{mpfi_gamma}
+@MmuxDefineBinaryBuiltin{mpfi_gamma_inc}
+@MmuxDefineUnaryBuiltin{mpfi_lngamma}
+@MmuxDefineUnaryBuiltin{mpfi_digamma}
+
+@deffn Builtin mpfi_lgamma @var{MPFI_ROP} @var{SIGNVAR} @var{MPFI_OP} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_lgamma}.
+
+Store in the shell variable @var{SIGNVAR} the computed sign.
+@end deffn
+
+@MmuxDefineBinaryBuiltin{mpfi_beta}
+@MmuxDefineUnaryBuiltin{mpfi_zeta}
+@MmuxDefineUnaryUiBuiltin{mpfi_zeta_ui}
+@MmuxDefineUnaryBuiltin{mpfi_erf}
+@MmuxDefineUnaryBuiltin{mpfi_erfc}
+@MmuxDefineUnaryBuiltin{mpfi_j0}
+@MmuxDefineUnaryBuiltin{mpfi_j1}
+@MmuxDefineSiBinaryBuiltin{mpfi_jn}
+@MmuxDefineUnaryBuiltin{mpfi_y0}
+@MmuxDefineUnaryBuiltin{mpfi_y1}
+@MmuxDefineSiBinaryBuiltin{mpfi_yn}
+@MmuxDefineBinaryBuiltin{mpfi_agm}
+@MmuxDefineUnaryBuiltin{mpfi_ai}
+
+@c page
+@node transcendental constants
+@section Builtins for constant values
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@MmuxDefineNullaryBuiltin{mpfi_const_log2}
+@MmuxDefineNullaryBuiltin{mpfi_const_pi}
+@MmuxDefineNullaryBuiltin{mpfi_const_euler}
+@MmuxDefineNullaryBuiltin{mpfi_const_catalan}
+
+@c page
+@node io
+@chapter Input, output, printing
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_dump @var{MPFI_PTR}
+Interface to the C language function @cfunc{mpfi_dump}.
+
+Printing an initialised but unset number:
+
+@example
+declare OP
+
+mmux_libc_calloc OP 1 @RR{mpfi_SIZEOF}
+mpfi_init @RR{OP}
+mpfi_dump @RR{OP}   @print{} @@NaN@@
+@end example
+
+Printing an initialised and set number:
+
+@example
+declare OP
+
+mmux_libc_calloc OP 1 @RR{mpfi_SIZEOF}
+mpfi_init @RR{OP}
+mpfi_set_d @RR{OP} '2.0'
+mpfi_dump @RR{OP}
+@print{} 0.10000000000000000000000000000000000000000000000000000E2
+@end example
+@end deffn
+
+
+@defun mpfi_just_printit_dammit @var{MPFI_PTR}
+Print to @stdout{} a string representation of @var{MPFI_PTR}, by default in base 10 with 6 digits;
+the format is meant to resemble the standard @samp{%.6e}.
+
+@example
+declare OP
+
+mmux_libc_calloc OP 1 @RR{mpfi_SIZEOF}
+mpfi_init @RR{OP}
+mpfi_set_d @RR{OP} '123.4567890' @RR{MPFI_RNDN}
+mpfi_just_printit_dammit @RR{OP}
+@print{} 0.123457e3
+@end example
+@end defun
+
+@c page
+@node integers
+@chapter Integers builtins
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@MmuxDefineUnaryBuiltin{mpfi_rint}
+
+@example
+declare	-a OPS
+
+mpfi_alloc_and_init_shell_array OPS 2
+@{
+    declare -n ROP='OPS[0]' OP='OPS[1]'
+
+    mpfi_set_d @RR{OP} '123.456' @RR{MPFI_RNDN}
+    mpfi_rint @RR{ROP} @RR{OP} @RR{MPFI_RNDN}
+
+    mpfi_just_printit_dammit @RR{ROP}   @print{} 0.123000e3
+@}
+mpfi_clear_and_free_shell_array OPS
+@end example
+
+@MmuxDefineUnaryNorndBuiltin{mpfi_ceil}
+@MmuxDefineUnaryNorndBuiltin{mpfi_floor}
+@MmuxDefineUnaryNorndBuiltin{mpfi_round}
+@MmuxDefineUnaryNorndBuiltin{mpfi_roundeven}
+@MmuxDefineUnaryNorndBuiltin{mpfi_trunc}
+
+@MmuxDefineUnaryBuiltin{mpfi_rint_ceil}
+@MmuxDefineUnaryBuiltin{mpfi_rint_floor}
+@MmuxDefineUnaryBuiltin{mpfi_rint_round}
+@MmuxDefineUnaryBuiltin{mpfi_rint_roundeven}
+@MmuxDefineUnaryBuiltin{mpfi_rint_trunc}
+
+@MmuxDefineUnaryBuiltin{mpfi_frac}
+
+@MmuxDefineUnaryBuiltin{mpfi_modf}
+@MmuxDefineUnaryBuiltin{mpfi_fmod}
+@MmuxDefineUnaryUiBuiltin{mpfi_fmod_ui}
+@MmuxDefineUnaryBuiltin{mpfi_remainder}
+
+
+@deffn Builtin mpfi_fmodquo @var{MPFI_R} @var{QVAR} @var{MPFI_X} @var{MPFI_Y} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_fmodquo}.
+
+@example
+declare -a OPS
+
+mpfi_alloc_and_init_shell_array OPS 3
+@{
+    declare -n R='OPS[0]' X='OPS[1]' Y='OPS[2]'
+
+    mpfi_set_d @RR{X} '123' @RR{MPFI_RNDN}
+    mpfi_set_d @RR{Y}   '6' @RR{MPFI_RNDN}
+
+    mpfi_fmodquo @RR{R} Q @RR{X} @RR{Y} @RR{MPFI_RNDN}
+
+    mpfi_just_printit_dammit @RR{R}     @print{} 0.300000e1
+    printf 'Q=%s\n' @RR{Q}              @print{} Q=20
+@}
+mpfi_clear_and_free_shell_array OPS
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_remquo @var{MPFI_R} @var{QVAR} @var{MPFI_X} @var{MPFI_Y} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_fmodquo}.
+@end deffn
+
+
+@deffn Builtin mmux_integer_p @var{OP}
+Interface to the C language function @cfunc{mpfi_integer_p}.  When successful return true; otherwise
+return false.  To inspect the predicate result we have to use the shell variable @env{MPFI_RV}.
+
+@example
+declare OP
+declare -i MPFI_RV
+
+mpfi_alloc_and_init OP
+@{
+    mpfi_set_si @RR{OP} '123' @RR{MPFI_RNDN}
+
+    mpfi_integer_p @RR{OP}
+
+    if (( 1 == MPFI_RV ))
+    then # it's an integer
+    else # it is something else
+    fi
+@}
+mpfi_clear_and_free @RR{OP}
+@end example
+@end deffn
+
+@c page
+@node rounding
+@chapter Rounding--related builtins
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_set_default_rounding_mode @var{MPFI_RND}
+@deffnx Builtin mpfi_get_default_rounding_mode @var{MPFI_RNDVAR}
+Interfaces to the C language functions @cfunc{mpfi_set_default_rounding_mode},
+@cfunc{mpfi_get_default_rounding_mode}.
+
+@example
+declare RND
+
+mpfi_set_default_rounding_mode @RR{MPFI_RNDZ}
+mpfi_get_default_rounding_mode RND
+@RR{RND}  @result{} [whatever MPFI_RNDZ is]
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_prec_round @var{MPFI_OP} @var{MPFI_PREC} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_prec_round}.
+@end deffn
+
+
+@deffn Builtin mpfi_can_round @var{MPFI_B} @var{MPFI_PREC} @vari{MPFI_RND} @varii{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_can_round}.
+@end deffn
+
+
+@deffn Builtin mpfi_min_prec @var{MPFI_PRECVAR} @var{OP}
+Interface to the C language function @cfunc{mpfi_min_prec}.
+
+@example
+declare OP PREC
+
+mpfi_alloc_and_init OP
+@{
+    mpfi_set_si @RR{OP} 1 @RR{MPFI_RNDN}
+
+    mpfi_min_prec PREC @RR{OP}
+    @RR{PREC}   @result{} 1
+@}
+mpfi_clear_and_free @RR{OP}
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_print_rnd_mode @var{STRVAR} @var{MPFI_RND}
+interface to the C language function @cfunc{mpfi_print_rnd_mode}.
+@end deffn
+
+@c page
+@node stepping
+@chapter Stepping builtins
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_nexttoward @vari{MPFI_OP} @varii{MPFI_OP}
+Interface to the C language function @cfunc{mpfi_nexttoward}.
+
+@example
+declare -a OPS
+
+mpfi_alloc_and_init_shell_array OPS 2
+@{
+    declare -n OP1='OPS[0]' OP2='OPS[1]'
+
+    mpfi_set_prec @RR{OP1} 1
+    mpfi_set_si @RR{OP1} 1 @RR{MPFI_RNDN}
+    mpfi_set_si @RR{OP2} 3 @RR{MPFI_RNDN}
+    mpfi_nexttoward @RR{OP1} @RR{OP2}
+
+    mpfi_just_printit_dammit @RR{OP1}   @print{} 0.200000e1
+@}
+mpfi_clear_and_free_shell_array OPS
+@end example
+
+Stepping example:
+
+@example
+declare -a OPS
+
+mpfi_alloc_and_init_shell_array OPS 2
+@{
+    declare -n OP1='OPS[0]' OP2='OPS[1]'
+
+    mpfi_set_prec @RR{OP1} 3
+    mpfi_set_si @RR{OP2} 3 @RR{MPFI_RNDN}
+
+    mpfi_set_si @RR{OP1} 1 @RR{MPFI_RNDN}
+    mpfi_just_printit_dammit @RR{OP1}   @print{} 0.100000e1
+
+    mpfi_nexttoward @RR{OP1} @RR{OP2}
+    mpfi_just_printit_dammit @RR{OP1}   @print{} 0.125000e1
+
+    mpfi_nexttoward @RR{OP1} @RR{OP2}
+    mpfi_just_printit_dammit @RR{OP1}   @print{} 0.150000e1
+
+    mpfi_nexttoward @RR{OP1} @RR{OP2}
+    mpfi_just_printit_dammit @RR{OP1}   @print{} 0.175000e1
+
+    mpfi_nexttoward @RR{OP1} @RR{OP2}
+    mpfi_just_printit_dammit @RR{OP1}   @print{} 0.200000e1
+@}
+mpfi_clear_and_free_shell_array OPS
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_nextabove @var{MPFI_OP}
+@deffnx Builtin mpfi_nextbelow @var{MPFI_OP}
+Interfaces to the C language functions @cfunc{mpfi_nextabove}, @cfunc{mpfi_nextbelow}.
+@end deffn
+
+@c page
+@node sign
+@chapter Sign of numbers builtins
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_sgn @var{MPFI_OP}
+Interface to the C language function @cfunc{mpfi_sgn}.  When successful return true; otherwise
+return false.  To inspect the predicate result we have to use the shell variable @env{MPFI_RV}.
+
+@example
+declare OP
+declare -i MPFI_RV
+
+mpfi_alloc_and_init OP
+@{
+    mpfi_set_si @RR{OP} '123' @RR{MPFI_RNDN}
+    mpfi_sgn @RR{OP}
+
+    if (( 0 < @RR{MPFI_RV} ))
+    then # the number is positive
+    else # the number is negative or zero
+    fi
+@}
+mpfi_clear_and_free @RR{OP}
+@end example
+@end deffn
+
+
+@MmuxDefinePredicateBuiltinNoEnd{mpfi_signbit}
+
+@example
+declare OP
+
+mpfi_alloc_and_init OP
+@{
+    mpfi_set_si @RR{OP} 1 @RR{MPFI_RNDN}
+    mpfi_signbit @RR{OP}
+    if (( 0 == MPFI_RV ))
+    then # it is not set
+    else # it is set
+    fi
+@}
+mpfi_clear_and_free @RR{OP}
+@end example
+@end deffn
+
+
+@MmuxDefineBinaryBuiltin{mpfi_copysign}
+
+
+@deffn Builtin mpfi_setsign @var{MPFI_ROP} @var{MPFI_OP} @var{SINT_SIGN} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_setsign}.
+@end deffn
+
+@c page
+@node exponents
+@chapter Exponents--related builtins
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_set_exp @var{MPFI_OP} @var{MPFI_EXP}
+@deffnx Builtin mpfi_get_exp @var{MPFI_EXPVAR} @var{MPFI_OP}
+Interfaces to the C language functions @cfunc{mpfi_set_exp}, @cfunc{mpfi_get_exp}.
+
+@example
+declare OP
+
+mpfi_alloc_and_init OP
+@{
+    mpfi_set_si @RR{OP} 1 @RR{MPFI_RNDN}
+    mpfi_set_exp @RR{OP} 2
+    mpfi_just_printit_dammit @RR{OP}    @print{} 0.200000e1
+@}
+mpfi_clear_and_free @RR{OP}
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_get_emin @var{MPFI_EXPVAR}
+@deffnx Builtin mpfi_get_emax @var{MPFI_EXPVAR}
+@deffnx Builtin mpfi_set_emin @var{MPFI_EXPVAR}
+@deffnx Builtin mpfi_set_emax @var{MPFI_EXPVAR}
+Interfaces to the C language functions @cfunc{mpfi_get_emin}, @cfunc{mpfi_get_emax},
+@cfunc{mpfi_set_emin}, @cfunc{mpfi_set_emax}.
+@end deffn
+
+
+@deffn Builtin mpfi_get_emin_min
+@deffnx Builtin mpfi_get_emin_max
+@deffnx Builtin mpfi_get_emax_min
+@deffnx Builtin mpfi_get_emax_max
+Interfaces to the C language functions @cfunc{mpfi_get_emin_min}, @cfunc{mpfi_get_emin_max},
+@cfunc{mpfi_get_emax_min}, @cfunc{mpfi_get_emax_max}.
+@end deffn
+
+@c page
+@node exceptions
+@chapter Exception--related bulitins
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin void mpfi_clear_underflow
+@deffnx Builtin void mpfi_clear_overflow
+@deffnx Builtin void mpfi_clear_divby0
+@deffnx Builtin void mpfi_clear_nanflag
+@deffnx Builtin void mpfi_clear_inexflag
+@deffnx Builtin void mpfi_clear_erangeflag
+Interfaces to the corresponding C functions.
+@end deffn
+
+
+@deffn Builtin void mpfi_clear_flags
+Interfaces to the corresponding C functions.
+@end deffn
+
+
+@deffn Builtin void mpfi_set_underflow
+@deffnx Builtin void mpfi_set_overflow
+@deffnx Builtin void mpfi_set_divby0
+@deffnx Builtin void mpfi_set_nanflag
+@deffnx Builtin void mpfi_set_inexflag
+@deffnx Builtin void mpfi_set_erangeflag
+Interfaces to the corresponding C functions.
+@end deffn
+
+
+@deffn Builtin int mpfi_underflow_p
+@deffnx Builtin int mpfi_overflow_p
+@deffnx Builtin int mpfi_divby0_p
+@deffnx Builtin int mpfi_nanflag_p
+@deffnx Builtin int mpfi_inexflag_p
+@deffnx Builtin int mpfi_erangeflag_p
+Interfaces to the corresponding C functions.
+@end deffn
+
+
+@deffn Builtin mpfi_flags_set @var{MPFI_FLAGS_MASK}
+Interfaces to the C language function @cfunc{mpfi_flags_set}.
+
+@example
+declare -r SET_MASK=$(( MPFI_FLAGS_NAN | MPFI_FLAGS_ERANGE ))
+declare -r GET_MASK=WW(MPFI_FLAGS_NAN)
+declare FLAGS
+
+mpfi_clear_flags
+mpfi_flags_set @RR{SET_MASK}
+mpfi_flags_test FLAGS @RR{GET_MASK}
+@RR{FLAGS}      @result{} [whatever $MPFI_FLAGS_NAN is]
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_flags_test @var{MPFI_FLAGSVAR} @var{MPFI_FLAGS_MASK}
+Interfaces to the C language function @cfunc{mpfi_flags_test}.
+@end deffn
+
+
+@deffn Builtin mpfi_flags_clear @var{MPFI_FLAGS_MASK}
+Interfaces to the C language function @cfunc{mpfi_flags_clear}.
+
+@example
+declare -r SET_MASK=$(( MPFI_FLAGS_NAN | MPFI_FLAGS_ERANGE ))
+declare -r CLEAR_MASK=@RR{MPFI_FLAGS_NAN}
+declare -r GET_MASK=@RR{SET_MASK}
+declare FLAGS
+
+mpfi_flags_set @RR{SET_MASK}
+mpfi_flags_clear @RR{CLEAR_MASK}
+mpfi_flags_test FLAGS @RR{GET_MASK}
+@RR{FLAGS}      @result{} [whatever $MPFI_FLAGS_ERANGE is]
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_flags_save @var{MPFI_FLAGSVAR}
+Interfaces to the C language function @cfunc{mpfi_flags_save}.
+
+@example
+declare -r SET_MASK=$(( MPFI_FLAGS_NAN | MPFI_FLAGS_ERANGE ))
+declare    SAVED_FLAGS
+declare -r RESTORE_MASK=@RR{MPFI_FLAGS_ERANGE}
+declare -r GET_MASK=@RR{SET_MASK}
+declare    FLAGS
+
+mpfi_flags_set @RR{SET_MASK}
+mpfi_flags_save SAVED_FLAGS
+mpfi_clear_flags
+mpfi_flags_restore @RR{SAVED_FLAGS} @RR{RESTORE_MASK}
+mpfi_flags_test FLAGS @RR{GET_MASK}
+@RR{FLAGS}      @result{} [whatever $MPFI_FLAGS_ERANGE is]
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_flags_restore @var{MPFI_FLAGS} @var{MPFI_FLAGS_MASK}
+Interfaces to the C language function @cfunc{mpfi_flags_restore}.
+@end deffn
+
+@c page
+@node memory
+@chapter Memory-related bulitins
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_free_cache
+Interface to the C language function @cfunc{mpfi_free_cache}.
+@end deffn
+
+
+@deffn Builtin mpfi_free_pool
+Interface to the C language function @cfunc{mpfi_free_pool}.
+@end deffn
+
+
+@deffn Builtin mpfi_mp_memory_cleanup
+Interface to the C language function @cfunc{mpfi_mp_memory_cleanup}.
+@end deffn
+
+
+@deffn Builtin mpfi_free_cache2 @var{MPFI_FREE_CACHE}
+Interface to the C language function @cfunc{mpfi_free_cache2}.
+@end deffn
+
+@c page
+@node miscellaneous
+@chapter Miscellaneous builtins
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_check_range @var{MPFI_OP} @var{SINT_T} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_check_range}.
+@end deffn
+
+
+@deffn Builtin mpfi_subnormalize @var{MPFI_OP} @var{SINT_T} @var{MPFI_RND}
+Interface to the C language function @cfunc{mpfi_subnormalize}.
+@end deffn
+
+@c page
+@node build options
+@chapter Build options builtins
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_buildopt_tls_p
+@deffnx Builtin mpfi_buildopt_float128_p
+@deffnx Builtin mpfi_buildopt_decimal_p
+@deffnx Builtin mpfi_buildopt_gmpinternals_p
+@deffnx Builtin mpfi_buildopt_sharedcache_p
+Interfaces to the C language functions @cfunc{mpfi_buildopt_tls_p},
+@cfunc{mpfi_buildopt_float128_p}, @cfunc{mpfi_buildopt_decimal_p},
+@cfunc{mpfi_buildopt_gmpinternals_p}, @cfunc{mpfi_buildopt_sharedcache_p}.
+
+Return true if the corresponding build option has been set; otherwise return false.
+@end deffn
+
+
+@deffn Builtin mpfi_get_patches
+@deffnx Builtin mpfi_buildopt_tune_case
+Interfaces to the C language functions @cfunc{mpfi_get_patches}, @cfunc{mpfi_buildopt_tune_case}.
+
+Print the string to @stdout{}.
+@end deffn
+
+@c page
+@c ------------------------------------------------------------
+@c Appendices.
+@c ------------------------------------------------------------
+
+@include gpl-3.0.texi
+@include fdl-1.3.texi
+
+@c page
+@node shared library
+@appendix Using the shared library
+
+
+@value{PACKAGE} installs a shared library:
+
+@example
+libmmux-bash-mpfi.so
+@end example
+
+@noindent
+and C language headers:
+
+@example
+mmux-bash-mpfi.h
+mmux-bash-mpfi-config.h
+@end example
+
+@noindent
+it is enough to include the main header file @file{mmux-bash-mpfi.h}.  We can write code that links
+to the shared library to reuse some of its facilities.  @ref{overview linking} for details.
+
+@menu
+* shared library version::      Version functions.
+* shared library config::       Library configuration.
+* shared library parsers::      Parser functions.
+* shared library binders::      Binding values to shell variables.
+* shared library misc::         Miscellaneous functions.
+@end menu
+
+@c page
+@node shared library version
+@appendixsec Version functions
+
+
+The installed libraries follow version numbering as established by the @gnu{} Autotools.  For an
+explanation of interface numbers as managed by @gnu{} Libtool @xref{Libtool versioning, interface,
+Libtool's versioning system, libtool, Shared library support for @gnu{}}.
+
+
+@deftypefun {char const *} mmux_bash_mpfi_version_string (void)
+Return a pointer to a statically allocated @asciiz{} string representing the interface version
+number.
+@end deftypefun
+
+
+@deftypefun int mmux_bash_mpfi_version_interface_current (void)
+Return an integer representing the library interface current number.
+@end deftypefun
+
+
+@deftypefun int mmux_bash_mpfi_version_interface_revision (void)
+Return an integer representing the library interface current revision number.
+@end deftypefun
+
+
+@deftypefun int mmux_bash_mpfi_version_interface_age (void)
+Return an integer representing the library interface current age.
+@end deftypefun
+
+@c page
+@node shared library config
+@appendixsec Library configuration
+
+
+The following C preprocessor symbols are defined, or not, by the installed header file
+@file{mmux-bash-mpfi-config.h}.  We can use these symbols with code like:
+
+@example
+#if ((defined MMUX_BASH_MPFI_HAVE_CC_TYPE_LDOUBLE) && (1 == MMUX_BASH_MPFI_HAVE_CC_TYPE_LDOUBLE))
+...
+#endif
+@end example
+
+
+@defvr {C Preprocessor Symbol} MMUX_BASH_MPFI_HAVE_CC_TYPE_LDOUBLE
+Defined and set to @samp{1} if @value{PACKAGE} supports the C language type @objtype{long double}.
+This means the builtins operating on such type are defined and available.
+@end defvr
+
+
+@defvr {C Preprocessor Symbol} MMUX_BASH_MPFI_HAVE_CC_TYPE_DECIMAL64
+Defined and set to @samp{1} if @value{PACKAGE} supports the C language type @objtype{_Decimal64}.
+This means the builtins operating on such type are defined and available.
+@end defvr
+
+
+@defvr {C Preprocessor Symbol} MMUX_BASH_MPFI_HAVE_CC_TYPE_DECIMAL128
+Defined and set to @samp{1} if @value{PACKAGE} supports the C language type @objtype{_Decimal128}.
+This means the builtins operating on such type are defined and available.
+@end defvr
+
+
+@defvr {C Preprocessor Symbol} MMUX_BASH_MPFI_HAVE_CC_TYPE_FLOAT128
+Defined and set to @samp{1} if @value{PACKAGE} supports the C language type @objtype{_Float128}.
+This means the builtins operating on such type are defined and available.
+@end defvr
+
+@c page
+@node shared library parsers
+@appendixsec Parser functions
+
+
+For all the following functions:
+
+@itemize
+@item
+When successful the result of parsing is stored in the variable referenced by @var{p_value}, then
+the function returns @code{MMUX_SUCCESS}; otherwise @var{p_value} is left untouched and the function
+returns @code{MMUX_FAILURE}.
+
+@item
+If an error occurs and @var{who} is not @cnull{}: an error message is printed to @stderr{} and
+@var{who} is used as name of the entity that signals the error.  @var{who} is usually a builtin
+name.
+@end itemize
+
+
+@deftypefun mmux_bash_rv_t mmux_mpfi_ptr_parse (mpfi_ptr * @var{p_value}, char const * @var{s_value}, char const * @var{who})
+Parse the @asciiz{} string referenced by @var{s_value} and covert it into a C language value of type
+@objtype{mpfi_ptr}.
+@end deftypefun
+
+
+@deftypefun mmux_bash_rv_t mmux_mpfi_rnd_parse (mpfi_rnd_t * @var{p_value}, char const * @var{s_value}, char const * @var{who})
+Parse the @asciiz{} string referenced by @var{s_value} and covert it into a C language value of type
+@objtype{mpfi_rnd_t}.
+@end deftypefun
+
+
+@deftypefun mmux_bash_rv_t mmux_mpfi_exp_parse (mpfi_exp_t * @var{p_value}, char const * @var{s_value}, char const * @var{who})
+Parse the @asciiz{} string referenced by @var{s_value} and covert it into a C language value of type
+@objtype{mpfi_exp_t}.
+@end deftypefun
+
+
+@deftypefun mmux_bash_rv_t mmux_mpfi_prec_parse (mpfi_prec_t * @var{p_value}, char const * @var{s_value}, char const * @var{who})
+Parse the @asciiz{} string referenced by @var{s_value} and covert it into a C language value of type
+@objtype{mpfi_prec_t}.
+@end deftypefun
+
+
+@deftypefun mmux_bash_rv_t mmux_mpfi_flags_parse (mpfi_flags_t * @var{p_value}, char const * @var{s_value}, char const * @var{who})
+Parse the @asciiz{} string referenced by @var{s_value} and covert it into a C language value of type
+@objtype{mpfi_flags_t}.
+@end deftypefun
+
+
+@deftypefun mmux_bash_rv_t mmux_mpfi_free_cache_parse (mpfi_free_cache_t * @var{p_value}, char const * @var{s_value}, char const * @var{who})
+Parse the @asciiz{} string referenced by @var{s_value} and covert it into a C language value of type
+@objtype{mpfi_free_cache_t}.
+@end deftypefun
+
+
+@deftypefun mmux_bash_rv_t mmux_mpfi_ptr_array_parse (mpfi_ptr ** @var{p_value}, char const * @var{s_value}, char const * @var{who})
+Parse the @asciiz{} string referenced by @var{s_value} and covert it into a C language value of type
+@objtype{mpfi_ptr *}.
+
+This function is meant to parse string representations of pointer values into pointers to arrays of
+@mpfi{} numbers.
+@end deftypefun
+
+@c page
+@node shared library binders
+@section Binding values to shell variables
+
+
+For all the following functions:
+
+@itemize
+@item
+The argument @var{variable_name} must reference an @asciiz{} string representing a valid Bash
+variable name.
+
+@item
+When successful a string representation of @var{value} is bound to the shell variable, then the
+function returns @code{MMUX_SUCCESS}; otherwise the shell variable is left untouched and the
+function returns @code{MMUX_FAILURE}.
+
+@item
+If an error occurs and @var{who} is not @cnull{}: an error message is printed to @stderr{} and
+@var{who} is used as name of the entity that signals the error.  @var{who} is usually a builtin
+name.
+@end itemize
+
+
+@deftypefun mmux_bash_rv_t mmux_mpfi_ptr_bind_to_variable (char const * @var{variable_name}, mpfi_ptr @var{value}, char const * @var{who})
+Bind to the shell variable @var{variable_name} a string representation of @var{value}.
+@end deftypefun
+
+
+@deftypefun mmux_bash_rv_t mmux_mpfi_rnd_bind_to_variable (char const * @var{variable_name}, mpfi_rnd_t @var{value}, char const * @var{who})
+Bind to the shell variable @var{variable_name} a string representation of @var{value}.
+@end deftypefun
+
+
+@deftypefun mmux_bash_rv_t mmux_mpfi_exp_bind_to_variable (char const * @var{variable_name}, mpfi_exp_t @var{value}, char const * @var{who})
+Bind to the shell variable @var{variable_name} a string representation of @var{value}.
+@end deftypefun
+
+
+@deftypefun mmux_bash_rv_t mmux_mpfi_prec_bind_to_variable (char const * @var{variable_name}, mpfi_prec_t @var{value}, char const * @var{who})
+Bind to the shell variable @var{variable_name} a string representation of @var{value}.
+@end deftypefun
+
+
+@deftypefun mmux_bash_rv_t mmux_mpfi_flags_bind_to_variable (char const * @var{variable_name}, mpfi_flags_t @var{value}, char const * @var{who}Bind to the shell variable @var{variable_name} a string representation of @var{value}.
+)
+@end deftypefun
+
+
+@deftypefun mmux_bash_rv_t mmux_mpfi_free_cache_bind_to_variable (char const * @var{variable_name}, mpfi_free_cache_t @var{value}, char const * @var{who})
+Bind to the shell variable @var{variable_name} a string representation of @var{value}.
+@end deftypefun
+
+@c page
+@node shared library misc
+@appendixsec Miscellaneous functions
+
+
+@deftypefun mmux_bash_rv_t mmux_bash_mpfi_set_MPFI_RV (int @var{value}, char const * const @var{who})
+Bind to the shell variable @env{MPFI_RV} a string representation of @var{value}.  When successful
+return @code{MMUX_SUCCESS}; otherwise the shell variable is left untouched and the return value is
+@code{MMUX_FAILURE}.
+
+If an error occurs and @var{who} is not @cnull{}: an error message is printed to @stderr{} and
+@var{who} is used as name of the entity that signals the error.  @var{who} is usually a builtin
+name.
+@end deftypefun
+
+
+@deftypefun mmux_bash_rv_t mpfi_just_printit_dammit (mpfi_ptr @var{op})
+Print on @stdout{} a string representation of @var{op}.  When successful return @code{MMUX_SUCCESS};
+otherwise return @code{MMUX_FAILURE}.
+
+The string representation is built in base @math{10} and number of digits @math{6}.
+@end deftypefun
+
+@c page
+@node references
+@appendix Bibliography and references
+
+
+The documentation of @value{PACKAGE} is available online:
+
+@center @value{DocumentationUrl}
+
+@noindent
+development takes place at:
+
+@center @value{GithubUrl}
+
+@noindent
+the package @mmux{} Bash Pointers is available online:
+
+@center @url{http://github.com/marcomaggi/mmux-bash-pointers/}
+
+@noindent
+the package @mbfl{} is available online:
+
+@center @url{http://github.com/marcomaggi/mbfl/}
+
+@c page
+@node concept index
+@appendix An entry for each concept
+
+@printindex cp
+
+@node function index
+@appendix An entry for each function.
+
+@printindex fn
+
+@node variable index
+@appendix An entry for each variable.
+
+@printindex vr
+
+@node type index
+@appendix An entry for each type.
+
+@printindex tp
+
+@contents
+@bye
+
+@c end of file
+
