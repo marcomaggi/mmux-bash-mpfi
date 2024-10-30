@@ -76,6 +76,7 @@ mpfi_just_printit_dammit (mpfi_ptr op)
   printf(", ");
   mpfr_just_printit_dammit(right);
   printf("]");
+  return MMUX_SUCCESS;
 }
 
 

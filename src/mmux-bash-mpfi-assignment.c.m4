@@ -134,11 +134,9 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_set_nan]]])
 
   MMUX_BASH_PARSE_BUILTIN_ARG_MPFI_PTR([[[op]]],	[[[argv[1]]]]);
   {
-    mpfr_ptr	left;
-    mpfr_ptr	right;
+    mpfr_ptr	left  = &(op->left);
+    mpfr_ptr	right = &(op->right);
 
-    mpfi_get_left(left, op);
-    mpfi_get_right(left, op);
     mpfr_set_nan(left);
     mpfr_set_nan(right);
     return MMUX_SUCCESS;
@@ -160,11 +158,9 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_set_inf]]])
   MMUX_BASH_PARSE_BUILTIN_ARG_MPFI_PTR([[[op]]],	[[[argv[1]]]]);
   MMUX_BASH_PARSE_BUILTIN_ARG_SINT([[[sign]]],		[[[argv[2]]]]);
   {
-    mpfr_ptr	left;
-    mpfr_ptr	right;
+    mpfr_ptr	left  = &(op->left);
+    mpfr_ptr	right = &(op->right);
 
-    mpfi_get_left(left,  op);
-    mpfi_get_right(left, op);
     mpfr_set_inf(left,  sign);
     mpfr_set_inf(right, sign);
     return MMUX_SUCCESS;
@@ -186,11 +182,9 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_set_zero]]])
   MMUX_BASH_PARSE_BUILTIN_ARG_MPFI_PTR([[[op]]],	[[[argv[1]]]]);
   MMUX_BASH_PARSE_BUILTIN_ARG_SINT([[[sign]]],		[[[argv[2]]]]);
   {
-    mpfr_ptr	left;
-    mpfr_ptr	right;
+    mpfr_ptr	left  = &(op->left);
+    mpfr_ptr	right = &(op->right);
 
-    mpfi_get_left(left,  op);
-    mpfi_get_right(left, op);
     mpfr_set_zero(left,  sign);
     mpfr_set_zero(right, sign);
     return MMUX_SUCCESS;
@@ -210,10 +204,10 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_swap]]])
 
   MMUX_BASH_PARSE_BUILTIN_ARG_MPFI_PTR([[[op1]]],	[[[argv[1]]]]);
   MMUX_BASH_PARSE_BUILTIN_ARG_MPFI_PTR([[[op2]]],	[[[argv[2]]]]);
-
-  mpfi_swap(op1, op2);
-  return MMUX_SUCCESS;
-
+  {
+    mpfi_swap(op1, op2);
+    return MMUX_SUCCESS;
+  }
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
 }
 MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
