@@ -159,7 +159,7 @@ function mpfi-init2-1.1 () {
 #### mpfi_inits, mpfi_clears
 
 function mpfi-inits-1.1 () {
-    declare -ra EXPECTED_RESULTS=('[0.000000e0, 0.000000e0]' '[0.100000e1, 0.100000e1]' '[0.200000e1, 0.200000e1]' '[0.300000e1, 0.300000e1]' '[0.400000e1, 0.400000e1]')
+    declare -ra EXPECTED_RESULTS=('[0.000000e0, -0.000000e0]' '[0.100000e1, 0.100000e1]' '[0.200000e1, 0.200000e1]' '[0.300000e1, 0.300000e1]' '[0.400000e1, 0.400000e1]')
     declare -r OPNUM=mbfl_slots_number(EXPECTED_RESULTS)
     declare -a OPS
     declare -i IDX
@@ -220,7 +220,7 @@ function mpfi-inits-1.1 () {
 #### mpfi_inits2, mpfi_clears
 
 function mpfi-inits2-1.1 () {
-    declare -ra EXPECTED_RESULTS=('[0.000000e0, 0.000000e0]' '[0.100000e1, 0.100000e1]' '[0.200000e1, 0.200000e1]' '[0.300000e1, 0.300000e1]' '[0.400000e1, 0.400000e1]')
+    declare -ra EXPECTED_RESULTS=('[0.000000e0, -0.000000e0]' '[0.100000e1, 0.100000e1]' '[0.200000e1, 0.200000e1]' '[0.300000e1, 0.300000e1]' '[0.400000e1, 0.400000e1]')
     declare -r PREC=123 OPNUM=mbfl_slots_number(EXPECTED_RESULTS)
     declare -a OPS
     declare -i IDX

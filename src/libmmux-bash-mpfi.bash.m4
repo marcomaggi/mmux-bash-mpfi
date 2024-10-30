@@ -153,32 +153,22 @@ function mpfi_just_printit_dammit () {
     {
 	declare MPFR_PTR_LEFT MPFR_PTR_RIGHT MPFR_LEFT_STRING MPFR_RIGHT_STRING RETVAL=0
 
-	if mpfr_alloc_and_init MPFR_PTR_LEFT
+	if mpfi_left MPFR_PTR_LEFT WW(OP)
 	then
-	    if mpfr_alloc_and_init MPFR_PTR_RIGHT
+	    if mpfi_right MPFR_PTR_RIGHT WW(OP)
 	    then
-		if mpfi_get_left WW(MPFR_PTR_LEFT) WW(OP)
+		if mpfr_just_printit_dammit -v MPFR_LEFT_STRING $JUST_PRINTIT_FLAGS WW(MPFR_PTR_LEFT)
 		then
-		    if mpfi_get_right WW(MPFR_PTR_RIGHT) WW(OP)
+		    if mpfr_just_printit_dammit -v MPFR_RIGHT_STRING $JUST_PRINTIT_FLAGS WW(MPFR_PTR_RIGHT)
 		    then
-			if mpfr_just_printit_dammit -v MPFR_LEFT_STRING $JUST_PRINTIT_FLAGS WW(MPFR_PTR_LEFT)
-			then
-			    if mpfr_just_printit_dammit -v MPFR_RIGHT_STRING $JUST_PRINTIT_FLAGS WW(MPFR_PTR_RIGHT)
-			    then
-				printf $PRINTF_FLAGS '[%s, %s]' WW(MPFR_LEFT_STRING) WW(MPFR_RIGHT_STRING)
-				RETVAL=$?
-			    else RETVAL=$?
-			    fi
-			else RETVAL=$?
-			fi
+			printf $PRINTF_FLAGS '[%s, %s]' WW(MPFR_LEFT_STRING) WW(MPFR_RIGHT_STRING)
+			RETVAL=$?
 		    else RETVAL=$?
 		    fi
 		else RETVAL=$?
 		fi
-		mpfr_clear_and_free WW(MPFR_PTR_RIGHT)
 	    else RETVAL=$?
 	    fi
-	    mpfr_clear_and_free WW(MPFR_PTR_LEFT)
 	else RETVAL=$?
 	fi
 	return $RETVAL

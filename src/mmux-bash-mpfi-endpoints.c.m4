@@ -61,7 +61,7 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_get_right]]])
   MMUX_BASH_PARSE_BUILTIN_ARG_MPFR_PTR([[[rop]]],	[[[argv[1]]]]);
   MMUX_BASH_PARSE_BUILTIN_ARG_MPFI_PTR([[[op]]],	[[[argv[2]]]]);
   {
-    int		rv = mpfi_get_left(rop, op);
+    int		rv = mpfi_get_right(rop, op);
     return mmux_bash_mpfi_set_MPFI_RV(rv, MMUX_BUILTIN_NAME_STR);
   }
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
@@ -70,5 +70,41 @@ MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
     [[[(3 == argc)]]],
     [[["MMUX_BASH_BUILTIN_IDENTIFIER MPFR_ROP MPFI_OP"]]],
     [[["Compute MMUX_BASH_BUILTIN_IDENTIFIER(MPFR_ROP, MPFI_OP)."]]])
+
+/* ------------------------------------------------------------------ */
+
+MMUX_BASH_BUILTIN_MAIN([[[mpfi_left]]])
+{
+  mpfi_ptr	op;
+
+  MMUX_BASH_PARSE_BUILTIN_ARG_MPFI_PTR([[[op]]],	[[[argv[2]]]]);
+  {
+    mpfr_ptr	left  = &(op->left);
+    return mmux_mpfr_ptr_bind_to_variable(argv[1], left, MMUX_BUILTIN_NAME_STR);
+  }
+  MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
+}
+MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
+    [[[(3 == argc)]]],
+    [[["MMUX_BASH_BUILTIN_IDENTIFIER MPFR_PTRVAR MPFI_OP"]]],
+    [[["Compute MMUX_BASH_BUILTIN_IDENTIFIER(MPFR_PTRVAR, MPFI_OP)."]]])
+
+/* ------------------------------------------------------------------ */
+
+MMUX_BASH_BUILTIN_MAIN([[[mpfi_right]]])
+{
+  mpfi_ptr	op;
+
+  MMUX_BASH_PARSE_BUILTIN_ARG_MPFI_PTR([[[op]]],	[[[argv[2]]]]);
+  {
+    mpfr_ptr	right  = &(op->right);
+    return mmux_mpfr_ptr_bind_to_variable(argv[1], right, MMUX_BUILTIN_NAME_STR);
+  }
+  MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
+}
+MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
+    [[[(3 == argc)]]],
+    [[["MMUX_BASH_BUILTIN_IDENTIFIER MPFR_PTRVAR MPFI_OP"]]],
+    [[["Compute MMUX_BASH_BUILTIN_IDENTIFIER(MPFR_PTRVAR, MPFI_OP)."]]])
 
 /* end of file */

@@ -89,7 +89,11 @@ function mpfi-just-printit-dammit-1.2 () {
     mbfl_location_leave
 }
 function mpfi-just-printit-dammit-1.3 () {
-    declare -r EXPECTED_RESULT='[0.000000e0, 0.000000e0]' INITVAL='0'
+    # NOTE Looking at  the source code: MPFI  explicitly contains code to initialise  an interval to
+    # [+0, -0] whenever  the interval is initialised from  a single number happening to be  0.  I do
+    # not know why, but that is life for us.  (Marco Maggi; Oct 30, 2024)
+    #
+    declare -r EXPECTED_RESULT='[0.000000e0, -0.000000e0]' INITVAL='0'
     declare OP RESULT
 
     dotest-unset-debug
@@ -101,7 +105,7 @@ function mpfi-just-printit-dammit-1.3 () {
 	else mbfl_location_leave_then_return_failure
 	fi
 
-	mbfl_location_leave_when_failure( mpfi_set_d WW(OP) WW(INITVAL) )
+	mbfl_location_leave_when_failure( mpfi_set_si WW(OP) WW(INITVAL) )
 
 	mbfl_location_leave_when_failure( RESULT=$(mpfi_just_printit_dammit WW(OP)) )
 	dotest-debug WW(EXPECTED_RESULT) WW(RESULT)
