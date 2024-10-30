@@ -104,9 +104,7 @@ function mpfi_just_printit_dammit () {
 			printf '%s: option "-v" requires an argument, but the end-of-options marker was found: "--"\n' WW(FUNCNAME) >&2
 			return 1
 		    elif mpfi_p_string_is_variable_name QQ(OPTARG)
-		    then
-			PRINTF_FLAGS+=" -v RR(OPTARG)"
-			JUST_PRINTIT_FLAGS+=" -v RR(OPTARG)"
+		    then PRINTF_FLAGS+=" -v RR(OPTARG)"
 		    else
 			printf '%s: invalid variable name argument: "%s"\n' WW(FUNCNAME) WW(OPTARG) >&2
 			return 1
@@ -153,7 +151,7 @@ function mpfi_just_printit_dammit () {
     #echo $FUNCNAME BASE="$BASE" NDIGITS="$NDIGITS" OP="$OP" >&2
 
     {
-	declare MPFR_PTR_LEFT MPFR_PTR_RIGHT RETVAL=0
+	declare MPFR_PTR_LEFT MPFR_PTR_RIGHT MPFR_LEFT_STRING MPFR_RIGHT_STRING RETVAL=0
 
 	if mpfr_alloc_and_init MPFR_PTR_LEFT
 	then
@@ -163,20 +161,12 @@ function mpfi_just_printit_dammit () {
 		then
 		    if mpfi_get_right WW(MPFR_PTR_RIGHT) WW(OP)
 		    then
-			if printf $PRINTF_FLAGS '['
+			if mpfr_just_printit_dammit -v MPFR_LEFT_STRING $JUST_PRINTIT_FLAGS WW(MPFR_PTR_LEFT)
 			then
-			    if mpfr_just_printit_dammit $JUST_PRINTIT_FLAGS WW(MPFR_PTR_LEFT)
+			    if mpfr_just_printit_dammit -v MPFR_RIGHT_STRING $JUST_PRINTIT_FLAGS WW(MPFR_PTR_RIGHT)
 			    then
-				if printf $PRINTF_FLAGS ', '
-				then
-				    if mpfr_just_printit_dammit $JUST_PRINTIT_FLAGS WW(MPFR_PTR_RIGHT)
-				    then
-					printf $PRINTF_FLAGS ']'
-					RETVAL=$?
-				    else RETVAL=$?
-				    fi
-				else RETVAL=$?
-				fi
+				printf $PRINTF_FLAGS '[%s, %s]' WW(MPFR_LEFT_STRING) WW(MPFR_RIGHT_STRING)
+				RETVAL=$?
 			    else RETVAL=$?
 			    fi
 			else RETVAL=$?
