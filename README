@@ -23,7 +23,8 @@ This  package implements  loadable  builtin commands  for  the GNU  Bash
 shell; to do  so it installs a  C11 language library and  a shell script
 which is meant to be sourced in a Bash session or script.
 
-  This package provides an interface to the library MPFI:
+  This  package   provides  an  interface  to   the  Multiple  Precision
+Floating-Point Interval Library, MPFI:
 
     declare X
 
@@ -185,7 +186,7 @@ the documentation is available online:
 
 the package MPFI is available online:
 
-			<https://www.mpfi.org/>
+		  <https://gitlab.inria.fr/mpfi/mpfi>
 
 the package MMUX Bash Pointers is available online:
 

@@ -318,7 +318,7 @@ This document describes version @value{MmuxPkgSemanticVersion} of @value{PACKAGE
 implementing loadable builtin commands for the @gnu{} Bash shell; to do so it installs a C11
 language library and a shell script which is meant to be sourced in a Bash session or script.
 
-This package provides an interface to the @emph{Multiple Precision Floating--Point Reliable
+This package provides an interface to the @emph{Multiple Precision Floating--Point Interval
 Library}, @mpfi{}.
 
 This package is distributed under the terms of the @gnu{} General Public License (@gpl{}).
@@ -423,26 +423,34 @@ This document describes version @value{MmuxPkgSemanticVersion} of @value{PACKAGE
 implementing loadable builtin commands for the @gnu{} Bash shell; to do so it installs a C11
 language library and a shell script which is meant to be sourced in a Bash session or script.
 
-This package provides an interface to the @emph{Multiple Precision Floating--Point Reliable
+This package provides an interface to the @emph{Multiple Precision Floating--Point Interval
 Library}, @mpfi{}.
 
 @example
 source mmux-bash-packages
 source mmux-bash-pointers
+source mmux-bash-mpfr
 source mmux-bash-mpfi
 
 declare OP
 
 mpfi_alloc_and_init OP
 @{
-    mpfi_set_d @RR{OP} '1.23' @RR{MPFI_RNDN}
+    mpfi_set_d @RR{OP} '1.23'
     mpfi_just_printit_dammit @RR{OP}
 @}
 mpfi_clear_and_free @RR{OP}
 @end example
 
-This package depends upon the facilities of the external package @mmux{} Bash Pointers, @xref{Top,
-@mmux{} Bash Pointers, @mmux{} Bash Pointers, mmux-bash-pointers}.
+This package depends upon the facilities of the external packages:
+
+@itemize
+@item
+@mmux{} Bash Pointers, @xref{Top, @mmux{} Bash Pointers, @mmux{} Bash Pointers, mmux-bash-pointers}.
+
+@item
+@mmux{} Bash @mpfr{}, @xref{Top, @mmux{} Bash @mpfr{}, @mmux{} Bash @mpfr{}, mmux-bash-mpfr}.
+@end itemize
 
 @menu
 * overview install::            Installed files.
@@ -497,6 +505,7 @@ should be:
 @example
 source mmux-bash-packages
 source mmux-bash-pointers
+source mmux-bash-mpfr
 source mmux-bash-mpfi
 @end example
 
@@ -544,76 +553,49 @@ The string representation of a shell variable name: the builtin taking it as par
 successful, will store in the variable a string representation of a pointer referencing an instance
 of @objtype{__mpfi_struct}.  If the builtin fails: the shell variable is left untouched.
 
-@item MPFI_RND
-@cindex MPFI_RND, builtin argument
-@cindex builtin argument MPFI_RND
-@cindex argument MPFI_RND, for builtins
-A string representation of one of the @mpfi{} constants @samp{MPFI_RND*}.
+@item MPFR_PTR
+@itemx MPFR_OP
+@itemx MPFR_ROP
+@cindex MPFR_PTR, builtin argument
+@cindex builtin argument MPFR_PTR
+@cindex argument MPFR_PTR, for builtins
+@cindex MPFR_OP, builtin argument
+@cindex builtin argument MPFR_OP
+@cindex argument MPFR_OP, for builtins
+A string representation of a pointer referencing an instance of @objtype{__mpfr_struct}.
 
-@item MPFI_RNDVAR
-@cindex MPFI_RNDVAR, builtin argument
-@cindex builtin argument MPFI_RNDVAR
-@cindex argument MPFI_RND, for builtins
+@item MPFR_PTRVAR
+@cindex MPFR_PTRVAR, builtin argument
+@cindex builtin argument MPFR_PTRVAR
+@cindex argument MPFR_PTRVAR, for builtins
+The string representation of a shell variable name: the builtin taking it as parameter, when
+successful, will store in the variable a string representation of a pointer referencing an instance
+of @objtype{__mpfr_struct}.  If the builtin fails: the shell variable is left untouched.
+
+@item MPFR_RND
+@cindex MPFR_RND, builtin argument
+@cindex builtin argument MPFR_RND
+@cindex argument MPFR_RND, for builtins
+A string representation of one of the @mpfr{} constants @samp{MPFR_RND*}.
+
+@item MPFR_PREC
+@cindex MPFR_PREC, builtin argument
+@cindex builtin argument MPFR_PREC
+@cindex argument MPFR_PREC, for builtins
+A string representation of a value of type @objtype{mpfr_prec_t}.
+
+@item MPFR_PRECVAR
+@cindex MPFR_PRECVAR, builtin argument
+@cindex builtin argument MPFR_PRECVAR
+@cindex argument MPFR_PREC, for builtins
 The string representation of a shell variable name: the builtin taking it as parameter, when
 successful, will store in the variable the string representation of a value of type
-@objtype{mpfi_rnd_t}.  If the builtin fails: the shell variable is left untouched.
-
-@item MPFI_EXP
-@cindex MPFI_EXP, builtin argument
-@cindex builtin argument MPFI_EXP
-@cindex argument MPFI_EXP, for builtins
-A string representation of a value of type @objtype{mpfi_exp_t}.
-
-@item MPFI_EXPVAR
-@cindex MPFI_EXPVAR, builtin argument
-@cindex builtin argument MPFI_EXPVAR
-@cindex argument MPFI_EXP, for builtins
-The string representation of a shell variable name: the builtin taking it as parameter, when
-successful, will store in the variable the string representation of a value of type
-@objtype{mpfi_exp_t}.  If the builtin fails: the shell variable is left untouched.
-
-@item MPFI_PREC
-@cindex MPFI_PREC, builtin argument
-@cindex builtin argument MPFI_PREC
-@cindex argument MPFI_PREC, for builtins
-A string representation of a value of type @objtype{mpfi_prec_t}.
-
-@item MPFI_PRECVAR
-@cindex MPFI_PRECVAR, builtin argument
-@cindex builtin argument MPFI_PRECVAR
-@cindex argument MPFI_PREC, for builtins
-The string representation of a shell variable name: the builtin taking it as parameter, when
-successful, will store in the variable the string representation of a value of type
-@objtype{mpfi_prec_t}.  If the builtin fails: the shell variable is left untouched.
-
-@item MPFI_FLAGS
-@itemx MPFI_FLAGS_MASK
-@cindex MPFI_FLAGS, builtin argument
-@cindex builtin argument MPFI_FLAGS
-@cindex argument MPFI_FLAGS, for builtins
-@cindex MPFI_FLAGS_MASK, builtin argument
-@cindex builtin argument MPFI_FLAGS_MASK
-@cindex argument MPFI_FLAGS_MASK, for builtins
-A string representation of a value of type @objtype{mpfi_flags_t}.
-
-@item MPFI_FLAGSVAR
-@cindex MPFI_FLAGSVAR, builtin argument
-@cindex builtin argument MPFI_FLAGSVAR
-@cindex argument MPFI_FLAGS, for builtins
-The string representation of a shell variable name: the builtin taking it as parameter, when
-successful, will store in the variable the string representation of a value of type
-@objtype{mpfi_flags_t}.  If the builtin fails: the shell variable is left untouched.
-
-@item MPFI_FREE_CACHE
-@cindex MPFI_FREE_CACHE, builtin argument
-@cindex builtin argument MPFI_FREE_CACHE
-@cindex argument MPFI_FREE_CACHE, for builtins
-A string representation of a value of type @objtype{mpfi_free_cache_t}.
+@objtype{mpfr_prec_t}.  If the builtin fails: the shell variable is left untouched.
 
 @item STRVAR
-@cindex MPFI_STRVAR, builtin argument
-@cindex builtin argument MPFI_STRVAR
-@cindex argument MPFI_STRVAR, for builtins
+@cindex MPFR_STRVAR, builtin argument
+@cindex builtin argument MPFR_STRVAR
+@cindex argument MPFR_STRVAR, for builtins
 The string representation of a shell variable name: the builtin taking it as parameter, when
 successful, will store in the variable a generated string.  If the builtin fails: the shell variable
 is left untouched.
@@ -3179,6 +3161,21 @@ development takes place at:
 the package @mmux{} Bash Pointers is available online:
 
 @center @url{http://github.com/marcomaggi/mmux-bash-pointers/}
+
+@noindent
+the package @mmux{} Bash @mpfr{} is available online:
+
+@center @url{http://github.com/marcomaggi/mmux-bash-mpfr/}
+
+@noindent
+the package @mmux{} Bash @mpfi{} is available online:
+
+@center @url{http://github.com/marcomaggi/mmux-bash-mpfi/}
+
+@noindent
+the package @mpfi{} is available online:
+
+@center @url{https://gitlab.inria.fr/mpfi/mpfi}
 
 @noindent
 the package @mbfl{} is available online:
