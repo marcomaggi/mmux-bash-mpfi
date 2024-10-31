@@ -51,6 +51,7 @@ declare -ga BUILTINS=(mmux_bash_mpfi_library_init
 		      mpfi_init_set_q
 		      mpfi_init_set_fr
 		      mpfi_init_set
+		      mpfi_init_set_str
 		      mpfi_set_str
 		      mpfi_set_nan
 		      mpfi_set_inf

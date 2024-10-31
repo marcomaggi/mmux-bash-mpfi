@@ -696,6 +696,58 @@ function mpfi-init-set-fr-1.1 () {
 }
 
 
+#### setters: mpfi_init_set_str
+
+function mpfi-init-set-str-1.1 () {
+    mbfl_location_enter
+    {
+	declare -r EXPECTED_RESULT='[0.123457e10, 0.123457e10]' STR='1234567890' BASE='10'
+	declare OP RESULT
+
+	dotest-unset-debug
+
+	if mmux_libc_calloc OP 1 WW(mpfi_SIZEOF)
+	then mbfl_location_handler "mmux_libc_free RR(OP)"
+	else mbfl_location_leave_then_return_failure
+	fi
+
+	if mpfi_init_set_str WW(OP) WW(STR) WW(BASE)
+	then mbfl_location_handler "mpfi_clear RR(OP)"
+	else mbfl_location_leave_then_return_failure
+	fi
+
+	mbfl_location_leave_when_failure( mpfi_just_printit_dammit -v RESULT -- WW(OP) )
+	dotest-debug WW(EXPECTED_RESULT) WW(RESULT)
+	dotest-equal WW(EXPECTED_RESULT) WW(RESULT)
+    }
+    mbfl_location_leave
+}
+function mpfi-init-set-str-1.2 () {
+    mbfl_location_enter
+    {
+	declare -r EXPECTED_RESULT='[-0.123457e10, -0.123457e10]' STR='-1234567890' BASE='10'
+	declare OP RESULT
+
+	dotest-unset-debug
+
+	if mmux_libc_calloc OP 1 WW(mpfi_SIZEOF)
+	then mbfl_location_handler "mmux_libc_free RR(OP)"
+	else mbfl_location_leave_then_return_failure
+	fi
+
+	if mpfi_init_set_str WW(OP) WW(STR) WW(BASE)
+	then mbfl_location_handler "mpfi_clear RR(OP)"
+	else mbfl_location_leave_then_return_failure
+	fi
+
+	mbfl_location_leave_when_failure( mpfi_just_printit_dammit -v RESULT -- WW(OP) )
+	dotest-debug WW(EXPECTED_RESULT) WW(RESULT)
+	dotest-equal WW(EXPECTED_RESULT) WW(RESULT)
+    }
+    mbfl_location_leave
+}
+
+
 #### let's go
 
 dotest mpfi-

@@ -128,6 +128,28 @@ MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
 
 /* ------------------------------------------------------------------ */
 
+MMUX_BASH_BUILTIN_MAIN([[[mpfi_init_set_str]]])
+{
+  mpfi_ptr	rop;
+  char const *	str;
+  int		base;
+
+  MMUX_BASH_PARSE_BUILTIN_ARG_MPFI_PTR([[[rop]]],	[[[argv[1]]]]);
+  MMUX_BASH_PARSE_BUILTIN_ARG_ASCIIZ_PTR([[[str]]],	[[[argv[2]]]]);
+  MMUX_BASH_PARSE_BUILTIN_ARG_SINT([[[base]]],		[[[argv[3]]]]);
+  {
+      int	rv = mpfi_init_set_str(rop, str, base);
+      return mmux_bash_mpfi_set_MPFI_RV(rv, MMUX_BUILTIN_NAME_STR);
+  }
+  MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
+}
+MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
+    [[[(4 == argc)]]],
+    [[["MMUX_BASH_BUILTIN_IDENTIFIER MPFI_ROP STRING BASE"]]],
+    [[["Initialise and set an MPFI number to the given string."]]])
+
+/* ------------------------------------------------------------------ */
+
 MMUX_BASH_BUILTIN_MAIN([[[mpfi_set_nan]]])
 {
   mpfi_ptr	op;
@@ -177,7 +199,6 @@ MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
 MMUX_BASH_BUILTIN_MAIN([[[mpfi_set_zero]]])
 {
   mpfi_ptr	op;
-  int		sign;
 
   MMUX_BASH_PARSE_BUILTIN_ARG_MPFI_PTR([[[op]]],	[[[argv[1]]]]);
   {
