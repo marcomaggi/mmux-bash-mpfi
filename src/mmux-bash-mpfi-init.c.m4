@@ -188,4 +188,24 @@ MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
     [[["MMUX_BASH_BUILTIN_IDENTIFIER MPFR_PREC_VAR MPFI_PTR"]]],
     [[["Retrieve the precision of an MPFI number."]]])
 
+/* ------------------------------------------------------------------ */
+
+MMUX_BASH_BUILTIN_MAIN([[[mpfi_round_prec]]])
+{
+  mpfi_ptr	op;
+  mpfr_prec_t	prec;
+
+  MMUX_BASH_PARSE_BUILTIN_ARG_MPFI_PTR([[[op]]],	[[[argv[1]]]]);
+  MMUX_BASH_PARSE_BUILTIN_ARG_MPFR_PREC([[[prec]]],	[[[argv[2]]]]);
+  {
+    int		rv = mpfi_round_prec(op, prec);
+    return mmux_bash_mpfi_set_MPFI_RV(rv, MMUX_BUILTIN_NAME_STR);
+  }
+  MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
+}
+MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
+    [[[(3 == argc)]]],
+    [[["MMUX_BASH_BUILTIN_IDENTIFIER MPFI_PTR MPFR_PREC"]]],
+    [[["Round a number with the specified precision."]]])
+
 /* end of file */

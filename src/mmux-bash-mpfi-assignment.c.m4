@@ -180,20 +180,15 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_set_zero]]])
   int		sign;
 
   MMUX_BASH_PARSE_BUILTIN_ARG_MPFI_PTR([[[op]]],	[[[argv[1]]]]);
-  MMUX_BASH_PARSE_BUILTIN_ARG_SINT([[[sign]]],		[[[argv[2]]]]);
   {
-    mpfr_ptr	left  = &(op->left);
-    mpfr_ptr	right = &(op->right);
-
-    mpfr_set_zero(left,  sign);
-    mpfr_set_zero(right, sign);
-    return MMUX_SUCCESS;
+    int		rv = mpfi_set_si(op, 0);
+    return mmux_bash_mpfi_set_MPFI_RV(rv, MMUX_BUILTIN_NAME_STR);
   }
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
 }
 MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
-    [[[(3 == argc)]]],
-    [[["MMUX_BASH_BUILTIN_IDENTIFIER MPFI_OP SIGN"]]],
+    [[[(2 == argc)]]],
+    [[["MMUX_BASH_BUILTIN_IDENTIFIER MPFI_OP"]]],
     [[["Set to zero a MPFI number."]]])
 
 /* ------------------------------------------------------------------ */

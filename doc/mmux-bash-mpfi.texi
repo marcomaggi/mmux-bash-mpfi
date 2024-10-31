@@ -1077,6 +1077,24 @@ mpfi_clear_and_free_shell_array OPS
 Interfaces to the C language functions @cfunc{mpfi_set_prec}, @cfunc{mpfi_get_prec}.
 @end defun
 
+
+@defun mpfi_round_prec @var{MPFI_OP} @var{MPFR_PREC}
+Interface to the C language function @cfunc{mpfi_round_prec}.
+
+@example
+declare OP
+
+mpfi_alloc_and_init OP
+@{
+    mpfi_set_si @RR{OP} 4093
+    mpfi_round_prec @RR{OP} 2
+
+    mpfi_just_printit_dammit @RR{OP}    @print{} [0.307200e4, 0.409600e4]
+@}
+mpfi_clear_and_free @RR{OP}
+@end example
+@end defun
+
 @c page
 @node assignment
 @chapter Assignment builtins
@@ -1089,7 +1107,7 @@ declare OP
 
 mpfi_alloc_and_init OP
 @{
-    mpfi_set_d @RR{OP} '1.23' @RR{MPFI_RNDN}
+    mpfi_set_d @RR{OP} '1.23'
     mpfi_just_printit_dammit @RR{OP}
 @}
 mpfi_clear_and_free @RR{OP}
@@ -1098,14 +1116,14 @@ mpfi_clear_and_free @RR{OP}
 @c ------------------------------------------------------------------------
 
 @macro MmuxMpfiAssignmentBuiltin{FUNC,ARGSTEM}
-@deffn Builtin \FUNC\ @var{MPFI_ROP} @var{\ARGSTEM\} @var{MPFI_RND}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @var{\ARGSTEM\}
 Interface to the C language functions @cfunc{\FUNC\}.
 @end deffn
 
 @end macro
 
-@macro MmuxMpfiAssignmentTwoExpBuiltin{FUNC,ARGSTEM}
-@deffn Builtin \FUNC\ @var{MPFI_ROP} @var{\ARGSTEM\} @var{MPFI_EXP} @var{MPFI_RND}
+@macro MmuxInitAndSetBuiltin{FUNC,ARGSTEM}
+@deffn Builtin \FUNC\ @var{MPFI_ROP} @var{\ARGSTEM\}
 Interface to the C language functions @cfunc{\FUNC\}.
 @end deffn
 
@@ -1115,29 +1133,18 @@ Interface to the C language functions @cfunc{\FUNC\}.
 
 @ref{overview conventions, Conventions used in this documentation}.
 
+@MmuxMpfiAssignmentBuiltin{mpfi_set, MPFI_OP}
+@MmuxMpfiAssignmentBuiltin{mpfi_set_fr, MPFR_OP}
 @MmuxMpfiAssignmentBuiltin{mpfi_set_si, SLONG}
 @MmuxMpfiAssignmentBuiltin{mpfi_set_ui, ULONG}
-@MmuxMpfiAssignmentBuiltin{mpfi_set_sj, SINTMAX}
-@MmuxMpfiAssignmentBuiltin{mpfi_set_uj, UINTMAX}
 @MmuxMpfiAssignmentBuiltin{mpfi_set_flt, FLOAT}
 @MmuxMpfiAssignmentBuiltin{mpfi_set_d, DOUBLE}
 @MmuxMpfiAssignmentBuiltin{mpfi_set_ld, LDOUBLE}
-@MmuxMpfiAssignmentBuiltin{mpfi_set_float128, FLOAT128}
-@MmuxMpfiAssignmentBuiltin{mpfi_set_decimal64, decimal64}
-@MmuxMpfiAssignmentBuiltin{mpfi_set_decimal128, decimal128}
 @MmuxMpfiAssignmentBuiltin{mpfi_set_z, MPZ_OP}
 @MmuxMpfiAssignmentBuiltin{mpfi_set_q, MPQ_OP}
-@MmuxMpfiAssignmentBuiltin{mpfi_set_f, MPF_OP}
-@MmuxMpfiAssignmentBuiltin{mpfi_set, MPFI_OP}
-
-@MmuxMpfiAssignmentTwoExpBuiltin{mpfi_set_si_2exp, SLONG}
-@MmuxMpfiAssignmentTwoExpBuiltin{mpfi_set_ui_2exp, ULONG}
-@MmuxMpfiAssignmentTwoExpBuiltin{mpfi_set_sj_2exp, SINTMAX}
-@MmuxMpfiAssignmentTwoExpBuiltin{mpfi_set_uj_2exp, UINTMAX}
-@MmuxMpfiAssignmentTwoExpBuiltin{mpfi_set_z_2exp, MPZ_PTR}
 
 
-@deffn Builtin mpfi_set_str @var{MPFI_ROP} @var{STRING} @var{BASE} @var{MPFI_RND}
+@deffn Builtin mpfi_set_str @var{MPFI_ROP} @var{STRING} @var{BASE}
 Interface to the C language functions @cfunc{mpfi_set_str}.
 
 @example
@@ -1146,7 +1153,7 @@ declare OP
 
 mpfi_alloc_and_init OP
 @{
-    mpfi_set_str @RR{OP} @RR{STR} @RR{BASE} @RR{MPFI_RNDN}
+    mpfi_set_str @RR{OP} @RR{STR} @RR{BASE}
     mpfi_just_printit_dammit @RR{OP}
 @}
 mpfi_clear_and_free @RR{OP}
@@ -1155,13 +1162,13 @@ mpfi_clear_and_free @RR{OP}
 
 
 @deffn Builtin mpfi_set_nan @var{MPFI_OP}
-Interface to the C language functions @cfunc{mpfi_set_nan}.
+Set both the endpoints to not--a--number.
 @end deffn
 
 
 @deffn Builtin mpfi_set_inf @var{MPFI_OP} @var{SIGN}
-Interface to the C language functions @cfunc{mpfi_set_inf}.  The argument sign must be one among
-@samp{+1}, @samp{0}, @samp{-1}.
+Set both the endpoints to infinity; this builtin uses the C language function @cfunc{mpfr_set_inf}
+to set both the endpoints.  The argument sign must be one among @samp{+1}, @samp{0}, @samp{-1}.
 
 @example
 declare OP
@@ -1176,16 +1183,15 @@ mpfi_clear_and_free @RR{OP}
 @end deffn
 
 
-@deffn Builtin mpfi_set_zero @var{MPFI_OP} @var{SIGN}
-Interface to the C language functions @cfunc{mpfi_set_zero}.  The argument sign must be one among
-@samp{+1}, @samp{0}, @samp{-1}.
+@deffn Builtin mpfi_set_zero @var{MPFI_OP}
+Set both the endpoints to zero using the C language expression @code{mpfi_set_si(@var{MPFI_OP}, 0)}.
 
 @example
 declare OP
 
 mpfi_alloc_and_init OP
 @{
-    mpfi_set_zero @RR{OP} +1
+    mpfi_set_zero @RR{OP}
     mpfi_just_printit_dammit @RR{OP}
 @}
 mpfi_clear_and_free @RR{OP}
@@ -1198,21 +1204,14 @@ Interface to the C language functions @cfunc{mpfi_swap}.
 @end deffn
 
 
-@macro MmuxInitAndSetBuiltin{FUNC,ARGSTEM}
-@deffn Builtin \FUNC\ @var{MPFI_ROP} @var{\ARGSTEM\} @var{MPFI_RND}
-Interface to the C language functions @cfunc{\FUNC\}.
-@end deffn
-
-@end macro
-
+@MmuxInitAndSetBuiltin{mpfi_init_set,MPFI_PTR}
+@MmuxInitAndSetBuiltin{mpfi_init_set_fr,MPFR_PTR}
 @MmuxInitAndSetBuiltin{mpfi_init_set_si,SLONG}
 @MmuxInitAndSetBuiltin{mpfi_init_set_ui,ULONG}
 @MmuxInitAndSetBuiltin{mpfi_init_set_d,DOUBLE}
 @MmuxInitAndSetBuiltin{mpfi_init_set_ld,LDOUBLE}
 @MmuxInitAndSetBuiltin{mpfi_init_set_z,MPZ_PTR}
 @MmuxInitAndSetBuiltin{mpfi_init_set_q,MPQ_PTR}
-@MmuxInitAndSetBuiltin{mpfi_init_set_f,MPF_PTR}
-@MmuxInitAndSetBuiltin{mpfi_init_set,MPFI_PTR}
 
 @c page
 @node conversion

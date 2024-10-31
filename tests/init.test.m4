@@ -442,6 +442,33 @@ function mpfi-set-prec-1.1 () {
 }
 
 
+#### mpfi_round_prec
+
+function mpfi-round-prec-1.1 () {
+    dotest-unset-debug
+
+    mbfl_location_enter
+    {
+	declare -r PREC=2 EXPECTED_RESULT='[0.307200e4, 0.409600e4]' INITVAL='4093'
+	declare OP RESULT
+
+	if mpfi_alloc_and_init OP
+	then mbfl_location_handler "mpfi_clear_and_free RR(OP)"
+	else mbfl_location_leave_then_return_failure
+	fi
+
+	mbfl_location_leave_when_failure( mpfi_set_si WW(OP) WW(INITVAL) )
+	mbfl_location_leave_when_failure( mpfi_round_prec WW(OP) WW(PREC) )
+
+	mpfi_just_printit_dammit -v RESULT WW(OP)
+
+	dotest-debug WW(EXPECTED_RESULT) WW(RESULT)
+	dotest-equal WW(EXPECTED_RESULT) WW(RESULT)
+    }
+    mbfl_location_leave
+}
+
+
 #### let's go
 
 dotest mpfi-

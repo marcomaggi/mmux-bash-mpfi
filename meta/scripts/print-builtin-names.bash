@@ -32,6 +32,7 @@ declare -ga BUILTINS=(mmux_bash_mpfi_library_init
 		      mpfi_clears
 		      mpfi_get_prec
 		      mpfi_set_prec
+		      mpfi_round_prec
 
 		      mpfi_set_si
 		      mpfi_set_ui
