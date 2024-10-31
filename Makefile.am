@@ -183,6 +183,7 @@ src/%.$(OBJEXT): \
 #### tests
 
 EXTRA_DIST		+= \
+	tests/assignment.test.m4		\
 	tests/init.test.m4			\
 	tests/packages.test.m4			\
 	tests/printing.test.m4			\
@@ -195,6 +196,7 @@ TEST_EXTENSIONS		= .test
 if WANT_MBFL_TESTING_ENABLED
 
 MMUX_CHECK_BUILT_TESTS	= \
+	tests/assignment.test			\
 	tests/init.test				\
 	tests/packages.test			\
 	tests/printing.test			\

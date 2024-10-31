@@ -822,7 +822,7 @@ Global variable holding the value of the C language constant @code{\NAME\}.
 
 
 @deffn Builtin mpfi_init @var{MPFI_PTR}
-@deffnx Builtin mpfi_init2 @var{MPFI_PTR} @var{MPFI_PREC}
+@deffnx Builtin mpfi_init2 @var{MPFI_PTR} @var{MPFR_PREC}
 @deffnx Builtin mpfi_clear @var{MPFI_PTR}
 Interfaces to the C language functions @cfunc{mpfi_init}, @cfunc{mpfi_init2}, @cfunc{mpfi_init}.
 
@@ -884,11 +884,11 @@ mpfi_clear_and_free @RR{OP}
 
 
 @defun mpfi_alloc_and_init @var{MPFI_PTRVAR}
-@defunx mpfi_alloc_and_init @var{MPFI_PTRVAR} @var{MPFI_PREC}
+@defunx mpfi_alloc_and_init @var{MPFI_PTRVAR} @var{MPFR_PREC}
 Allocate a new block of memory to hold the data structure of a @mpfi{} number; initialise the
 number; store a pointer to the structure in @var{MPFI_PTRVAR}.
 
-When the optional parameter @var{MPFI_PREC} is present: it is used as precision value to initialise
+When the optional parameter @var{MPFR_PREC} is present: it is used as precision value to initialise
 the number.
 @end defun
 
@@ -974,11 +974,11 @@ the shell index array used to reference the memory block.
 
 
 @defun mpfi_init_shell_array @var{ARRYNAME}
-@defunx mpfi_init_shell_array @var{ARRYNAME} @var{MPFI_PREC}
+@defunx mpfi_init_shell_array @var{ARRYNAME} @var{MPFR_PREC}
 Initialise each @mpfi{} number whose pointer is stored in the shell index array named
 @var{ARRYNAME}; the shell array itself must have been initialised by @func{mpfi_alloc_shell_array}.
 
-When the optional parameter @var{MPFI_PREC} is present: is it used as precision to initialise all
+When the optional parameter @var{MPFR_PREC} is present: is it used as precision to initialise all
 the numbers.
 @end defun
 
@@ -993,12 +993,12 @@ This function only clears the numbers: to release the allocated memory we must u
 
 
 @defun mpfi_alloc_and_init_shell_array @var{ARRYNAME} @var{DIM}
-@defunx mpfi_alloc_and_init_shell_array @var{ARRYNAME} @var{DIM} @var{MPFI_PREC}
+@defunx mpfi_alloc_and_init_shell_array @var{ARRYNAME} @var{DIM} @var{MPFR_PREC}
 Perform the calls:
 
 @example
 mpfi_alloc_shell_array @var{ARRYNAME} @var{DIM}
-mpfi_init_shell_array  @var{ARRYNAME} @var{MPFI_PREC}
+mpfi_init_shell_array  @var{ARRYNAME} @var{MPFR_PREC}
 @end example
 
 @noindent
@@ -1035,8 +1035,12 @@ initialised as explained in @ref{init shell array, Shell index array initialisat
 finalisation}.
 
 The new memory block is an array of pointers with the same dimension of @var{ARRYNAME} and the same
-values of @var{ARRYNAME}.  We can use a pointer to such raw memory array as argument to the builtins
-@MpfiBuiltin{mpfi_sum} and @MpfiBuiltin{mpfi_dot}.
+values of @var{ARRYNAME}.
+
+@ignore
+We can use a pointer to such raw memory array as argument to the builtins @MpfiBuiltin{mpfi_sum} and
+@MpfiBuiltin{mpfi_dot}.
+@end ignore
 
 @example
 declare -a OPS
@@ -1068,22 +1072,7 @@ mpfi_clear_and_free_shell_array OPS
 @ref{overview conventions, Conventions used in this documentation}.
 
 
-@defun mpfi_set_default_prec @var{MPFI_PREC}
-@defunx mpfi_get_default_prec @var{MPFI_PREC_VAR}
-Interfaces to the C language functions @cfunc{mpfi_set_default_prec}, @cfunc{mpfi_get_default_prec}.
-
-@example
-declare -r NEW_PREC=17
-declare PREC
-
-mpfi_set_default_prec @RR{NEW_PREC}
-mpfi_get_default_prec PREC
-@RR{PREC}   @result{} 17
-@end example
-@end defun
-
-
-@defun mpfi_set_prec @var{MPFI_OP} @var{MPFI_PREC}
+@defun mpfi_set_prec @var{MPFI_OP} @var{MPFR_PREC}
 @defunx mpfi_get_prec @var{MPFI_PREC_VAR} @var{MPFI_OP}
 Interfaces to the C language functions @cfunc{mpfi_set_prec}, @cfunc{mpfi_get_prec}.
 @end defun
@@ -2491,12 +2480,12 @@ mpfi_get_default_rounding_mode RND
 @end deffn
 
 
-@deffn Builtin mpfi_prec_round @var{MPFI_OP} @var{MPFI_PREC} @var{MPFI_RND}
+@deffn Builtin mpfi_prec_round @var{MPFI_OP} @var{MPFR_PREC} @var{MPFI_RND}
 Interface to the C language function @cfunc{mpfi_prec_round}.
 @end deffn
 
 
-@deffn Builtin mpfi_can_round @var{MPFI_B} @var{MPFI_PREC} @vari{MPFI_RND} @varii{MPFI_RND}
+@deffn Builtin mpfi_can_round @var{MPFI_B} @var{MPFR_PREC} @vari{MPFI_RND} @varii{MPFI_RND}
 Interface to the C language function @cfunc{mpfi_can_round}.
 @end deffn
 

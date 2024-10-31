@@ -280,14 +280,14 @@ function mpfi_init_shell_array () {
     declare -i mpfi_ADIM=${#mpfi_SHELL_ARRY[@]}
     declare -i mpfi_IDX
 
-    if test -z "$mpfi_p_PREC" -o  "$mpfi_p_PREC" = '0'
+    if test -z QQ(mpfi_p_PREC) -o  QQ(mpfi_p_PREC) = '0'
     then
 	for ((mpfi_IDX=0; mpfi_IDX < mpfi_ADIM; ++mpfi_IDX))
-	do mpfi_init "${mpfi_SHELL_ARRY[$mpfi_IDX]:?}"
+	do mpfi_init WW(mpfi_SHELL_ARRY, $mpfi_IDX)
 	done
     else
 	for ((mpfi_IDX=0; mpfi_IDX < mpfi_ADIM; ++mpfi_IDX))
-	do mpfi_init2 "${mpfi_SHELL_ARRY[$mpfi_IDX]:?}" WW(mpfi_p_PREC)
+	do mpfi_init2 WW(mpfi_SHELL_ARRY, $mpfi_IDX) WW(mpfi_p_PREC)
 	done
     fi
 }
@@ -297,13 +297,13 @@ function mpfi_clear_shell_array () {
     declare -i mpfi_IDX
 
     for ((mpfi_IDX=0; mpfi_IDX < mpfi_ADIM; ++mpfi_IDX))
-    do mpfi_clear "${mpfi_SHELL_ARRY[$mpfi_IDX]:?}"
+    do mpfi_clear WW(mpfi_SHELL_ARRY, $mpfi_IDX)
     done
 }
 
 function mpfi_alloc_and_init_shell_array () {
-    declare -n mpfi_SHELL_SUBARRY=${1:?"missing parameter 1 shell array name in call to '$FUNCNAME'"}
-    declare -i mpfi_ADIM=${2:?"missing parameter 2 shell array dimension in call to '$FUNCNAME'"}
+    declare -n mpfi_SHELL_SUBARRY=PP(1, shell array name)
+    declare -i mpfi_ADIM=PP(2, shell array dimension)
     declare    mpfi_p_PREC=$3
 
     if mpfi_alloc_shell_array mpfi_SHELL_SUBARRY ${mpfi_ADIM:?}
@@ -369,8 +369,16 @@ function mmux_bash_mpfi_library_before_unloading_hook () {
 	  mmux_bash_mpfi_library_after_loading_hook		\
 	  mmux_bash_mpfi_library_before_unloading_hook
 
-    # FIXME  For a  perfect cleanup  we should  also unset  the global  variables defined  by the  C
-    # language library initialisation builtin.  (Marco Maggi; Sep 15, 2024)
+    unset -v \
+	  MPFI_VERSION						\
+	  MPFI_VERSION_MAJOR					\
+	  MPFI_VERSION_MINOR					\
+	  MPFI_VERSION_PATCHLEVEL				\
+	  mpfi_SIZEOF						\
+	  MPFI_FLAGS_BOTH_ENDPOINTS_EXACT			\
+	  MPFI_FLAGS_LEFT_ENDPOINT_INEXACT			\
+	  MPFI_FLAGS_RIGHT_ENDPOINT_INEXACT			\
+	  MPFI_FLAGS_BOTH_ENDPOINTS_INEXACT
 }
 
 #page

@@ -30,7 +30,6 @@
 #### macros
 
 MBFL_DEFINE_SPECIAL_MACROS
-MBFL_DEFINE_UNDERSCORE_MACRO
 
 
 #### setup
@@ -96,7 +95,7 @@ function mpfi-init-1.2 () {
 	else mbfl_location_leave_then_return_failure
 	fi
 
-	mpfi_set_d WW(OP) '2.0'
+	mbfl_location_leave_when_failure( mpfi_set_d WW(OP) '2.0' )
 
 	RESULT=$(mpfi_just_printit_dammit WW(OP))
 	dotest-equal QQ(EXPECTED_RESULT) QQ(RESULT)
@@ -159,7 +158,9 @@ function mpfi-init2-1.1 () {
 #### mpfi_inits, mpfi_clears
 
 function mpfi-inits-1.1 () {
-    declare -ra EXPECTED_RESULTS=('[0.000000e0, -0.000000e0]' '[0.100000e1, 0.100000e1]' '[0.200000e1, 0.200000e1]' '[0.300000e1, 0.300000e1]' '[0.400000e1, 0.400000e1]')
+    declare -ra EXPECTED_RESULTS=('[0.000000e0, -0.000000e0]' '[0.100000e1, 0.100000e1]'
+				  '[0.200000e1, 0.200000e1]' '[0.300000e1, 0.300000e1]'
+				  '[0.400000e1, 0.400000e1]')
     declare -r OPNUM=mbfl_slots_number(EXPECTED_RESULTS)
     declare -a OPS
     declare -i IDX
@@ -220,7 +221,8 @@ function mpfi-inits-1.1 () {
 #### mpfi_inits2, mpfi_clears
 
 function mpfi-inits2-1.1 () {
-    declare -ra EXPECTED_RESULTS=('[0.000000e0, -0.000000e0]' '[0.100000e1, 0.100000e1]' '[0.200000e1, 0.200000e1]' '[0.300000e1, 0.300000e1]' '[0.400000e1, 0.400000e1]')
+    declare -ra EXPECTED_RESULTS=('[0.000000e0, -0.000000e0]' '[0.100000e1, 0.100000e1]'
+				  '[0.200000e1, 0.200000e1]' '[0.300000e1, 0.300000e1]' '[0.400000e1, 0.400000e1]')
     declare -r PREC=123 OPNUM=mbfl_slots_number(EXPECTED_RESULTS)
     declare -a OPS
     declare -i IDX
@@ -278,10 +280,11 @@ function mpfi-inits2-1.1 () {
 }
 
 
-#### initialise shell array
-
+#### separate alloction and initialisation of shell array
+#
 # Let's do this in a format that can be copied in the documentation.
 #
+
 function mpfi-init-shell-array-1.1 () {
     declare -a OPS
     declare -i NUM=5
@@ -307,6 +310,8 @@ function mpfi-init-shell-array-1.1 () {
     mpfi_free_shell_array OPS
 }
 
+# With precision.
+#
 function mpfi-init-shell-array-1.2 () {
     declare -a OPS
     declare -i NUM=5
@@ -333,7 +338,10 @@ function mpfi-init-shell-array-1.2 () {
     mpfi_free_shell_array OPS
 }
 
-function mpfi-init-shell-array-1.3 () {
+
+#### compound alloction and initialisation of shell array
+
+function mpfi-alloc-and-init-shell-array-1.1 () {
     declare -a OPS
     declare -i NUM=5
 
@@ -353,7 +361,10 @@ function mpfi-init-shell-array-1.3 () {
     }
     mpfi_clear_and_free_shell_array OPS
 }
-function mpfi-init-shell-array-1.4 () {
+
+# With precision
+#
+function mpfi-alloc-and-init-shell-array-1.2 () {
     declare -a OPS
     declare -i NUM=5
     declare -i PREC=17
@@ -378,7 +389,7 @@ function mpfi-init-shell-array-1.4 () {
 
 #### mpfi_set_prec, mpfi_get_prec
 
-function mpfi-set-prec-1.1 () {
+function mpfi-get-prec-1.1 () {
     declare OP PREC EXPECTED_PREC
 
     mbfl_location_enter
@@ -397,14 +408,12 @@ function mpfi-set-prec-1.1 () {
 	else mbfl_location_leave_then_return_failure
 	fi
 
-	if ! mpfi_get_prec PREC $OP
-	then mbfl_location_leave_then_return_failure
-	fi
+	mbfl_location_leave_when_failure( mpfi_get_prec PREC $OP )
     }
     mbfl_location_leave
     dotest-equal QQ(EXPECTED_PREC) QQ(PREC)
 }
-function mpfi-set-prec-1.2 () {
+function mpfi-set-prec-1.1 () {
     declare -r NEW_PREC=17 EXPECTED_PREC=17
     declare OP PREC
 

@@ -44,9 +44,9 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_init]]])
 
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
 }
-MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[mpfi_init]]],
+MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
     [[[(2 == argc)]]],
-    [[["mpfi_init MPFI_PTR"]]],
+    [[["MMUX_BASH_BUILTIN_IDENTIFIER MPFI_PTR"]]],
     [[["Initialise an already allocated MPFI number."]]])
 
 /* ------------------------------------------------------------------ */
@@ -62,9 +62,9 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_clear]]])
 
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
 }
-MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[mpfi_clear]]],
+MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
     [[[(2 == argc)]]],
-    [[["mpfi_clear MPFI_PTR"]]],
+    [[["MMUX_BASH_BUILTIN_IDENTIFIER MPFI_PTR"]]],
     [[["Finalise a MPFI number."]]])
 
 /* ------------------------------------------------------------------ */
@@ -82,9 +82,9 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_init2]]])
 
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
 }
-MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[mpfi_init2]]],
+MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
     [[[(3 == argc)]]],
-    [[["mpfi_init2 MPFI_PTR MPFR_PREC"]]],
+    [[["MMUX_BASH_BUILTIN_IDENTIFIER MPFI_PTR MPFR_PREC"]]],
     [[["Initialise an already allocated MPFI number."]]])
 
 /* ------------------------------------------------------------------ */
@@ -101,9 +101,9 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_inits]]])
 
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
 }
-MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[mpfi_inits]]],
+MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
     [[[(2 <= argc)]]],
-    [[["mpfi_inits MPFI_PTR0 MPFI_PTR ..."]]],
+    [[["MMUX_BASH_BUILTIN_IDENTIFIER MPFI_PTR0 MPFI_PTR ..."]]],
     [[["Initialise already allocated MPFI numbers."]]])
 
 /* ------------------------------------------------------------------ */
@@ -122,9 +122,9 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_inits2]]])
 
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
 }
-MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[mpfi_inits2]]],
+MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
     [[[(3 <= argc)]]],
-    [[["mpfi_inits2 MPFR_PREC MPFI_PTR0 MPFI_PTR ..."]]],
+    [[["MMUX_BASH_BUILTIN_IDENTIFIER MPFR_PREC MPFI_PTR0 MPFI_PTR ..."]]],
     [[["Initialise already allocated MPFI numbers."]]])
 
 /* ------------------------------------------------------------------ */
@@ -141,9 +141,9 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_clears]]])
 
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
 }
-MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[mpfi_clears]]],
+MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
     [[[(2 <= argc)]]],
-    [[["mpfi_clears MPFI_PTR0 MPFI_PTR ..."]]],
+    [[["MMUX_BASH_BUILTIN_IDENTIFIER MPFI_PTR0 MPFI_PTR ..."]]],
     [[["Finalise already allocated MPFI numbers."]]])
 
 
@@ -164,9 +164,9 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_set_prec]]])
 
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
 }
-MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[mpfi_set_prec]]],
+MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
     [[[(3 == argc)]]],
-    [[["mpfi_set_prec MPFI_PTR MPFR_PREC"]]],
+    [[["MMUX_BASH_BUILTIN_IDENTIFIER MPFI_PTR MPFR_PREC"]]],
     [[["Set the precision of an MPFI number."]]])
 
 /* ------------------------------------------------------------------ */
@@ -183,9 +183,9 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_get_prec]]])
 
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
 }
-MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[mpfi_get_prec]]],
+MMUX_BASH_DEFINE_TYPICAL_BUILTIN_FUNCTION([[[MMUX_BASH_BUILTIN_IDENTIFIER]]],
     [[[(3 == argc)]]],
-    [[["mpfi_get_prec MPFR_PREC_VAR MPFI_PTR"]]],
+    [[["MMUX_BASH_BUILTIN_IDENTIFIER MPFR_PREC_VAR MPFI_PTR"]]],
     [[["Retrieve the precision of an MPFI number."]]])
 
 /* end of file */
