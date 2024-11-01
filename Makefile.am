@@ -184,6 +184,7 @@ src/%.$(OBJEXT): \
 
 EXTRA_DIST		+= \
 	tests/assignment.test.m4		\
+	tests/endpoints.test.m4			\
 	tests/init.test.m4			\
 	tests/packages.test.m4			\
 	tests/printing.test.m4			\
@@ -197,6 +198,7 @@ if WANT_MBFL_TESTING_ENABLED
 
 MMUX_CHECK_BUILT_TESTS	= \
 	tests/assignment.test			\
+	tests/endpoints.test			\
 	tests/init.test				\
 	tests/packages.test			\
 	tests/printing.test			\

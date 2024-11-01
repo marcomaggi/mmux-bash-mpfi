@@ -801,6 +801,18 @@ Global variable holding the value of the C language constant @code{\NAME\}.
 @MmuxDefineGlobalVarConstant{MPFI_FLAGS_RIGHT_ENDPOINT_INEXACT}
 @MmuxDefineGlobalVarConstant{MPFI_FLAGS_BOTH_ENDPOINTS_INEXACT}
 
+
+@deffn Builtin MPFI_BOTH_ARE_EXACT @var{SINT_FLAG}
+@deffnx Builtin MPFI_LEFT_IS_INEXACT @var{SINT_FLAG}
+@deffnx Builtin MPFI_RIGHT_IS_INEXACT @var{SINT_FLAG}
+@deffnx Builtin MPFI_BOTH_ARE_INEXACT @var{SINT_FLAG}
+Check if the argument is one among the @env{MPFI_FLAGS_}.  When successful set the shell variable
+@env{MPFI_RV} to @samp{1} or @samp{0} and return true; otherwise leave @env{MPFI_RV} untouched and
+return false.
+
+If @env{MPFI_RV} is set to @samp{1}: @var{SINT_FLAG} is equal to the flag associated to the builtin.
+@end deffn
+
 @c page
 @node init
 @chapter Initialisation and finalisation
