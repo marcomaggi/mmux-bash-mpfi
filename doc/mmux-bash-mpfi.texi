@@ -383,6 +383,7 @@ included in the section entitled ``@gnu{} Free Documentation License''.
 * variables::                   Global variables.
 * init::                        Initialisation and finalisation.
 * assignment::                  Assignment builtins.
+* endpoints::                   Endpoint builtins.
 * conversion::                  Converting numbers to other representations.
 * arithmetic::                  Arithmetic builtins.
 * comparison::                  Comparison builtins.
@@ -1248,6 +1249,43 @@ Interface to the C language functions @cfunc{mpfi_swap}.
 @MmuxInitAndSetBuiltin{mpfi_init_set_ld,LDOUBLE}
 @MmuxInitAndSetBuiltin{mpfi_init_set_z,MPZ_PTR}
 @MmuxInitAndSetBuiltin{mpfi_init_set_q,MPQ_PTR}
+
+@c page
+@node endpoints
+@chapter Endpoint builtins
+
+
+@deffn Builtin mpfi_get_left @var{MPFR_ROP} @var{MPFI_OP}
+@deffnx Builtin mpfi_get_right @var{MPFR_ROP} @var{MPFI_OP}
+Interfaces to the C language functions @cfunc{mpfi_get_left}, @cfunc{mpfi_get_right}.  Copy into
+@var{MPFR_ROP} the @mpfr{} number representing the left or right endpoint of @var{MPFI_OP}.
+
+@example
+declare OP ENDPOINT
+
+mpfi_alloc_and_init OP
+@{
+    mpfr_alloc_and_init ENDPOINT
+    @{
+        mpfi_set_prec @RR{OP} 4
+        mpfi_set_si   @RR{OP} '123'
+        mpfi_just_printit_dammit @RR{OP}        @print{} [0.120000e3, 0.128000e3]
+
+        mpfi_get_right @RR{ENDPOINT} @RR{OP}
+        mpfr_just_printit_dammit @RR{ENDPOINT}  @print{} 0.128000e3
+    @}
+    mpfr_clear_and_free @RR{ENDPOINT}
+@}
+mpfi_clear_and_free @RR{OP}
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_left @var{MPFR_ROPVAR} @var{MPFI_OP}
+@deffnx Builtin mpfi_right @var{MPFR_ROPVAR} @var{MPFI_OP}
+Store @var{MPFR_ROPVAR} a pointer to the @mpfr{} number representing the left or right endpoint of
+@var{MPFI_OP}.  If we mutate the @mpfr{} number we mutate the endpoint of @var{MPFI_OP}.
+@end deffn
 
 @c page
 @node conversion

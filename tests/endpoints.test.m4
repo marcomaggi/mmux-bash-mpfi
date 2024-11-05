@@ -106,8 +106,9 @@ function endpoints-MPFI_RIGHT_IS_INEXACT-1.4 () {
 
 #### mpfi_get_left
 
-function endpoints-mpfi_get_left-1.1 () {
-    declare -r EXPECTED_RESULT='[0.123000e3, 0.123000e3]' INITVAL='123'
+function endpoints-mpfi_get_left-1.0 () {
+    declare -r EXPECTED_RESULT='[0.120000e3, 0.128000e3]' INITVAL='123'
+    declare -r PREC=4
     declare OP RESULT
 
     dotest-unset-debug
@@ -118,10 +119,88 @@ function endpoints-mpfi_get_left-1.1 () {
 	then mbfl_location_handler "mpfi_clear_and_free RR(OP)"
 	else mbfl_location_leave_then_return_failure
 	fi
-
+	mbfl_location_leave_when_failure( mpfi_set_prec WW(OP) WW(PREC) )
 	mbfl_location_leave_when_failure( mpfi_set_si WW(OP) WW(INITVAL) )
 	mpfi_just_printit_dammit -v RESULT WW(OP)
-	dotest-equal QQ(EXPECTED_RESULT) QQ(RESULT)
+	dotest-equal WW(EXPECTED_RESULT) WW(RESULT)
+    }
+    mbfl_location_leave
+}
+function endpoints-mpfi_get_left-1.1 () {
+    declare -r EXPECTED_RESULT='0.120000e3' INITVAL='123'
+    declare -r PREC=4
+    declare OP ENDPOINT RESULT
+
+    dotest-unset-debug
+
+    mbfl_location_enter
+    {
+	if mpfi_alloc_and_init OP
+	then mbfl_location_handler "mpfi_clear_and_free RR(OP)"
+	else mbfl_location_leave_then_return_failure
+	fi
+	if mpfr_alloc_and_init ENDPOINT
+	then mbfl_location_handler "mpfr_clear_and_free RR(ENDPOINT)"
+	else mbfl_location_leave_then_return_failure
+	fi
+	mbfl_location_leave_when_failure( mpfi_set_prec WW(OP) WW(PREC) )
+	mbfl_location_leave_when_failure( mpfi_set_si   WW(OP) WW(INITVAL) )
+	mbfl_location_leave_when_failure( mpfi_get_left WW(ENDPOINT) WW(OP) )
+
+	mpfr_just_printit_dammit -v RESULT WW(ENDPOINT)
+	dotest-debug WW(EXPECTED_RESULT) WW(RESULT)
+	dotest-equal WW(EXPECTED_RESULT) WW(RESULT)
+    }
+    mbfl_location_leave
+}
+
+
+#### mpfi_get_right
+
+function endpoints-mpfi_get_right-1.0 () {
+    declare -r EXPECTED_RESULT='[0.120000e3, 0.128000e3]' INITVAL='123'
+    declare -r PREC=4
+    declare OP RESULT
+
+    dotest-unset-debug
+
+    mbfl_location_enter
+    {
+	if mpfi_alloc_and_init OP
+	then mbfl_location_handler "mpfi_clear_and_free RR(OP)"
+	else mbfl_location_leave_then_return_failure
+	fi
+	mbfl_location_leave_when_failure( mpfi_set_prec WW(OP) WW(PREC) )
+	mbfl_location_leave_when_failure( mpfi_set_si WW(OP) WW(INITVAL) )
+	mpfi_just_printit_dammit -v RESULT WW(OP)
+	dotest-equal WW(EXPECTED_RESULT) WW(RESULT)
+    }
+    mbfl_location_leave
+}
+function endpoints-mpfi_get_right-1.1 () {
+    declare -r EXPECTED_RESULT='0.128000e3' INITVAL='123'
+    declare -r PREC=4
+    declare OP ENDPOINT RESULT
+
+    dotest-unset-debug
+
+    mbfl_location_enter
+    {
+	if mpfi_alloc_and_init OP
+	then mbfl_location_handler "mpfi_clear_and_free RR(OP)"
+	else mbfl_location_leave_then_return_failure
+	fi
+	if mpfr_alloc_and_init ENDPOINT
+	then mbfl_location_handler "mpfr_clear_and_free RR(ENDPOINT)"
+	else mbfl_location_leave_then_return_failure
+	fi
+	mbfl_location_leave_when_failure( mpfi_set_prec WW(OP) WW(PREC) )
+	mbfl_location_leave_when_failure( mpfi_set_si   WW(OP) WW(INITVAL) )
+	mbfl_location_leave_when_failure( mpfi_get_right WW(ENDPOINT) WW(OP) )
+
+	mpfr_just_printit_dammit -v RESULT WW(ENDPOINT)
+	dotest-debug WW(EXPECTED_RESULT) WW(RESULT)
+	dotest-equal WW(EXPECTED_RESULT) WW(RESULT)
     }
     mbfl_location_leave
 }
