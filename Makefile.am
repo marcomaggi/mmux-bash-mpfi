@@ -125,6 +125,7 @@ src/libmmux-bash-mpfi.bash: src/libmmux-bash-mpfi.bash.m4 $(MMUX_M4_BASH_MACROS)
 EXTRA_DIST	+= \
 	src/mmux-bash-mpfi-internals.h.m4		\
 	src/mmux-bash-mpfi-assignment.c.m4		\
+	src/mmux-bash-mpfi-conversion.c.m4		\
 	src/mmux-bash-mpfi-endpoints.c.m4		\
 	src/mmux-bash-mpfi-init.c.m4			\
 	src/mmux-bash-mpfi-library.c.m4			\
@@ -134,6 +135,7 @@ EXTRA_DIST	+= \
 MMUX_BASH_MPFI_BUILT_SOURCES	= \
 	src/mmux-bash-mpfi-internals.h			\
 	src/mmux-bash-mpfi-assignment.c			\
+	src/mmux-bash-mpfi-conversion.c			\
 	src/mmux-bash-mpfi-endpoints.c			\
 	src/mmux-bash-mpfi-init.c			\
 	src/mmux-bash-mpfi-library.c			\
@@ -161,6 +163,7 @@ libmmux_bash_mpfi_la_SOURCES	= \
 	src/mmux-bash-mpfi-config.h			\
 	src/mmux-bash-mpfi-internals.h			\
 	src/mmux-bash-mpfi-assignment.c			\
+	src/mmux-bash-mpfi-conversion.c			\
 	src/mmux-bash-mpfi-endpoints.c			\
 	src/mmux-bash-mpfi-init.c			\
 	src/mmux-bash-mpfi-library.c			\
@@ -188,6 +191,7 @@ src/%.$(OBJEXT): \
 EXTRA_DIST		+= \
 	tests/assignment.test.m4		\
 	tests/endpoints.test.m4			\
+	tests/conversion.test.m4		\
 	tests/init.test.m4			\
 	tests/miscellaneous.test.m4		\
 	tests/packages.test.m4			\
@@ -202,6 +206,7 @@ if WANT_MBFL_TESTING_ENABLED
 
 MMUX_CHECK_BUILT_TESTS	= \
 	tests/assignment.test			\
+	tests/conversion.test			\
 	tests/endpoints.test			\
 	tests/init.test				\
 	tests/miscellaneous.test		\

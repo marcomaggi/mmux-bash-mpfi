@@ -75,6 +75,9 @@ declare -ga BUILTINS=(mmux_bash_mpfi_library_init
 		      mpfi_mid
 		      mpfi_alea
 
+		      mpfi_get_d
+		      mpfi_get_fr
+
 		     )
 
 ### ------------------------------------------------------------------------

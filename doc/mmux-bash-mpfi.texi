@@ -1356,183 +1356,29 @@ shell variable @env{MPFI_RV}.
 @chapter Converting numbers to other representations
 
 
-To extract a value from a @mpfi{} number, we do:
-
-@example
-declare VAL OP MPFI_RV
-
-mpfi_alloc_and_init OP
-@{
-    mpfi_set_si @RR{OP} '123' @RR{MPFI_RNDN}
-
-    mpfi_fits_slong_p @RR{OP}
-    if (( 1 == @RR{MPFI_RV} ))
-    then
-        mpfi_get_si VAL @RR{OP} @RR{MPFI_RNDN}
-        printf '%s\n' @RR{VAL}
-    fi
-@}
-mpfi_clear_and_free @RR{OP}
-@end example
-
 @ref{overview conventions, Conventions used in this documentation}.
 
-@c ------------------------------------------------------------------------
 
-@macro MmuxMpfiDefineGetter{BUILTIN,ARGS}
-@deffn Builtin \BUILTIN\ \ARGS\
-Interface to the C language function @cfunc{\BUILTIN\}.
-@end deffn
-
-@end macro
-
-@MmuxMpfiDefineGetter{mpfi_get_si, @var{SLONG_VAR} @var{MPFI_OP} @var{MPFI_RND}}
-@MmuxMpfiDefineGetter{mpfi_get_ui, @var{ULONG_VAR} @var{MPFI_OP} @var{MPFI_RND}}
-@MmuxMpfiDefineGetter{mpfi_get_sj, @var{SINTMAX_VAR} @var{MPFI_OP} @var{MPFI_RND}}
-@MmuxMpfiDefineGetter{mpfi_get_uj, @var{UINTMAX_VAR} @var{MPFI_OP} @var{MPFI_RND}}
-@MmuxMpfiDefineGetter{mpfi_get_flt, @var{FLOAT_VAR} @var{MPFI_OP} @var{MPFI_RND}}
-@MmuxMpfiDefineGetter{mpfi_get_d, @var{DOUBLE_VAR} @var{MPFI_OP} @var{MPFI_RND}}
-@MmuxMpfiDefineGetter{mpfi_get_ld, @var{LDOUBLE_VAR} @var{MPFI_OP} @var{MPFI_RND}}
-@MmuxMpfiDefineGetter{mpfi_get_float128, @var{FLOAT128_VAR} @var{MPFI_OP} @var{MPFI_RND}}
-@MmuxMpfiDefineGetter{mpfi_get_decimal64, @var{DECIMAL64_VAR} @var{MPFI_OP} @var{MPFI_RND}}
-@MmuxMpfiDefineGetter{mpfi_get_decimal128, @var{DECIMAL128_VAR} @var{MPFI_OP} @var{MPFI_RND}}
-
-@deffn Builtin mpfi_get_z @var{MPZ_ROP} @var{MPFI_OP} @var{MPFI_RND}
-Interface to the C language function @cfunc{mpfi_get_z}.
-@end deffn
-
-
-@deffn Builtin mpfi_get_q @var{MPQ_ROP} @var{MPFI_OP} @var{MPFI_RND}
-Interface to the C language function @cfunc{mpfi_get_q}.
-@end deffn
-
-
-@deffn Builtin mpfi_get_f @var{MPF_ROP} @var{MPFI_OP} @var{MPFI_RND}
-Interface to the C language function @cfunc{mpfi_get_f}.
-@end deffn
-
-@c ------------------------------------------------------------------------
-
-@deffn Builtin mpfi_get_d_2exp @var{MANTISSA_VAR} @var{EXPONENT_VAR} @var{MPFI_OP} @var{MPFI_RND}
-Interface to the C language function @cfunc{mpfi_get_d_2exp}.
+@deffn Builtin mpfi_get_d @var{DOUBLE_VAR} @var{MPFI_OP}
+Interface to the C language function @cfunc{mpfi_get_d}.
 
 @example
-declare MAN EXP OP
+mmux_double_set_format '%e'
+declare RESULT OP
 
 mpfi_alloc_and_init OP
 @{
-    mpfi_set_d @RR{OP} '1.23' @RR{MPFI_RNDN}
-    mpfi_get_si VAL @RR{OP} @RR{MPFI_RNDN}
-
-    mmux_double_set_format "%f"
-    mpfi_get_d_2exp MAN EXP @RR{OP} @RR{MPFI_RNDN}
+    mpfi_set_d @RR{OP} 123.4567890
+    mpfi_get_d RESULT @RR{OP}
 @}
 mpfi_clear_and_free @RR{OP}
-
-@RR{MAN}        @result{} 0.615000
-@RR{EXP}        @result{} 1
+@RR{RESULT}     @result{} 1.234568e+02
 @end example
 @end deffn
 
 
-@deffn Builtin mpfi_get_ld_2exp @var{MANTISSA_VAR} @var{EXPONENT_VAR} @var{MPFI_OP} @var{MPFI_RND}
-Interface to the C language function @cfunc{mpfi_get_ld_2exp}.
-@end deffn
-
-
-@deffn Builtin mpfi_get_z_2exp @var{EXPONENT_VAR} @var{MPZ_ROP} @var{MPFI_OP}
-Interface to the C language function @cfunc{mpfi_get_z_2exp}.
-@end deffn
-
-@c ------------------------------------------------------------------------
-
-@deffn Builtin mpfi_frexp @var{EXPONENT_VAR} @vari{MPFI_OP} @varii{MPFI_OP} @var{MPFI_RND}
-Interface to the C language function @cfunc{mpfi_frexp}.
-
-@example
-declare -a OPS
-
-mpfi_alloc_and_init_shell_array OPS
-@{
-    declare -n X='OPS[0]' Y='OPS[1]'
-    declare EXP
-
-    mpfi_set_d @RR{OP} '1.23' @RR{MPFI_RNDN}
-
-    mpfi_frexp EXP @RR{Y} @RR{X} @RR{MPFI_RNDN}
-
-    printf '%s\n' @RR{EXP}              @print{} 1
-    mpfi_just_printit_dammit @RR{Y}     @print{} 0.615000e0
-@}
-mpfi_clear_and_free_shell_array OPS
-@end example
-@end deffn
-
-
-@c ------------------------------------------------------------------------
-
-@deffn Builtin mpfi_get_str @var{MANTISSA_VAR} @var{EXPONENT_VAR} @var{BASE} @var{NDIGITS} @var{MPFI_OP} @var{MPFI_RND}
-Interface to the C language function @cfunc{mpfi_get_str}.
-
-The argument @var{MANTISSA_VAR} must be a string representing a shell variable name; when
-successful, this function stores a string representation of the mantissa in this variable; if an
-error occurs, the variable is left untouched, unless there is an error setting the result variables
-themselves.
-
-The argument @var{EXPONENT_VAR} must be a string representing a shell variable name; when
-successful, this function stores a string representation of the exponent in this variable; if an
-error occurs, the variable is left untouched, unless there is an error setting the result variables
-themselves.
-
-@example
-declare -ri BASE=10 NDIGITS=0
-declare OP MAN EXP
-
-mpfi_alloc_and_init OP
-@{
-    mpfi_set_d @RR{OP} '1.23' @RR{MPFI_RNDN}
-    mpfi_get_str MAN EXP @RR{BASE} @RR{NDIGITS} @RR{OP} @RR{MPFI_RNDN}
-@}
-mpfi_clear_and_free @RR{OP}
-
-@RR{MAN}            @result{} 12300000000000000
-@RR{EXP}            @result{} 1
-@end example
-@end deffn
-
-@c ------------------------------------------------------------------------
-
-@macro MmuxMpfiDefineFitser{STEM}
-@deffn Builtin mpfi_fits_\STEM\_p @var{MPFI_OP} @var{MPFI_RND}
-Interface to the C language function @cfunc{mpfi_fits_\STEM\_p}.  This function also returns true
-when the call is successful and false if an error occurs.  To check if @var{MPFI_OP} fits the
-specified type: we have to examine the shell variable @env{MPFI_RV}, which is set to: @samp{1} if
-the number fits; @samp{0} if the number does not fit.
-@end deffn
-
-@end macro
-
-@MmuxMpfiDefineFitser{sshort}
-@MmuxMpfiDefineFitser{ushort}
-@MmuxMpfiDefineFitser{sint}
-@MmuxMpfiDefineFitser{uint}
-@MmuxMpfiDefineFitser{slong}
-@MmuxMpfiDefineFitser{ulong}
-@MmuxMpfiDefineFitser{intmax}
-@MmuxMpfiDefineFitser{uintmax}
-
-@c ------------------------------------------------------------------------
-
-@deffn Builtin mpfi_get_str_ndigits @var{SIZE_VAR} @var{BASE} @var{PREC}
-Interface to the C language function @cfunc{mpfi_get_str_ndigits}.
-
-@example
-declare -ri BASE=10 PREC=7
-declare SIZE
-
-mpfi_get_str_ndigits SIZE @RR{BASE} @RR{PREC}
-@RR{SIZE}       @result{} 4
-@end example
+@deffn Builtin mpfi_get_fr @var{MPFR_ROP} @var{MPFI_OP}
+Interface to the C language function @cfunc{mpfi_get_fr}.
 @end deffn
 
 @c page
