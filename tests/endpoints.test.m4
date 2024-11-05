@@ -43,6 +43,67 @@ mbfl_linker_source_library_by_stem(mmux-bash-mpfr)
 mbfl_linker_source_library_by_stem(mmux-bash-mpfi)
 
 
+#### constant predicates
+
+function endpoints-MPFI_BOTH_ARE_EXACT-1.1 () {
+    MPFI_BOTH_ARE_EXACT WW(MPFI_FLAGS_BOTH_ENDPOINTS_EXACT) && (( 1 == MPFI_RV ))
+}
+function endpoints-MPFI_BOTH_ARE_EXACT-1.2 () {
+    MPFI_BOTH_ARE_EXACT WW(MPFI_FLAGS_LEFT_ENDPOINT_INEXACT) && (( 0 == MPFI_RV ))
+}
+function endpoints-MPFI_BOTH_ARE_EXACT-1.3 () {
+    MPFI_BOTH_ARE_EXACT WW(MPFI_FLAGS_RIGHT_ENDPOINT_INEXACT) && (( 0 == MPFI_RV ))
+}
+function endpoints-MPFI_BOTH_ARE_EXACT-1.4 () {
+    MPFI_BOTH_ARE_EXACT WW(MPFI_FLAGS_BOTH_ENDPOINTS_INEXACT) && (( 0 == MPFI_RV ))
+}
+
+### ------------------------------------------------------------------------
+
+function endpoints-MPFI_BOTH_ARE_INEXACT-1.1 () {
+    MPFI_BOTH_ARE_INEXACT WW(MPFI_FLAGS_BOTH_ENDPOINTS_EXACT) && (( 0 == MPFI_RV ))
+}
+function endpoints-MPFI_BOTH_ARE_INEXACT-1.2 () {
+    MPFI_BOTH_ARE_INEXACT WW(MPFI_FLAGS_LEFT_ENDPOINT_INEXACT) && (( 0 == MPFI_RV ))
+}
+function endpoints-MPFI_BOTH_ARE_INEXACT-1.3 () {
+    MPFI_BOTH_ARE_INEXACT WW(MPFI_FLAGS_RIGHT_ENDPOINT_INEXACT) && (( 0 == MPFI_RV ))
+}
+function endpoints-MPFI_BOTH_ARE_INEXACT-1.4 () {
+    MPFI_BOTH_ARE_INEXACT WW(MPFI_FLAGS_BOTH_ENDPOINTS_INEXACT) && (( 1 == MPFI_RV ))
+}
+
+### ------------------------------------------------------------------------
+
+function endpoints-MPFI_LEFT_IS_INEXACT-1.1 () {
+    MPFI_LEFT_IS_INEXACT WW(MPFI_FLAGS_BOTH_ENDPOINTS_EXACT) && (( 0 == MPFI_RV ))
+}
+function endpoints-MPFI_LEFT_IS_INEXACT-1.2 () {
+    MPFI_LEFT_IS_INEXACT WW(MPFI_FLAGS_LEFT_ENDPOINT_INEXACT) && (( 1 == MPFI_RV ))
+}
+function endpoints-MPFI_LEFT_IS_INEXACT-1.3 () {
+    MPFI_LEFT_IS_INEXACT WW(MPFI_FLAGS_RIGHT_ENDPOINT_INEXACT) && (( 0 == MPFI_RV ))
+}
+function endpoints-MPFI_LEFT_IS_INEXACT-1.4 () {
+    MPFI_LEFT_IS_INEXACT WW(MPFI_FLAGS_BOTH_ENDPOINTS_INEXACT) && (( 1 == MPFI_RV ))
+}
+
+### ------------------------------------------------------------------------
+
+function endpoints-MPFI_RIGHT_IS_INEXACT-1.1 () {
+    MPFI_RIGHT_IS_INEXACT WW(MPFI_FLAGS_BOTH_ENDPOINTS_EXACT) && (( 0 == MPFI_RV ))
+}
+function endpoints-MPFI_RIGHT_IS_INEXACT-1.2 () {
+    MPFI_RIGHT_IS_INEXACT WW(MPFI_FLAGS_LEFT_ENDPOINT_INEXACT) && (( 0 == MPFI_RV ))
+}
+function endpoints-MPFI_RIGHT_IS_INEXACT-1.3 () {
+    MPFI_RIGHT_IS_INEXACT WW(MPFI_FLAGS_RIGHT_ENDPOINT_INEXACT) && (( 1 == MPFI_RV ))
+}
+function endpoints-MPFI_RIGHT_IS_INEXACT-1.4 () {
+    MPFI_RIGHT_IS_INEXACT WW(MPFI_FLAGS_BOTH_ENDPOINTS_INEXACT) && (( 1 == MPFI_RV ))
+}
+
+
 #### mpfi_get_left
 
 function endpoints-mpfi_get_left-1.1 () {

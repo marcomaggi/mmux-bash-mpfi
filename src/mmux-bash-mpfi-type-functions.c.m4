@@ -56,9 +56,9 @@ mmux_mpfi_ptr_array_parse (mpfi_ptr ** p_value, char const * const s_value, char
  ** ----------------------------------------------------------------- */
 
 mmux_bash_rv_t
-mmux_mpfi_ptr_bind_to_variable (char const * variable_name, mpfi_ptr value, char const * who)
+mmux_mpfi_ptr_bind_to_bash_variable (char const * variable_name, mpfi_ptr value, char const * who)
 {
-  return mmux_pointer_bind_to_variable(variable_name, value, who);
+  return mmux_pointer_bind_to_bash_variable(variable_name, value, who);
 }
 
 

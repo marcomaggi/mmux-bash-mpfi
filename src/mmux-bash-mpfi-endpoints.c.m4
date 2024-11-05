@@ -80,7 +80,7 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_left]]])
   MMUX_BASH_PARSE_BUILTIN_ARG_MPFI_PTR([[[op]]],	[[[argv[2]]]]);
   {
     mpfr_ptr	left  = &(op->left);
-    return mmux_mpfr_ptr_bind_to_variable(argv[1], left, MMUX_BUILTIN_NAME_STR);
+    return mmux_mpfr_ptr_bind_to_bash_variable(argv[1], left, MMUX_BUILTIN_NAME_STR);
   }
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
 }
@@ -98,7 +98,7 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_right]]])
   MMUX_BASH_PARSE_BUILTIN_ARG_MPFI_PTR([[[op]]],	[[[argv[2]]]]);
   {
     mpfr_ptr	right  = &(op->right);
-    return mmux_mpfr_ptr_bind_to_variable(argv[1], right, MMUX_BUILTIN_NAME_STR);
+    return mmux_mpfr_ptr_bind_to_bash_variable(argv[1], right, MMUX_BUILTIN_NAME_STR);
   }
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
 }
@@ -118,7 +118,7 @@ m4_define([[[DEFINE_ENDPOINT_EXACTNESS_BUILTIN]]],[[[MMUX_BASH_BUILTIN_MAIN([[[$
 
   MMUX_BASH_PARSE_BUILTIN_ARG_SINT([[[flag]]],	[[[argv[1]]]]);
   {
-    int		rv = $1(flag);
+    int		rv = ($1(flag))? 1 : 0;
     return mmux_bash_mpfi_set_MPFI_RV(rv, MMUX_BUILTIN_NAME_STR);
   }
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;

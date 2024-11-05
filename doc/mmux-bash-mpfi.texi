@@ -811,6 +811,30 @@ Check if the argument is one among the @env{MPFI_FLAGS_}.  When successful set t
 return false.
 
 If @env{MPFI_RV} is set to @samp{1}: @var{SINT_FLAG} is equal to the flag associated to the builtin.
+
+All the following expressions are true:
+
+@example
+MPFI_BOTH_ARE_EXACT $MPFI_FLAGS_BOTH_ENDPOINTS_EXACT   && (( 1 == MPFI_RV ))
+MPFI_BOTH_ARE_EXACT $MPFI_FLAGS_LEFT_ENDPOINT_INEXACT  && (( 0 == MPFI_RV ))
+MPFI_BOTH_ARE_EXACT $MPFI_FLAGS_RIGHT_ENDPOINT_INEXACT && (( 0 == MPFI_RV ))
+MPFI_BOTH_ARE_EXACT $MPFI_FLAGS_BOTH_ENDPOINTS_INEXACT && (( 0 == MPFI_RV ))
+
+MPFI_BOTH_ARE_INEXACT $MPFI_FLAGS_BOTH_ENDPOINTS_EXACT   && (( 0 == MPFI_RV ))
+MPFI_BOTH_ARE_INEXACT $MPFI_FLAGS_LEFT_ENDPOINT_INEXACT  && (( 0 == MPFI_RV ))
+MPFI_BOTH_ARE_INEXACT $MPFI_FLAGS_RIGHT_ENDPOINT_INEXACT && (( 0 == MPFI_RV ))
+MPFI_BOTH_ARE_INEXACT $MPFI_FLAGS_BOTH_ENDPOINTS_INEXACT && (( 1 == MPFI_RV ))
+
+MPFI_LEFT_IS_INEXACT $MPFI_FLAGS_BOTH_ENDPOINTS_EXACT   && (( 0 == MPFI_RV ))
+MPFI_LEFT_IS_INEXACT $MPFI_FLAGS_LEFT_ENDPOINT_INEXACT  && (( 1 == MPFI_RV ))
+MPFI_LEFT_IS_INEXACT $MPFI_FLAGS_RIGHT_ENDPOINT_INEXACT && (( 0 == MPFI_RV ))
+MPFI_LEFT_IS_INEXACT $MPFI_FLAGS_BOTH_ENDPOINTS_INEXACT && (( 1 == MPFI_RV ))
+
+MPFI_RIGHT_IS_INEXACT $MPFI_FLAGS_BOTH_ENDPOINTS_EXACT   && (( 0 == MPFI_RV ))
+MPFI_RIGHT_IS_INEXACT $MPFI_FLAGS_LEFT_ENDPOINT_INEXACT  && (( 0 == MPFI_RV ))
+MPFI_RIGHT_IS_INEXACT $MPFI_FLAGS_RIGHT_ENDPOINT_INEXACT && (( 1 == MPFI_RV ))
+MPFI_RIGHT_IS_INEXACT $MPFI_FLAGS_BOTH_ENDPOINTS_INEXACT && (( 1 == MPFI_RV ))
+@end example
 @end deffn
 
 @c page
@@ -3060,32 +3084,32 @@ name.
 @end itemize
 
 
-@deftypefun mmux_bash_rv_t mmux_mpfi_ptr_bind_to_variable (char const * @var{variable_name}, mpfi_ptr @var{value}, char const * @var{who})
+@deftypefun mmux_bash_rv_t mmux_mpfi_ptr_bind_to_bash_variable (char const * @var{variable_name}, mpfi_ptr @var{value}, char const * @var{who})
 Bind to the shell variable @var{variable_name} a string representation of @var{value}.
 @end deftypefun
 
 
-@deftypefun mmux_bash_rv_t mmux_mpfi_rnd_bind_to_variable (char const * @var{variable_name}, mpfi_rnd_t @var{value}, char const * @var{who})
+@deftypefun mmux_bash_rv_t mmux_mpfi_rnd_bind_to_bash_variable (char const * @var{variable_name}, mpfi_rnd_t @var{value}, char const * @var{who})
 Bind to the shell variable @var{variable_name} a string representation of @var{value}.
 @end deftypefun
 
 
-@deftypefun mmux_bash_rv_t mmux_mpfi_exp_bind_to_variable (char const * @var{variable_name}, mpfi_exp_t @var{value}, char const * @var{who})
+@deftypefun mmux_bash_rv_t mmux_mpfi_exp_bind_to_bash_variable (char const * @var{variable_name}, mpfi_exp_t @var{value}, char const * @var{who})
 Bind to the shell variable @var{variable_name} a string representation of @var{value}.
 @end deftypefun
 
 
-@deftypefun mmux_bash_rv_t mmux_mpfi_prec_bind_to_variable (char const * @var{variable_name}, mpfi_prec_t @var{value}, char const * @var{who})
+@deftypefun mmux_bash_rv_t mmux_mpfi_prec_bind_to_bash_variable (char const * @var{variable_name}, mpfi_prec_t @var{value}, char const * @var{who})
 Bind to the shell variable @var{variable_name} a string representation of @var{value}.
 @end deftypefun
 
 
-@deftypefun mmux_bash_rv_t mmux_mpfi_flags_bind_to_variable (char const * @var{variable_name}, mpfi_flags_t @var{value}, char const * @var{who}Bind to the shell variable @var{variable_name} a string representation of @var{value}.
+@deftypefun mmux_bash_rv_t mmux_mpfi_flags_bind_to_bash_variable (char const * @var{variable_name}, mpfi_flags_t @var{value}, char const * @var{who}Bind to the shell variable @var{variable_name} a string representation of @var{value}.
 )
 @end deftypefun
 
 
-@deftypefun mmux_bash_rv_t mmux_mpfi_free_cache_bind_to_variable (char const * @var{variable_name}, mpfi_free_cache_t @var{value}, char const * @var{who})
+@deftypefun mmux_bash_rv_t mmux_mpfi_free_cache_bind_to_bash_variable (char const * @var{variable_name}, mpfi_free_cache_t @var{value}, char const * @var{who})
 Bind to the shell variable @var{variable_name} a string representation of @var{value}.
 @end deftypefun
 

@@ -125,7 +125,7 @@ mmux_bash_mpfi_decl int		mmux_bash_mpfi_version_interface_age		(void);
 mmux_bash_mpfi_decl mmux_bash_rv_t mmux_mpfi_ptr_parse (mpfi_ptr   * p_value, char const * const s_value, char const * const who)
   __attribute__((__nonnull__(1,2)));
 
-mmux_bash_mpfi_decl mmux_bash_rv_t mmux_mpfi_ptr_bind_to_variable  (char const * variable_name, mpfi_ptr    value, char const * who)
+mmux_bash_mpfi_decl mmux_bash_rv_t mmux_mpfi_ptr_bind_to_bash_variable  (char const * variable_name, mpfi_ptr value, char const * who)
   __attribute__((__nonnull__(1)));
 
 mmux_bash_mpfi_decl int mmux_mpfi_equal_absmargin (mpfi_ptr op1, mpfi_ptr op2, mpfi_ptr margin);

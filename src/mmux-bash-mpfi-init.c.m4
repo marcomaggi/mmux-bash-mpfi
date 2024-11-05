@@ -179,7 +179,7 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_get_prec]]])
   MMUX_BASH_PARSE_BUILTIN_ARG_MPFI_PTR([[[op]]],	[[[argv[2]]]]);
 
   prec = mpfi_get_prec(op);
-  return mmux_mpfr_prec_bind_to_variable(argv[1], prec, MMUX_BUILTIN_NAME_STR);
+  return mmux_mpfr_prec_bind_to_bash_variable(argv[1], prec, MMUX_BUILTIN_NAME_STR);
 
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
 }
