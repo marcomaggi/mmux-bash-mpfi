@@ -128,6 +128,7 @@ EXTRA_DIST	+= \
 	src/mmux-bash-mpfi-endpoints.c.m4		\
 	src/mmux-bash-mpfi-init.c.m4			\
 	src/mmux-bash-mpfi-library.c.m4			\
+	src/mmux-bash-mpfi-miscellaneous.c.m4		\
 	src/mmux-bash-mpfi-type-functions.c.m4
 
 MMUX_BASH_MPFI_BUILT_SOURCES	= \
@@ -136,6 +137,7 @@ MMUX_BASH_MPFI_BUILT_SOURCES	= \
 	src/mmux-bash-mpfi-endpoints.c			\
 	src/mmux-bash-mpfi-init.c			\
 	src/mmux-bash-mpfi-library.c			\
+	src/mmux-bash-mpfi-miscellaneous.c		\
 	src/mmux-bash-mpfi-type-functions.c
 
 BUILT_SOURCES	+= $(MMUX_BASH_MPFI_BUILT_SOURCES)
@@ -162,6 +164,7 @@ libmmux_bash_mpfi_la_SOURCES	= \
 	src/mmux-bash-mpfi-endpoints.c			\
 	src/mmux-bash-mpfi-init.c			\
 	src/mmux-bash-mpfi-library.c			\
+	src/mmux-bash-mpfi-miscellaneous.c		\
 	src/mmux-bash-mpfi-type-functions.c
 
 .PHONY: library
@@ -186,6 +189,7 @@ EXTRA_DIST		+= \
 	tests/assignment.test.m4		\
 	tests/endpoints.test.m4			\
 	tests/init.test.m4			\
+	tests/miscellaneous.test.m4		\
 	tests/packages.test.m4			\
 	tests/printing.test.m4			\
 	tests/version.test.m4
@@ -200,6 +204,7 @@ MMUX_CHECK_BUILT_TESTS	= \
 	tests/assignment.test			\
 	tests/endpoints.test			\
 	tests/init.test				\
+	tests/miscellaneous.test		\
 	tests/packages.test			\
 	tests/printing.test			\
 	tests/version.test

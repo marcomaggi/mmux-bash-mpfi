@@ -66,6 +66,15 @@ declare -ga BUILTINS=(mmux_bash_mpfi_library_init
 		      mpfi_right
 		      mpfi_get_left
 		      mpfi_get_right
+
+		      mpfi_diam_abs
+		      mpfi_diam_rel
+		      mpfi_diam
+		      mpfi_mag
+		      mpfi_mig
+		      mpfi_mid
+		      mpfi_alea
+
 		     )
 
 ### ------------------------------------------------------------------------

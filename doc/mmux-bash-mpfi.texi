@@ -384,6 +384,7 @@ included in the section entitled ``@gnu{} Free Documentation License''.
 * init::                        Initialisation and finalisation.
 * assignment::                  Assignment builtins.
 * endpoints::                   Endpoint builtins.
+* flonum::                      Builtins with flonum result.
 * conversion::                  Converting numbers to other representations.
 * arithmetic::                  Arithmetic builtins.
 * comparison::                  Comparison builtins.
@@ -1255,6 +1256,9 @@ Interface to the C language functions @cfunc{mpfi_swap}.
 @chapter Endpoint builtins
 
 
+@ref{overview conventions, Conventions used in this documentation}.
+
+
 @deffn Builtin mpfi_get_left @var{MPFR_ROP} @var{MPFI_OP}
 @deffnx Builtin mpfi_get_right @var{MPFR_ROP} @var{MPFI_OP}
 Interfaces to the C language functions @cfunc{mpfi_get_left}, @cfunc{mpfi_get_right}.  Copy into
@@ -1285,6 +1289,66 @@ mpfi_clear_and_free @RR{OP}
 @deffnx Builtin mpfi_right @var{MPFR_ROPVAR} @var{MPFI_OP}
 Store @var{MPFR_ROPVAR} a pointer to the @mpfr{} number representing the left or right endpoint of
 @var{MPFI_OP}.  If we mutate the @mpfr{} number we mutate the endpoint of @var{MPFI_OP}.
+@end deffn
+
+@c page
+@node flonum
+@chapter Builtins with flonum result
+
+
+@ref{overview conventions, Conventions used in this documentation}.
+
+
+@deffn Builtin mpfi_diam_abs @var{MPFR_ROP} @var{MPFI_OP}
+Interface to the C language function @cfunc{mpfi_diam_abs}.
+
+@example
+mpfi_alloc_and_init OP
+@{
+    mpfr_alloc_and_init ROP
+    @{
+        mpfi_set_prec @WW{OP} '4'
+        mpfi_set_si   @WW{OP} '123'
+        mpfi_just_printit_dammit @WW{OP}        @print{} [0.120000e3, 0.128000e3]
+
+        mpfi_diam_abs @WW{ROP} @WW{OP}
+        mpfr_just_printit_dammit @WW{ROP}       @print{} 0.800000e1
+    @}
+    mpfr_clear_and_free @RR{ROP}
+@}
+mpfi_clear_and_free @RR{OP}
+@end example
+@end deffn
+
+
+@deffn Builtin mpfi_diam_rel @var{MPFR_ROP} @var{MPFI_OP}
+Interface to the C language function @cfunc{mpfi_diam_rel}.
+@end deffn
+
+
+@deffn Builtin mpfi_diam @var{MPFR_ROP} @var{MPFI_OP}
+Interface to the C language function @cfunc{mpfi_diam}.
+@end deffn
+
+
+@deffn Builtin mpfi_mag @var{MPFR_ROP} @var{MPFI_OP}
+Interface to the C language function @cfunc{mpfi_mag}.
+@end deffn
+
+
+@deffn Builtin mpfi_mig @var{MPFR_ROP} @var{MPFI_OP}
+Interface to the C language function @cfunc{mpfi_mig}.
+@end deffn
+
+
+@deffn Builtin mpfi_mid @var{MPFR_ROP} @var{MPFI_OP}
+Interface to the C language function @cfunc{mpfi_mid}.
+@end deffn
+
+
+@deffn Builtin mpfi_alea @var{MPFR_ROP} @var{MPFI_OP}
+Interface to the C language function @cfunc{mpfi_alea}.  This function does @strong{not} set the
+shell variable @env{MPFI_RV}.
 @end deffn
 
 @c page
