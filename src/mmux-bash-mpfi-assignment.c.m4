@@ -43,7 +43,7 @@ MMUX_BASH_BUILTIN_MAIN([[[$1]]])
   $4([[[op]]],						[[[argv[2]]]]);
   {
     int		rv = $1(rop, op);
-    return mmux_bash_mpfi_set_MPFI_RV(rv, MMUX_BUILTIN_NAME_STR);
+    return mmux_bash_mpfi_set_MPFI_RV(rv, MMUX_BASH_BUILTIN_STRING_NAME);
   }
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
 }
@@ -80,7 +80,7 @@ MMUX_BASH_BUILTIN_MAIN([[[$1]]])
   $4([[[op]]],						[[[argv[2]]]]);
   {
     int		rv = $1(rop, op);
-    return mmux_bash_mpfi_set_MPFI_RV(rv, MMUX_BUILTIN_NAME_STR);
+    return mmux_bash_mpfi_set_MPFI_RV(rv, MMUX_BASH_BUILTIN_STRING_NAME);
   }
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
 }
@@ -117,7 +117,7 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_set_str]]])
   MMUX_BASH_PARSE_BUILTIN_ARG_SINT([[[base]]],		[[[argv[3]]]]);
   {
       int	rv = mpfi_set_str(rop, str, base);
-      return mmux_bash_mpfi_set_MPFI_RV(rv, MMUX_BUILTIN_NAME_STR);
+      return mmux_bash_mpfi_set_MPFI_RV(rv, MMUX_BASH_BUILTIN_STRING_NAME);
   }
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
 }
@@ -139,7 +139,7 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_init_set_str]]])
   MMUX_BASH_PARSE_BUILTIN_ARG_SINT([[[base]]],		[[[argv[3]]]]);
   {
       int	rv = mpfi_init_set_str(rop, str, base);
-      return mmux_bash_mpfi_set_MPFI_RV(rv, MMUX_BUILTIN_NAME_STR);
+      return mmux_bash_mpfi_set_MPFI_RV(rv, MMUX_BASH_BUILTIN_STRING_NAME);
   }
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
 }
@@ -203,7 +203,7 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_set_zero]]])
   MMUX_BASH_PARSE_BUILTIN_ARG_MPFI_PTR([[[op]]],	[[[argv[1]]]]);
   {
     int		rv = mpfi_set_si(op, 0);
-    return mmux_bash_mpfi_set_MPFI_RV(rv, MMUX_BUILTIN_NAME_STR);
+    return mmux_bash_mpfi_set_MPFI_RV(rv, MMUX_BASH_BUILTIN_STRING_NAME);
   }
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
 }

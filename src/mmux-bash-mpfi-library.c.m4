@@ -86,24 +86,24 @@ mpfi_just_printit_dammit (mpfi_ptr op)
 
 m4_define([[[MMUX_DEFINE_MPFI_CONSTANT_VARIABLE]]],[[[
 #if ((defined MMUX_HAVE_$1) && (1 == MMUX_HAVE_$1))
-  mmux_bash_create_global_sint_variable("$1",	$1,	MMUX_BUILTIN_NAME_STR);
+  mmux_bash_create_global_sint_variable("$1",	$1,	MMUX_BASH_BUILTIN_STRING_NAME);
 #endif
 ]]])
 
 m4_define([[[MMUX_DEFINE_MPFI_PREC_CONSTANT_VARIABLE]]],[[[{
-  mmux_mpfi_prec_bind_to_bash_variable("$1", $1, MMUX_BUILTIN_NAME_STR);
+  mmux_mpfi_prec_bind_to_bash_variable("$1", $1, MMUX_BASH_BUILTIN_STRING_NAME);
 }]]])
 
 MMUX_BASH_BUILTIN_MAIN([[[mmux_bash_mpfi_library_init]]])
 {
   {
-    mmux_string_bind_to_bash_global_variable("MPFI_VERSION",		MPFI_VERSION_STRING,	MMUX_BUILTIN_NAME_STR);
-    mmux_bash_create_global_sint_variable("MPFI_VERSION_MAJOR",		MPFI_VERSION_MAJOR,	MMUX_BUILTIN_NAME_STR);
-    mmux_bash_create_global_sint_variable("MPFI_VERSION_MINOR",		MPFI_VERSION_MINOR,	MMUX_BUILTIN_NAME_STR);
-    mmux_bash_create_global_sint_variable("MPFI_VERSION_PATCHLEVEL",	MPFI_VERSION_PATCHLEVEL,MMUX_BUILTIN_NAME_STR);
+    mmux_string_bind_to_bash_global_variable("MPFI_VERSION",		MPFI_VERSION_STRING,	MMUX_BASH_BUILTIN_STRING_NAME);
+    mmux_bash_create_global_sint_variable("MPFI_VERSION_MAJOR",		MPFI_VERSION_MAJOR,	MMUX_BASH_BUILTIN_STRING_NAME);
+    mmux_bash_create_global_sint_variable("MPFI_VERSION_MINOR",		MPFI_VERSION_MINOR,	MMUX_BASH_BUILTIN_STRING_NAME);
+    mmux_bash_create_global_sint_variable("MPFI_VERSION_PATCHLEVEL",	MPFI_VERSION_PATCHLEVEL,MMUX_BASH_BUILTIN_STRING_NAME);
   }
   {
-    mmux_bash_create_global_sint_variable("mpfi_SIZEOF",	sizeof(__mpfi_struct),	MMUX_BUILTIN_NAME_STR);
+    mmux_bash_create_global_sint_variable("mpfi_SIZEOF",	sizeof(__mpfi_struct),	MMUX_BASH_BUILTIN_STRING_NAME);
   }
   {
     MMUX_DEFINE_MPFI_CONSTANT_VARIABLE([[[MPFI_FLAGS_BOTH_ENDPOINTS_EXACT]]])

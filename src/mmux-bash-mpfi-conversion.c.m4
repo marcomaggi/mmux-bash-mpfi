@@ -40,7 +40,7 @@ MMUX_BASH_BUILTIN_MAIN([[[mpfi_get_d]]])
   MMUX_BASH_PARSE_BUILTIN_ARG_MPFI_PTR([[[op]]],	[[[argv[2]]]]);
   {
     double	rv = mpfi_get_d(op);
-    return mmux_double_bind_to_bash_variable(argv[1], rv, MMUX_BUILTIN_NAME_STR);
+    return mmux_double_bind_to_bash_variable(argv[1], rv, MMUX_BASH_BUILTIN_STRING_NAME);
   }
   MMUX_BASH_BUILTIN_ARG_PARSER_ERROR_BRANCH;
 }
